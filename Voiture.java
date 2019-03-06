@@ -62,7 +62,7 @@ public class Voiture {
 	public void setY (int y) {
 		this.y = y;
 	}
-	public void avance(String direction) {
+	public void avance() {
 		switch(direction) {
 		case "haut": y -= vitesse;
 		case "bas": y += vitesse;

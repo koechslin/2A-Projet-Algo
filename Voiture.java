@@ -71,15 +71,15 @@ public class Voiture {
 		}
 	}
 	
-	public void ralentit() {
-		if(this.vitesse > 0) {
-			this.vitesse--;
+	public void ralentit(int deceleration) {
+		if(this.vitesse - deceleration >= 0) {
+			this.vitesse -= deceleration;
 		}
 				
 	}
-	public void accelere() {
-		if(this.vitesse < VITESSE_MAX) {
-			this.vitesse++;
+	public void accelere(int acceleration) {
+		if(this.vitesse + acceleration <= VITESSE_MAX) {
+			this.vitesse += acceleration;
 		}
 	}
 

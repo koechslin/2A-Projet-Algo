@@ -1,8 +1,8 @@
 
 public class Station {
 	private char nomStation;
-	private int iStation;
-	private int jStation;
+	private int xStation;
+	private int yStation;
 	
 	public Station(char c) {
 		this.nomStation=c;
@@ -11,17 +11,17 @@ public class Station {
 	public char getNomStation() {
 		return this.nomStation;
 	}
-	public int getIStation() {
-		return this.iStation;
+	public int getXStation() {
+		return this.xStation;
 	}
-	public int getJStation() {
-		return this.jStation;
+	public int getYStation() {
+		return this.yStation;
 	}
-	public void setIStation(int newI) {
-		this.iStation = newI;
+	public void setXStation(int newX) {
+		this.xStation = newX;
 	}
-	public void setJStation(int newJ) {
-		this.jStation = newJ;
+	public void setYStation(int newY) {
+		this.yStation = newY;
 	}
 
 }

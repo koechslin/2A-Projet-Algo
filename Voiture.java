@@ -8,7 +8,7 @@ public class Voiture {
 	private String direction;
 	private int x;
 	private int y;
-	
+	private final int VITESSE_MAX = 5;
 	
 	public Voiture(int v, int n, String StatDep, String StatArr, String d, int x, int y){
 		this.vitesse = v;
@@ -72,10 +72,15 @@ public class Voiture {
 	}
 	
 	public void ralentit() {
-		this.vitesse--;
+		if(this.vitesse > 0) {
+			this.vitesse--;
+		}
+				
 	}
 	public void accelere() {
-		this.vitesse++;
+		if(this.vitesse < VITESSE_MAX) {
+			this.vitesse++;
+		}
 	}
 
 }

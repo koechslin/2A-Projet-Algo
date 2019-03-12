@@ -8,9 +8,11 @@ public class Voiture {
 	private String direction;
 	private int x;
 	private int y;
-	
+	private final int VITESSE_MAX = 5;
+	private LinkedList<String> trajectoire;
 	//mettre le tableau de trajectoire ici, la méthode de "transcription", la méthode pour les virages
-	
+	//méthode qui prend en paramètre une linkedList et le copie
+	//méthode virage qui prend en paramètre une direction et ajoute les directions successives à prendre dans la linkedList trajectoire
 	
 	public Voiture(int v,int n,String StatDep, String StatArr, String d, int x, int y){
 		this.vitesse = v;
@@ -20,6 +22,8 @@ public class Voiture {
 		this.direction = d;
 		this.x = x;
 		this.y = y;
+		this.trajectoire = new LinkedList<String>();
+		
 	}
 	
 	public Voiture(int vit,int xV,int yV) {
@@ -89,11 +93,20 @@ public class Voiture {
 		}
 	}
 	
-	public void ralentit() {
-		this.vitesse--;
+	public void ralentit(int deceleration) {
+		if(this.vitesse - deceleration >= 0) {
+			this.vitesse -= deceleration;
+		}
+				
 	}
-	public void accelere() {
-		this.vitesse++;
+	public void accelere(int acceleration) {
+		if(this.vitesse + acceleration <= VITESSE_MAX) {
+			this.vitesse += acceleration;
+		}
+	}
+
+	public void virage (String direction) {
+		this.trajectoire.add(direction);
 	}
 
 }

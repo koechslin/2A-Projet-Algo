@@ -8,9 +8,11 @@ public class Voiture {
 	private String direction;
 	private int x;
 	private int y;
-	private final int VITESSE_MAX = 5;
 	
-	public Voiture(int v, int n, String StatDep, String StatArr, String d, int x, int y){
+	//mettre le tableau de trajectoire ici, la méthode de "transcription", la méthode pour les virages
+	
+	
+	public Voiture(int v,int n,String StatDep, String StatArr, String d, int x, int y){
 		this.vitesse = v;
 		this.numero = n;
 		this.StatDep = StatDep;
@@ -18,6 +20,12 @@ public class Voiture {
 		this.direction = d;
 		this.x = x;
 		this.y = y;
+	}
+	
+	public Voiture(int vit,int xV,int yV) {
+		this.x = xV;
+		this.y = yV;
+		this.vitesse = vit;
 	}
 	
 	public int getVitesse() {
@@ -64,23 +72,28 @@ public class Voiture {
 	}
 	public void avance() {
 		switch(direction) {
-		case "haut": y -= vitesse;
-		case "bas": y += vitesse;
-		case "gauche": x -= vitesse;
-		case "droite": x += vitesse;
+		case "haut": 
+			y -= vitesse;
+			break;
+		case "bas": 
+			y += vitesse;
+			break;
+		case "gauche": 
+			x -= vitesse;
+			break;
+		case "droite": 
+			x += vitesse;
+			break;
+		default :
+			break;
 		}
 	}
 	
-	public void ralentit(int deceleration) {
-		if(this.vitesse - deceleration >= 0) {
-			this.vitesse -= deceleration;
-		}
-				
+	public void ralentit() {
+		this.vitesse--;
 	}
-	public void accelere(int acceleration) {
-		if(this.vitesse + acceleration <= VITESSE_MAX) {
-			this.vitesse += acceleration;
-		}
+	public void accelere() {
+		this.vitesse++;
 	}
 
 }

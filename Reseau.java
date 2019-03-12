@@ -3,19 +3,67 @@ import java.util.LinkedList;
 
 public class Reseau {
 	private ArrayList<Voiture> listeVoiture;
-	private int[][] map; // 0 : vide  /  1 : route  /  2 : station
-	private boolean[][] mapVoiture; // true si il y a une voiture
+	// 0 : vide  /  1 : route  /  2 : station
+	// true si il y a une voiture
+	
+	
+	private int[][] map = {{0,0,0,0,0,0,2,2,0,0,0,0,0},
+					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
+					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
+					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
+					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
+					   	  {2,1,1,1,1,1,1,1,1,1,1,1,2},
+					   	  {2,1,1,1,1,1,1,1,1,1,1,1,2},
+					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
+					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
+					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
+					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
+					   	  {0,0,0,0,0,0,2,2,0,0,0,0,0}};
+	
+	private boolean[][] mapVoiture = {{false,false,false,false,false,false,true,false,false,false,false,false,false},
+						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
+						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
+						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
+						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
+						             {false,false,false,false,false,false,false,false,false,false,false,false,true},
+						             {true,false,false,false,false,true,false,false,false,false,false,false,false},
+						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
+						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
+						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
+						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
+						             {false,false,false,false,false,false,false,true,false,false,false,false,false}};
+	
+	
+	
+	
+	
 	private ArrayList<Station> listeStation;
-	private LinkedList<int[]> coordVoiture; // inutile car coord dans voiture ?
+	public LinkedList<LinkedList<int[]>> trajectoireVoitures;
 	private LinkedList<boolean[][]> listeMapCalculEnAvance;
 	
 	public Reseau() {
-		map = new int[15][15];
-		mapVoiture = new boolean[15][15];
 		listeVoiture = new ArrayList<Voiture>();
 		listeStation = new ArrayList<Station>();
 		listeMapCalculEnAvance = new LinkedList<boolean[][]>();
-		coordVoiture = new LinkedList<int[]>();
+		trajectoireVoitures = new LinkedList<LinkedList<int[]>>();
+		
+		//création des stations
+		int k=0;
+		for(int i=0;i<map.length;i++) {
+			for(int j=0;j<map[i].length;j++) {
+				if(map[i][j]==2) {
+					listeStation.add(new Station(k,j,i));
+					k++;
+				}
+			}
+		}
+	}
+	
+	public void setMapRoute(int[][] m) {
+		this.map=m;
+	}
+	public void setMapVoiture(boolean[][] m) {
+		this.mapVoiture=m;
 	}
 	
 	public ArrayList<Voiture> getVoitures(){
@@ -38,46 +86,70 @@ public class Reseau {
 		return this.map;
 	}
 	
-	public int actualiseMapVoiture() { // renvoie true si il n'y a pas de collision(s) dans la prévision
-		//peut etre renvoyer l'indice de la voiture qui pose problème, et -1 si c'est bon ?
+	public int actualiseMapVoiture() { // renvoie -1 si il n'y a pas de collision(s) dans la prévision sinon renvoie l'indice de la voiture qui pose problème
+		
 		for(Voiture v : listeVoiture) {
-			v.avance(); // la voiture pourrait avoir un attribut char qui donne la direction
+			mapVoiture[v.getY()][v.getX()]=false;
+			v.avance();
 		}
-		// intéressant d'avoir les coords dans la classe Voiture
+		
+		//gérer la collision
+		
 		for(int i=0;i<listeVoiture.size();i++) {
-			for(int j=i+1;j<listeVoiture.size();j++) { // pas besoin de commencer à 0 car on a déjà vérifier
+			for(int j=i+1;j<listeVoiture.size();j++) { // pas besoin de commencer à 0 car on a déjà vérifié
 				if(listeVoiture.get(i).getX() == listeVoiture.get(j).getX() && listeVoiture.get(i).getY() == listeVoiture.get(j).getY()) {
+					System.out.println("Collision ! pour : "+i);
 					return i;
 				}
 			}
 		}
+		for(Voiture v : this.listeVoiture) {
+			mapVoiture[v.getY()][v.getX()]=true;
+		}
+		
+		/*for(int i=0;i<mapVoiture.length;i++) {
+			for(int j=0;j<mapVoiture.length;j++) {
+				System.out.print(mapVoiture[i][j]+" ");
+			}
+			System.out.println();
+		}
+		System.out.println();
+		System.out.println();*/
 		return -1;
 	}
 	
-	public LinkedList<int[]> calculPlusCourtChemin(Voiture v, Station s) {
+	public void calculPlusCourtChemin(Voiture v, Station s) {
+		//gérer les virages
+		int coordX = v.getX();
+		int coordY = v.getY();
+		
 		LinkedList<int[]> trajectoire = new LinkedList<int[]>();
-		while(v.getX()!=s.getXStation() && v.getY()!=s.getYStation()) {
-			int xDiff = s.getXStation() - v.getX();
-			int yDiff = s.getYStation() - v.getY();
+		while(coordX!=s.getXStation() || coordY!=s.getYStation()) {
+			int xDiff = s.getXStation() - coordX;
+			int yDiff = s.getYStation() - coordY;
+			//System.out.println("xDiff = "+xDiff+"  yDiff = "+yDiff);
 			
 			if(xDiff==0) {
 				if(yDiff<0) { // station en haut
-					if(map[v.getY()-v.getVitesse()][v.getX()]==1) { // il y a une route
-						int[] temp = {v.getX(),v.getY()-v.getVitesse()};
+					if(map[coordY-v.getVitesse()][coordX]>=1) { // il y a une route ou une station
+						int[] temp = {coordX,coordY-v.getVitesse()};
+						coordY-=v.getVitesse();
 						trajectoire.add(temp);
 					}
 				}
 				else { // station en bas
-					if(map[v.getY()+v.getVitesse()][v.getX()]==1) { // il y a une route
-						int[] temp = {v.getX(),v.getY()+v.getVitesse()};
+					if(map[coordY+v.getVitesse()][coordX]>=1) { // il y a une route ou une station
+						int[] temp = {coordX,coordY+v.getVitesse()};
+						coordY+=v.getVitesse();
 						trajectoire.add(temp);
 					}
 				}
 			}
 			else if(xDiff<0) {
 				if(yDiff==0) { // station a gauche
-					if(map[v.getY()][v.getX()-v.getVitesse()]==1) { // il y a une route
-						int[] temp = {v.getX()-v.getVitesse(),v.getY()};
+					if(map[coordY][coordX-v.getVitesse()]>=1) { // il y a une route ou une station
+						int[] temp = {coordX-v.getVitesse(),coordY};
+						coordX-=v.getVitesse();
 						trajectoire.add(temp);
 					}
 				}
@@ -90,8 +162,9 @@ public class Reseau {
 			}
 			else {
 				if(yDiff==0) { // station a droite
-					if(map[v.getY()][v.getX()+v.getVitesse()]==1) { // il y a une route
-						int[] temp = {v.getX()+v.getVitesse(),v.getY()};
+					if(map[coordY][coordX+v.getVitesse()]>=1) { // il y a une route ou une station
+						int[] temp = {coordX+v.getVitesse(),coordY};
+						coordX+=v.getVitesse();
 						trajectoire.add(temp);
 					}
 				}
@@ -107,6 +180,37 @@ public class Reseau {
 		
 		
 		
-		return trajectoire;
+		this.trajectoireVoitures.add(v.getNumero(), trajectoire);
+	}
+	
+	public String transformTrajectToDirection(Voiture v) {
+		String dir="";
+		if(this.trajectoireVoitures.get(v.getNumero()).isEmpty()) {
+			return dir;
+		}
+		int xDiff = v.getX() - this.trajectoireVoitures.get(v.getNumero()).get(0)[0];
+		int yDiff = v.getY() - this.trajectoireVoitures.get(v.getNumero()).get(0)[1];
+		this.trajectoireVoitures.get(v.getNumero()).removeFirst();
+		
+		if(xDiff == 0) {
+			if(yDiff>0) {
+				return "haut";
+			}
+			else if(yDiff<0) {
+				return "bas";
+			}
+		}
+		else if (yDiff ==0) {
+			if(xDiff>0) {
+				return "gauche";
+			}
+			else if(xDiff<0) {
+				return "droite";
+			}
+		}
+		
+		
+		
+		return dir;
 	}
 }

@@ -1,15 +1,17 @@
 
 public class Station {
-	private char nomStation;
+	private int numStation;
 	private int xStation;
 	private int yStation;
 	
-	public Station(char c) {
-		this.nomStation=c;
+	public Station(int c, int x, int y) {
+		this.numStation=c;
+		this.xStation = x;
+		this.yStation = y;
 	}
 	
-	public char getNomStation() {
-		return this.nomStation;
+	public int getNumStation() {
+		return this.numStation;
 	}
 	public int getXStation() {
 		return this.xStation;

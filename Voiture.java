@@ -9,24 +9,22 @@ public class Voiture {
 	private String direction;
 	private int x;
 	private int y;
-	private final int VITESSE_MAX = 5;
+	private final int VITESSE_MAX = 3;
 	private LinkedList<String> trajectoire;
-	private String sensVoiture;
+	private int sensVoiture;
 	//mettre le tableau de trajectoire ici, la méthode de "transcription", la méthode pour les virages
 	//méthode qui prend en paramètre une linkedList et le copie
 	//méthode virage qui prend en paramètre une direction et ajoute les directions successives à prendre dans la linkedList trajectoire
 	
-	public Voiture(int v,int n,String StatDep, String StatArr, String d, int x, int y,String s){
+	public Voiture(int v,int n,String StatDep, String StatArr, int x, int y, String s){
 		this.vitesse = v;
 		this.numero = n;
 		this.StatDep = StatDep;
 		this.StatArr = StatArr;
-		this.direction = d;
 		this.x = x;
 		this.y = y;
 		this.trajectoire = new LinkedList<String>();
-		sensVoiture = s;
-		
+		this.sensVoiture = s;
 	}
 	
 	public Voiture(int vit,int xV,int yV) {
@@ -77,23 +75,40 @@ public class Voiture {
 	public void setY (int y) {
 		this.y = y;
 	}
+	public int getSens() {
+		return this.sensVoiture;
+	}
+	public void setSens( int s) {
+		this.sensVoiture = s;
+	}
 	public void avance() {
-		switch(direction) {
-		case "haut": 
+			if(direction == "droite") {
+				sensVoiture --;
+				if(sensVoiture < 0) {
+					sensVoiture += 4;
+				}
+			}
+			else if(direction == "gauche") {
+				sensVoiture ++;
+				if(sensVoiture > 3) {
+					sensVoiture -= 4;)
+				}
+			}
+		switch (sensVoiture) {
+		case 0:
 			y -= vitesse;
 			break;
-		case "bas": 
-			y += vitesse;
-			break;
-		case "gauche": 
+		case 1:
 			x -= vitesse;
 			break;
-		case "droite": 
+		case 2:
+			y += vitesse;
+			break;
+		case 3:
 			x += vitesse;
 			break;
-		default :
-			break;
 		}
+		
 	}
 	
 	public void ralentit(int deceleration) {
@@ -110,10 +125,64 @@ public class Voiture {
 	
 	public void setTrajectoire(LinkedList<String> t) {
 		//voir si ça marche ou besoin de faire une "hard" copie
-		this.trajectoire=t;
+		this.trajectoire = new LinkedList<String>();
+		for(String s : t) {
+			trajectoire.add(s);
+		}
 	}
 	public void virage (String direction) {
-		this.trajectoire.add(direction);
+		switch(direction) {
+		case "gauche":
+			this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");
+			this.trajectoire.add("gauche");
+			this.trajectoire.add("avant");this.trajectoire.add("avant");
+			break;
+		case "droite":
+			this.trajectoire.add("avant");
+			this.trajectoire.add("droite");
+			break;
+		case "avant":
+			this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");
+			break;
+		}
+	}
+	public void change_voie() { //Voir si nécessité de faire avancer la voiture ou ça se fait automatiquement
+		String DirProchCarr;
+		for(int i = 0 ; i < trajectoire.size() ; i++) {
+			if (trajectoire.get(i) != "avant") {
+				DirProchCarr = trajectoire.get(i);
+			}
+		}
+		if(DirProchCarr == "gauche") {
+			switch (sensVoiture) {
+			case 0:
+				x --;
+				break;
+			case 1:
+				y ++;
+				break;
+			case 2:
+				x ++;
+			case 3:
+				y --;
+			}
+		}
+		else if(DirProchCarr == "droite") {
+			switch (sensVoiture) {
+			case 0:
+				x ++;
+				break;
+			case 1:
+				y --;
+				break;
+			case 2:
+				x --;
+				break
+			case 3:
+				y ++;
+				break;
+			}
+		}
 	}
 
 }

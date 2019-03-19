@@ -26,14 +26,17 @@ public class Reseau {
 						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
 						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
 						             {false,false,false,false,false,false,false,false,false,false,false,false,true},
-						             {true,false,false,false,false,true,false,false,false,false,false,false,false},
+						             {true,false,false,false,false,false,false,false,false,false,false,false,false},
 						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
 						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
 						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
 						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
 						             {false,false,false,false,false,false,false,true,false,false,false,false,false}};
 	
+	private boolean[][] mapCarrefour;
 	
+	// sauvegarde afin de comparer avant/après et lancer si besoin la méthode changerVoie de voiture
+	private ArrayList<Voiture> listeSauvegardeVoiture;
 	
 	
 	
@@ -43,6 +46,7 @@ public class Reseau {
 	
 	public Reseau() {
 		listeVoiture = new ArrayList<Voiture>();
+		listeSauvegardeVoiture = new ArrayList<Voiture>();
 		listeStation = new ArrayList<Station>();
 		listeMapCalculEnAvance = new LinkedList<boolean[][]>();
 		trajectoireVoitures = new LinkedList<LinkedList<int[]>>();
@@ -92,8 +96,11 @@ public class Reseau {
 			mapVoiture[v.getY()][v.getX()]=false;
 			v.avance();
 		}
+		sauvegardeVoiture();
 		
 		//gérer la collision
+		
+		// PROBLEME SI VITESSE ELEVEE
 		
 		for(int i=0;i<listeVoiture.size();i++) {
 			for(int j=i+1;j<listeVoiture.size();j++) { // pas besoin de commencer à 0 car on a déjà vérifié
@@ -118,30 +125,34 @@ public class Reseau {
 		return -1;
 	}
 	
-	public void calculPlusCourtChemin(Voiture v, Station s) {
+	public void calculPlusCourtChemin(Voiture v, Station s) { // 3 directions possibles : avant gauche droite
+		
+		// A MODIFIER : VERIFIER LE SENS
+		
 		//gérer les virages
+		// Voir si ça marche car peut ne pas fonctionner à cause du sens de la voiture
+		
 		int coordX = v.getX();
 		int coordY = v.getY();
 		
-		LinkedList<int[]> trajectoire = new LinkedList<int[]>();
+		LinkedList<String> trajectoire = new LinkedList<String>();
 		while(coordX!=s.getXStation() || coordY!=s.getYStation()) {
 			int xDiff = s.getXStation() - coordX;
 			int yDiff = s.getYStation() - coordY;
-			//System.out.println("xDiff = "+xDiff+"  yDiff = "+yDiff);
 			
 			if(xDiff==0) {
 				if(yDiff<0) { // station en haut
 					if(map[coordY-v.getVitesse()][coordX]>=1) { // il y a une route ou une station
-						int[] temp = {coordX,coordY-v.getVitesse()};
 						coordY-=v.getVitesse();
-						trajectoire.add(temp);
+						// VERIFIER LE SENS
+						trajectoire.add("haut");
 					}
 				}
 				else { // station en bas
 					if(map[coordY+v.getVitesse()][coordX]>=1) { // il y a une route ou une station
 						int[] temp = {coordX,coordY+v.getVitesse()};
 						coordY+=v.getVitesse();
-						trajectoire.add(temp);
+						trajectoire.add("bas");
 					}
 				}
 			}
@@ -150,7 +161,7 @@ public class Reseau {
 					if(map[coordY][coordX-v.getVitesse()]>=1) { // il y a une route ou une station
 						int[] temp = {coordX-v.getVitesse(),coordY};
 						coordX-=v.getVitesse();
-						trajectoire.add(temp);
+						trajectoire.add("gauche");
 					}
 				}
 				else if(yDiff<0) { // station en haut a gauche
@@ -165,7 +176,7 @@ public class Reseau {
 					if(map[coordY][coordX+v.getVitesse()]>=1) { // il y a une route ou une station
 						int[] temp = {coordX+v.getVitesse(),coordY};
 						coordX+=v.getVitesse();
-						trajectoire.add(temp);
+						trajectoire.add("droite");
 					}
 				}
 				else if(yDiff<0) { // station en haut a droite
@@ -179,11 +190,11 @@ public class Reseau {
 		}
 		
 		
-		
-		this.trajectoireVoitures.add(v.getNumero(), trajectoire);
+		v.setTrajectoire(trajectoire);
+		//this.trajectoireVoitures.add(v.getNumero(), trajectoire);
 	}
 	
-	public String transformTrajectToDirection(Voiture v) {
+	/*public String transformTrajectToDirection(Voiture v) {
 		String dir="";
 		if(this.trajectoireVoitures.get(v.getNumero()).isEmpty()) {
 			return dir;
@@ -212,5 +223,77 @@ public class Reseau {
 		
 		
 		return dir;
+	}*/
+	
+	public boolean detecteCarrefour(Voiture v) { // regarde à l'avance si la voiture va arriver dans un carrefour pour adapter sa vitesse
+		//Voiture(int v,int n,String StatDep, String StatArr,int x, int y,String s)
+		Voiture voitTemp = new Voiture(v.getVitesse(),v.getStatDep(),v.getStatArr(),v.getX(),v.getY(),v.getSens());
+		// si detecte carrefour : vitesse--
+		
+		//on considère qu'on est en ligne droite
+		switch(voitTemp.getSens()) {
+		case 0 : // haut
+			for(int i=1;i<=6;i++) {
+				if(v.getY()-i>=0 && mapCarrefour[v.getY()-i][v.getX()]) {
+					return true;
+				}
+			}
+			
+			break;
+		case 1 : // gauche
+			for(int i=1;i<=6;i++) {
+				if(v.getX()-i>=0 && mapCarrefour[v.getY()][v.getX()-i]) {
+					return true;
+				}
+			}
+			break;
+		case 2 : //bas
+			for(int i=1;i<=6;i++) {
+				if(v.getY()+i<mapCarrefour.length && mapCarrefour[v.getY()+i][v.getX()]) {
+					return true;
+				}
+			}
+			
+			break;
+		case 3 : //droite
+			for(int i=1;i<=6;i++) {
+				if(v.getX()+i<mapCarrefour[0].length && mapCarrefour[v.getY()][v.getX()+i]) {
+					return true;
+				}
+			}
+			break;
+		}
+		
+		return false;
+	}
+	
+	public boolean[][] getMapCarrefour(){
+		return this.mapCarrefour;
+	}
+	
+	public void sauvegardeVoiture() {
+		for(Voiture voit : this.listeVoiture) {
+			this.listeSauvegardeVoiture.add(new Voiture(voit.getVitesse(),voit.getStatDep(),voit.getStatArr(),voit.getX(),voit.getY(),voit.getSens()));
+		}
+	}
+	
+	public void checkChangementVoie() {
+		
+	}
+	
+	
+	// calcul chemin le plus court : le fait au tout début et stocke les trajectoires dans un tableau
+	
+	public void calculCheminCourt() {
+		//n(n-1) : nombre de trajectoires
+		ArrayList<ArrayList<String>> trajectoires = new ArrayList<ArrayList<String>>(); // format : .get(i).get(j) : pour aller de i à j
+		for(int i=0;i<listeStation.size();i++) {
+			//lorsque on a calculé i->j pas besoin de recalculer j->i : se fait en sens inverse
+			//on se fixe le fait qu'il n'y ait qu'une seule arrivée/départ d'une station ?
+			
+		}
+		
+		
+		
 	}
 }

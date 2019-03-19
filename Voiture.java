@@ -16,7 +16,7 @@ public class Voiture {
 	//méthode qui prend en paramètre une linkedList et le copie
 	//méthode virage qui prend en paramètre une direction et ajoute les directions successives à prendre dans la linkedList trajectoire
 	
-	public Voiture(int v,int n,String StatDep, String StatArr, int x, int y, String s){
+	public Voiture(int v,int n,String StatDep, String StatArr, int x, int y, int s){
 		this.vitesse = v;
 		this.numero = n;
 		this.StatDep = StatDep;
@@ -91,7 +91,7 @@ public class Voiture {
 			else if(direction == "gauche") {
 				sensVoiture ++;
 				if(sensVoiture > 3) {
-					sensVoiture -= 4;)
+					sensVoiture -= 4;
 				}
 			}
 		switch (sensVoiture) {
@@ -147,7 +147,7 @@ public class Voiture {
 		}
 	}
 	public void change_voie() { //Voir si nécessité de faire avancer la voiture ou ça se fait automatiquement
-		String DirProchCarr;
+		String DirProchCarr="";
 		for(int i = 0 ; i < trajectoire.size() ; i++) {
 			if (trajectoire.get(i) != "avant") {
 				DirProchCarr = trajectoire.get(i);
@@ -177,7 +177,7 @@ public class Voiture {
 				break;
 			case 2:
 				x --;
-				break
+				break;
 			case 3:
 				y ++;
 				break;

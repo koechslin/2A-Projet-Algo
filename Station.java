@@ -1,29 +1,46 @@
 
 public class Station {
 	private int numStation;
-	private int xStation;
-	private int yStation;
+	private int xDepartStation;
+	private int xArriveStation;
+	private int yDepartStation;
+	private int yArriveStation;
 	
-	public Station(int c, int x, int y) {
+	public Station(int c, int xD, int yD,int xA, int yA) { // comment détecter départ et arrivée ?
 		this.numStation=c;
-		this.xStation = x;
-		this.yStation = y;
+		this.xArriveStation=xA;
+		this.xDepartStation=xD;
+		this.yArriveStation=yA;
+		this.yDepartStation=yD;
 	}
 	
 	public int getNumStation() {
 		return this.numStation;
 	}
-	public int getXStation() {
-		return this.xStation;
+	public int getXDepart() {
+		return this.xDepartStation;
 	}
-	public int getYStation() {
-		return this.yStation;
+	public int getXArrive() {
+		return this.xArriveStation;
 	}
-	public void setXStation(int newX) {
-		this.xStation = newX;
+	public int getYDepart() {
+		return this.yDepartStation;
 	}
-	public void setYStation(int newY) {
-		this.yStation = newY;
+	public int getYArrive() {
+		return this.yArriveStation;
+	}
+	
+	public void setXDepart(int x) {
+		this.xDepartStation=x;
+	}
+	public void setXArrive(int x) {
+		this.xArriveStation=x;
+	}
+	public void setYDepart(int y) {
+		this.yDepartStation=y;
+	}
+	public void setYArrive(int y) {
+		this.yArriveStation=y;
 	}
 
 }

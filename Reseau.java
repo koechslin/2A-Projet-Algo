@@ -7,31 +7,33 @@ public class Reseau {
 	// true si il y a une voiture
 	
 	
-	public int[][] map = {{0,0,0,0,0,0,2,2,0,0,0,0,0},
-					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
-					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
-					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
-					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
-					   	  {2,1,1,1,1,1,1,1,1,1,1,1,2},
-					   	  {2,1,1,1,1,1,1,1,1,1,1,1,2},
-					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
-					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
-					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
-					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
-					   	  {0,0,0,0,0,0,2,2,0,0,0,0,0}};
+	public int[][] map = {{0,0,0,0,0,0,0,0,0,0,0,0,0},
+					   {0,0,0,0,0,1,1,1,1,0,0,0,0},
+					   {0,0,0,0,0,1,1,1,1,0,0,0,0},
+					   {0,0,0,0,0,1,1,1,1,0,0,0,0},
+					   {0,1,1,1,1,1,1,1,1,1,1,1,0},
+					   {0,2,1,1,1,1,1,1,1,1,1,2,0},
+					   {0,2,1,1,1,1,1,1,1,1,1,2,0},
+					   {0,1,1,1,1,1,1,1,1,1,1,1,0},
+					   {0,0,0,0,0,1,1,1,1,0,0,0,0},
+					   {0,0,0,0,0,1,1,1,1,0,0,0,0},
+					   {0,0,0,0,0,1,1,1,1,0,0,0,0},
+					   {0,0,0,0,0,1,2,2,1,0,0,0,0},
+					   {0,0,0,0,0,0,0,0,0,0,0,0,0}};
 	
-	public boolean[][] mapVoiture = {{false,false,false,false,false,false,true,false,false,false,false,false,false},
-						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
-						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
-						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
-						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
-						             {false,false,false,false,false,false,false,false,false,false,false,false,true},
-						             {true,false,false,false,false,false,false,false,false,false,false,false,false},
-						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
-						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
-						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
-						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
-						             {false,false,false,false,false,false,false,true,false,false,false,false,false}};
+	public boolean[][] mapVoiture = {{false,false,false,false,false,false,false,false,false,false,false,false,false},
+			              {false,false,false,false,false,false,true,false,false,false,false,false,false},
+			              {false,false,false,false,false,false,false,false,false,false,false,false,false},
+			              {false,false,false,false,false,false,false,false,false,false,false,false,false},
+			              {false,false,false,false,false,false,false,false,false,false,false,false,false},
+			              {false,false,false,false,false,false,false,false,false,false,false,false,false},
+			              {false,false,false,false,false,true,false,false,false,false,false,true,false},
+			              {false,false,false,false,false,false,false,false,false,false,false,false,false},
+			              {false,false,false,false,false,false,true,false,false,false,false,false,false},
+			              {false,false,false,false,false,false,false,false,false,false,false,false,false},
+			              {false,false,false,false,false,false,false,false,false,false,false,false,false},
+			              {false,false,false,false,false,false,false,false,false,false,false,false,false},
+			              {false,false,false,false,false,false,false,false,false,false,false,false,false}};
 	
 	public boolean[][] mapCarrefour;
 	
@@ -295,7 +297,7 @@ public class Reseau {
 			
 			//pour l'instant station sur les bords et pas dans les coins
 			
-			if(listeStation.get(i).getXDepart()==0) { // station sur le bord gauche
+			/*if(listeStation.get(i).getXDepart()==0) { // station sur le bord gauche
 				
 			}
 			else if(listeStation.get(i).getXDepart()==this.map[0].length-1) { // station sur le bord droit
@@ -304,9 +306,9 @@ public class Reseau {
 			else if(listeStation.get(i).getYDepart()==0) {
 				
 			}
-			else if(listeStation.get(i).g)
-		}
-		
+			else if(listeStation.get(i).g){}
+		*/
+	}
 		
 		
 	}

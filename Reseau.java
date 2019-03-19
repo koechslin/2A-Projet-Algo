@@ -37,7 +37,7 @@ public class Reseau {
 	
 	public boolean[][] mapCarrefour;
 	
-	// sauvegarde afin de comparer avant/après et lancer si besoin la méthode changerVoie de voiture
+	// sauvegarde afin de comparer avant/aprï¿½s et lancer si besoin la mï¿½thode changerVoie de voiture
 	private ArrayList<Voiture> listeSauvegardeVoiture;
 	
 	
@@ -45,6 +45,7 @@ public class Reseau {
 	private ArrayList<Station> listeStation;
 	public LinkedList<LinkedList<int[]>> trajectoireVoitures;
 	private LinkedList<boolean[][]> listeMapCalculEnAvance;
+	private int compteur;
 	
 	public Reseau() {
 		listeVoiture = new ArrayList<Voiture>();
@@ -54,12 +55,12 @@ public class Reseau {
 		trajectoireVoitures = new LinkedList<LinkedList<int[]>>();
 		mapCarrefour = new boolean[map.length][map[0].length];
 		
-		//création des stations
+		//crï¿½ation des stations
 		int k=0;
 		for(int i=0;i<map.length;i++) {
 			for(int j=0;j<map[i].length;j++) {
 				if(map[i][j]==2) {
-					listeStation.add(new Station(k,j,i)); // Comment détecter départ et arrivée ?
+					listeStation.add(new Station(k,j,i)); // Comment dï¿½tecter dï¿½part et arrivï¿½e ?
 					k++;
 				}
 			}
@@ -93,7 +94,7 @@ public class Reseau {
 		return this.map;
 	}
 	
-	public int actualiseMapVoiture() { // renvoie -1 si il n'y a pas de collision(s) dans la prévision sinon renvoie l'indice de la voiture qui pose problème
+	public int actualiseMapVoiture() { // renvoie -1 si il n'y a pas de collision(s) dans la prï¿½vision sinon renvoie l'indice de la voiture qui pose problï¿½me
 		
 		for(Voiture v : listeVoiture) {
 			mapVoiture[v.getY()][v.getX()]=false;
@@ -101,12 +102,12 @@ public class Reseau {
 		}
 		sauvegardeVoiture();
 		
-		//gérer la collision
+		//gï¿½rer la collision
 		
 		// PROBLEME SI VITESSE ELEVEE
 		
 		for(int i=0;i<listeVoiture.size();i++) {
-			for(int j=i+1;j<listeVoiture.size();j++) { // pas besoin de commencer à 0 car on a déjà vérifié
+			for(int j=i+1;j<listeVoiture.size();j++) { // pas besoin de commencer ï¿½ 0 car on a dï¿½jï¿½ vï¿½rifiï¿½
 				if(listeVoiture.get(i).getX() == listeVoiture.get(j).getX() && listeVoiture.get(i).getY() == listeVoiture.get(j).getY()) {
 					System.out.println("Collision ! pour : "+i);
 					return i;
@@ -132,8 +133,8 @@ public class Reseau {
 		
 		// A MODIFIER : VERIFIER LE SENS
 		
-		//gérer les virages
-		// Voir si ça marche car peut ne pas fonctionner à cause du sens de la voiture
+		//gï¿½rer les virages
+		// Voir si ï¿½a marche car peut ne pas fonctionner ï¿½ cause du sens de la voiture
 		
 		int coordX = v.getX();
 		int coordY = v.getY();
@@ -228,12 +229,12 @@ public class Reseau {
 		return dir;
 	}*/
 	
-	public boolean detecteCarrefour(Voiture v) { // regarde à l'avance si la voiture va arriver dans un carrefour pour adapter sa vitesse
+	public boolean detecteCarrefour(Voiture v) { // regarde ï¿½ l'avance si la voiture va arriver dans un carrefour pour adapter sa vitesse
 		//Voiture(int v,int n,String StatDep, String StatArr,int x, int y,String s)
 		Voiture voitTemp = new Voiture(v.getVitesse(),v.getNumero(),v.getStatDep(),v.getStatArr(),v.getX(),v.getY(),v.getSens());
 		// si detecte carrefour : vitesse--
 		
-		//on considère qu'on est en ligne droite
+		//on considï¿½re qu'on est en ligne droite
 		switch(voitTemp.getSens()) {
 		case 0 : // haut
 			for(int i=1;i<=6;i++) {
@@ -285,15 +286,15 @@ public class Reseau {
 	}
 	
 	
-	// calcul chemin le plus court : le fait au tout début et stocke les trajectoires dans un tableau
+	// calcul chemin le plus court : le fait au tout dï¿½but et stocke les trajectoires dans un tableau
 	
 	public void calculCheminCourt() {
 		String sensParcours="";
 		//n(n-1) : nombre de trajectoires
-		ArrayList<ArrayList<String>> trajectoires = new ArrayList<ArrayList<String>>(); // format : .get(i).get(j) : pour aller de i à j
+		ArrayList<ArrayList<String>> trajectoires = new ArrayList<ArrayList<String>>(); // format : .get(i).get(j) : pour aller de i ï¿½ j
 		for(int i=0;i<listeStation.size();i++) {
-			//lorsque on a calculé i->j pas besoin de recalculer j->i : se fait en sens inverse
-			//on se fixe le fait qu'il n'y ait qu'une seule arrivée/départ d'une station ?
+			//lorsque on a calculï¿½ i->j pas besoin de recalculer j->i : se fait en sens inverse
+			//on se fixe le fait qu'il n'y ait qu'une seule arrivï¿½e/dï¿½part d'une station ?
 			
 			//pour l'instant station sur les bords et pas dans les coins
 			
@@ -311,5 +312,61 @@ public class Reseau {
 	}
 		
 		
+
 	}
+	compteur = 0;
+	for (int i = 0; i < map.length ; i++) {
+		for (int j = 0 ; j < map[i].length ; j++) {
+			if (!((i > 1) && (i < map.length-2) && (j > 1) && (j < map[i].length-2))) {
+				if (i == 1) {
+					if((map[i][j] == 2) && (map[i][j+1] == 2) && (map[i][j+2] == 2) && (map[i][j+3] == 2)) {
+						setNumStation(compteur);
+						setXDepart(j);
+						setYDepart(i);
+						setXArrive(j+3);
+						setYArrive(i);
+						addStation(new Station(numStation, j, i, j+3, i));
+						compteur ++;
+					}
+				}
+				if (j == 1) {
+					if((map[i][j] == 2) && (map[i+1][j] == 2) && (map[i+2][j] == 2) && (map[i+3][j] == 2)) {
+						setNumStation(compteur);
+						setXDepart(j);
+						setYDepart(i+3);
+						setXArrive(j);
+						setYArrive(i);
+						addStation(new Station(numStation, j, i+3, j, i));
+						compteur ++;
+					}
+				}
+				if (j == map.length-2) {
+					if((map[i][j] == 2) && (map[i+1][j] == 2) && (map[i+2][j] == 2) && (map[i+3][j] == 2)) {
+						setNumStation(compteur);
+						setXDepart(j);
+						setYDepart(i);
+						setXArrive(j);
+						setYArrive(i+3);
+						addStation(new Station(numStation, j, i, j, i+3));
+						compteur ++;
+					}
+				}
+				if (i == map.length-2) {
+					if((map[i][j] == 2) && (map[i][j+1] == 2) && (map[i][j+2] == 2) && (map[i][j+3] == 2)) {
+						setNumStation(compteur);
+						setXDepart(j+3);
+						setYDepart(i);
+						setXArrive(j);
+						setYArrive(i);
+						addStation(new Station(numStation, j+3, i, j, i));
+						compteur ++;
+					}
+				}
+				
+				
+			}
+		}
+			
+	}
+
 }

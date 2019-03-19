@@ -7,7 +7,7 @@ public class Reseau {
 	// true si il y a une voiture
 	
 	
-	private int[][] map = {{0,0,0,0,0,0,2,2,0,0,0,0,0},
+	public int[][] map = {{0,0,0,0,0,0,2,2,0,0,0,0,0},
 					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
 					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
 					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
@@ -20,7 +20,7 @@ public class Reseau {
 					   	  {0,0,0,0,0,0,1,1,0,0,0,0,0},
 					   	  {0,0,0,0,0,0,2,2,0,0,0,0,0}};
 	
-	private boolean[][] mapVoiture = {{false,false,false,false,false,false,true,false,false,false,false,false,false},
+	public boolean[][] mapVoiture = {{false,false,false,false,false,false,true,false,false,false,false,false,false},
 						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
 						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
 						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
@@ -33,7 +33,7 @@ public class Reseau {
 						             {false,false,false,false,false,false,false,false,false,false,false,false,false},
 						             {false,false,false,false,false,false,false,true,false,false,false,false,false}};
 	
-	private boolean[][] mapCarrefour;
+	public boolean[][] mapCarrefour;
 	
 	// sauvegarde afin de comparer avant/après et lancer si besoin la méthode changerVoie de voiture
 	private ArrayList<Voiture> listeSauvegardeVoiture;
@@ -50,13 +50,14 @@ public class Reseau {
 		listeStation = new ArrayList<Station>();
 		listeMapCalculEnAvance = new LinkedList<boolean[][]>();
 		trajectoireVoitures = new LinkedList<LinkedList<int[]>>();
+		mapCarrefour = new boolean[map.length][map[0].length];
 		
 		//création des stations
 		int k=0;
 		for(int i=0;i<map.length;i++) {
 			for(int j=0;j<map[i].length;j++) {
 				if(map[i][j]==2) {
-					listeStation.add(new Station(k,j,i));
+					listeStation.add(new Station(k,j,i)); // Comment détecter départ et arrivée ?
 					k++;
 				}
 			}
@@ -227,7 +228,7 @@ public class Reseau {
 	
 	public boolean detecteCarrefour(Voiture v) { // regarde à l'avance si la voiture va arriver dans un carrefour pour adapter sa vitesse
 		//Voiture(int v,int n,String StatDep, String StatArr,int x, int y,String s)
-		Voiture voitTemp = new Voiture(v.getVitesse(),v.getStatDep(),v.getStatArr(),v.getX(),v.getY(),v.getSens());
+		Voiture voitTemp = new Voiture(v.getVitesse(),v.getNumero(),v.getStatDep(),v.getStatArr(),v.getX(),v.getY(),v.getSens());
 		// si detecte carrefour : vitesse--
 		
 		//on considère qu'on est en ligne droite
@@ -273,7 +274,7 @@ public class Reseau {
 	
 	public void sauvegardeVoiture() {
 		for(Voiture voit : this.listeVoiture) {
-			this.listeSauvegardeVoiture.add(new Voiture(voit.getVitesse(),voit.getStatDep(),voit.getStatArr(),voit.getX(),voit.getY(),voit.getSens()));
+			this.listeSauvegardeVoiture.add(new Voiture(voit.getVitesse(),voit.getNumero(),voit.getStatDep(),voit.getStatArr(),voit.getX(),voit.getY(),voit.getSens()));
 		}
 	}
 	
@@ -285,12 +286,25 @@ public class Reseau {
 	// calcul chemin le plus court : le fait au tout début et stocke les trajectoires dans un tableau
 	
 	public void calculCheminCourt() {
+		String sensParcours="";
 		//n(n-1) : nombre de trajectoires
 		ArrayList<ArrayList<String>> trajectoires = new ArrayList<ArrayList<String>>(); // format : .get(i).get(j) : pour aller de i à j
 		for(int i=0;i<listeStation.size();i++) {
 			//lorsque on a calculé i->j pas besoin de recalculer j->i : se fait en sens inverse
 			//on se fixe le fait qu'il n'y ait qu'une seule arrivée/départ d'une station ?
 			
+			//pour l'instant station sur les bords et pas dans les coins
+			
+			if(listeStation.get(i).getXDepart()==0) { // station sur le bord gauche
+				
+			}
+			else if(listeStation.get(i).getXDepart()==this.map[0].length-1) { // station sur le bord droit
+				
+			}
+			else if(listeStation.get(i).getYDepart()==0) {
+				
+			}
+			else if(listeStation.get(i).g)
 		}
 		
 		

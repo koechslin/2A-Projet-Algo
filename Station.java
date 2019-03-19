@@ -1,4 +1,3 @@
-
 public class Station {
 	private int numStation;
 	private int xDepartStation;
@@ -6,7 +5,7 @@ public class Station {
 	private int yDepartStation;
 	private int yArriveStation;
 	
-	public Station(int c, int xD, int yD,int xA, int yA) { // comment détecter départ et arrivée ?
+	public Station(int c, int xD, int yD,int xA, int yA) { // comment dï¿½tecter dï¿½part et arrivï¿½e ?
 		this.numStation=c;
 		this.xArriveStation=xA;
 		this.xDepartStation=xD;
@@ -30,17 +29,20 @@ public class Station {
 		return this.yArriveStation;
 	}
 	
+	public void setNumStation(int c) {
+		this.numStation = c;
+	}
 	public void setXDepart(int x) {
-		this.xDepartStation=x;
+		this.xDepartStation = x;
 	}
 	public void setXArrive(int x) {
-		this.xArriveStation=x;
+		this.xArriveStation = x;
 	}
 	public void setYDepart(int y) {
-		this.yDepartStation=y;
+		this.yDepartStation = y;
 	}
 	public void setYArrive(int y) {
-		this.yArriveStation=y;
+		this.yArriveStation = y;
 	}
 
 }

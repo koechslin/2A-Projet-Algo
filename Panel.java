@@ -4,72 +4,73 @@ import java.awt.*;
 
 public class Panel extends JPanel{
 	// 0 vide 1 route 2 station, dynamique : 0 rien 1 voiture
-	public int[][] statique;
-	public boolean [][] dynamique;
-	public int t = 20; //taille d'une case
+	public Reseau reseau;
+	public int t = 10; //taille d'une case
 	
-	public Panel(int[][] stat, boolean[][]dyn){
+	public Panel(Reseau res){
 		
+		reseau = res;
 		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		int hauteur = (int)tailleEcran.getHeight();
 		int largeur = (int)tailleEcran.getWidth();
 		
-		t = Math.min(hauteur/stat.length,largeur/stat[0].length);
+		t = Math.min(hauteur/(res.map.length+5),largeur/(res.map[0].length+5));
 		
-		statique = new int[stat.length+4][stat[0].length+4];
-		dynamique = new boolean[dyn.length+4][dyn[0].length+4];
-		for(int i=2;i<statique.length-2;i++){
-			for (int j=2;j<statique[0].length-2;j++){
-				statique[i][j]=stat[i-2][j-2];
-			}
-		}
-		for(int i=2;i<dynamique.length-2;i++){
-			for (int j=2;j<dynamique[0].length-2;j++){
-				dynamique[i][j]=dyn[i-2][j-2];
-			}
-		}
-		this.setBounds(0,0,statique.length*t,statique[0].length*t);
+		this.setBounds(0,0,(reseau.map.length+1)*t,(reseau.map[0].length+1)*t);
 		
 	}
 	public void paint(Graphics g){
 		boolean horizontal = false;
 		boolean vertical = false;
+		boolean carrefour = false;
 		
-		for(int i=1;i<statique.length-1;i++){
-			for (int j=1;j<statique[0].length-1;j++){
+		//			***HERBE***
+		for(int i=0;i<reseau.map.length;i++){
+			for (int j=0;j<reseau.map[0].length;j++){
+					g.setColor(Color.green);
+					g.fillRect(j*t,i*t,t,t);
+				}
+		}
+				
+		for(int i=1;i<reseau.map.length-1;i++){
+			for (int j=1;j<reseau.map[0].length-1;j++){
 				horizontal = false;
 				vertical = false;
 				
 				//test vertical/ horizontal
 					
 					if(i-5>0){
-						if(statique[i-4][j]==1 || statique[i-4][j]==2){
+						if(reseau.map[i-4][j]==1 || reseau.map[i-4][j]==2){
 							vertical = true;
 						}
 					}else{
-						if(statique[i+4][j]==1 || statique[i+4][j]==2){
+						if(reseau.map[i+4][j]==1 || reseau.map[i+4][j]==2){
 							vertical = true;
 						}
 					}
 					
 					if(j-5>0){
-						if(statique[i][j-4]==1 || statique[i][j-4]==2 ){
+						if(reseau.map[i][j-4]==1 || reseau.map[i][j-4]==2 ){
 							horizontal=true;
 							}
 						}else{
-							if(statique[i][j+4]==1 || statique[i][j+4]==2 ){
+							if(reseau.map[i][j+4]==1 || reseau.map[i][j+4]==2 ){
 								horizontal=true;
 							}
 						}
-				//			***HERBE***
 				
-				if(statique[i][j]==0){				
+				
+				/*if(reseau.map[i][j]==0){				
 					g.setColor(Color.green);
 					g.fillRect(j*t,i*t,t,t);
 				
-				//			***ROUTE***
+				//			
 					
-				}else if(statique[i][j]==1){			
+				}else*/
+					
+					//***ROUTE***
+					
+					if(reseau.map[i][j]==1){			
 					g.setColor(Color.gray);
 					g.fillRect(j*t,i*t,t,t);
 					
@@ -83,14 +84,14 @@ public class Panel extends JPanel{
 				
 					//	***STATION***
 					
-				}else if(statique[i][j]==2){		
+				}else if(reseau.map[i][j]==2){		
 					g.setColor(Color.red);
 					g.fillRect(j*t,i*t,t,t);
 				}
 				
 					// ***VOITURE***
 					
-				if(dynamique[i][j]){
+				if(reseau.mapVoiture[i][j]){
 					
 					g.setColor(Color.white);
 					
@@ -100,10 +101,14 @@ public class Panel extends JPanel{
 						g.fillRect((int)((j+0.25)*t),i*t,(int)(0.5*t),t);
 					}else{
 						g.fillRect(j*t,i*t,(int)(0.5*t),t);		//si horizontal ET vertical (croisement) qu'est ce qu'on fait?
+						if(carrefour == false){
+							reseau.mapCarrefour[i][j]=true;
+						}
 					}
 				}
 			}
 		}
+		carrefour= true;
 			
 	}
 	public static void horizontale(Graphics g,int i, int j,int t){

@@ -397,11 +397,12 @@ public class Reseau {
 							System.out.println("boucle pour i = "+i+"   j = "+j);
 							System.out.println("temp x = "+temp.getX()+"   temp y = "+temp.getY());
 							if(mapCarrefour[temp.getY()][temp.getX()]) {//il y a un carrefour
+								boolean peutContinuer =false;
 								System.out.println("carrefour");
 								int xDiff=listeStation.get(j).getXArrive()-temp.getX();
 								int yDiff=listeStation.get(j).getYArrive()-temp.getY();
 								
-								if(Math.abs(xDiff)==0 || Math.abs(xDiff)==3) { // directement en haut ou en bas
+								if(Math.abs(xDiff)==0 || Math.abs(xDiff)==3 && false) { // directement en haut ou en bas
 									if(yDiff>0) { // en bas
 										switch(vVirtuel.getSens()) {
 										case 0: // normalement ce cas n'arrive pas
@@ -435,7 +436,7 @@ public class Reseau {
 										}
 									}
 								}
-								else if(Math.abs(yDiff)==0 || Math.abs(yDiff)==3) { // directement à droite ou à gauche
+								else if(Math.abs(yDiff)==0 || Math.abs(yDiff)==3 && false) { // directement à droite ou à gauche
 									if(xDiff>0) { // à droite
 										switch(vVirtuel.getSens()) {
 										case 0:
@@ -471,7 +472,7 @@ public class Reseau {
 								}
 								// station pas directement "en ligne droite"
 								
-								else if(xDiff>0 && yDiff>0) { // en bas à droite
+								else if(xDiff>=0 && yDiff>=0) { // en bas à droite
 									switch(vVirtuel.getSens()) {
 									case 0:
 										//juste vérifier à droite
@@ -536,7 +537,7 @@ public class Reseau {
 										break;
 									}
 								}
-								else if(xDiff<0 && yDiff>0) { // en bas à gauche
+								else if(xDiff<=0 && yDiff>=0) { // en bas à gauche
 									switch(vVirtuel.getSens()) {
 									case 0:
 										//vérifier à gauche
@@ -603,7 +604,7 @@ public class Reseau {
 										break;
 									}
 								}
-								else if(xDiff>0 && yDiff<0) { // en haut à droite
+								else if(xDiff>=0 && yDiff<=0) { // en haut à droite
 									switch(vVirtuel.getSens()) {
 									case 0:
 										if(vVirtuel.getY()-5>0 && map[vVirtuel.getY()-5][vVirtuel.getX()]==1) { // en haut
@@ -672,7 +673,7 @@ public class Reseau {
 										break;
 									}
 								}
-								else if(xDiff<0 && yDiff<0) { // en haut à gauche
+								else if(xDiff<=0 && yDiff<=0) { // en haut à gauche
 									switch(vVirtuel.getSens()) {
 									case 0:
 										if(vVirtuel.getY()-5>0 && map[vVirtuel.getY()-5][vVirtuel.getX()]==1) { // en haut
@@ -898,7 +899,7 @@ public class Reseau {
 	public void changeMap(int[][] m) {
 		this.map=m;
 	}
-	public void adapteSensVoiture(Voiture v) {
+	public void adapteSensVoiture(Voiture v) { // a changer si station pas uniquement sur le bord
 		if(map[v.getY()][v.getX()]==2) { // la voiture est sur une station
 			if(v.getX()==1) { //bord gauche
 				v.setSens(3);

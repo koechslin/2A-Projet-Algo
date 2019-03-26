@@ -20,9 +20,9 @@ public class Panel extends JPanel{
 	public Panel(Reseau res){
 		
 		try {
-			herbe = ImageIO.read(new File("C:/Users/Killian/Desktop/Images_projet/Herbe.PNG"));
-			station = ImageIO.read(new File("C:/Users/Killian/Desktop/Images_projet/station.jpg"));
-			voiture_1 = ImageIO.read(new File("C:/Users/Killian/Desktop/Images_projet/test.jpg"));
+			herbe = ImageIO.read(new File("E:/Documents/Travail/INSA/Parrain/Algo/Projet/Herbe.PNG"));
+			station = ImageIO.read(new File("E:/Documents/Travail/INSA/Parrain/Algo/Projet/station.png"));
+			voiture_1 = ImageIO.read(new File("E:/Documents/Travail/INSA/Parrain/Algo/Projet/test.png"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -154,11 +154,11 @@ public class Panel extends JPanel{
 						AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
 						// Drawing the rotated image at the required drawing locations
-						//g2d.drawImage(op.filter(voiture_1, null), v.getX()*t, v.getY()*t,t,t, null);
+						g2d.drawImage(op.filter(voiture_1, null), v.getX()*t, v.getY()*t,t,t, null); //rotation
 						
-						//g2d.rotate(45);
-						g2d.drawImage(voiture_1, v.getX()*t, v.getY()*t, t, t, null);
-						//g2d.rotate(-45);
+						//g2d.rotate(90, mapDessin[0].length*t/2,mapDessin.length*t/2);
+						//g2d.drawImage(voiture_1, v.getX()*t, v.getY()*t, t, t, null);   // à utiliser
+						//g2d.rotate(-90,mapDessin[0].length*t/2,mapDessin[0].length*t/2);
 						//g.fillRect(v.getX()*t, v.getY()*t, t, t);
 					}
 					

@@ -9,33 +9,47 @@ public class Reseau {
 	// true si il y a une voiture
 	
 	
-	public int[][] map = 	{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-							{0,0,0,2,2,2,2,0,0,0,0,0,0,2,2,2,2,0,0,0,0},
-							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0},
-							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0},
-							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0},
-							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0},
-							{0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
-							{0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
-							{0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
-							{0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
-							{0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-							{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0},
-							{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0},
-							{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0},
-							{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0},
-							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+	public int[][] map = 	{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,2,2,2,2,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0},
+							{0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0},
+							{0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0},
+							{0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0},
+							{0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 
 	public boolean[][] mapVoiture = new boolean[15][15];
 
 	public boolean[][] mapCarrefour;
 	
-	// sauvegarde afin de comparer avant/après et lancer si besoin la méthode changerVoie de voiture
+	// sauvegarde afin de comparer avant/aprï¿½s et lancer si besoin la mï¿½thode changerVoie de voiture
 	private ArrayList<Voiture> listeSauvegardeVoiture;
 	
 	
@@ -57,58 +71,25 @@ public class Reseau {
 		int compteur = 0;
 		for (int i = 0; i < map.length ; i++) {
 			for (int j = 0 ; j < map[i].length ; j++) {
-				if (!((i > 1) && (i < map.length-2) && (j > 1) && (j < map[i].length-2))) {
-					if (i == 1) {
-						if((map[i][j] == 2) && (map[i][j+1] == 2) && (map[i][j+2] == 2) && (map[i][j+3] == 2)) {
-							System.out.println("rentre 1");
-							/*setNumStation(compteur);
-							setXDepart(j);
-							setYDepart(i);
-							setXArrive(j+3);
-							setYArrive(i);*/
+					if((map[i][j] == 2) && (map[i][j+1] == 2) && (map[i][j+2] == 2) && (map[i][j+3] == 2)) {
+						System.out.println("rentre 1");
+						if((map[i+1][j] == 1)) {
 							addStation(new Station(compteur, j, i, j+3, i));
-							compteur++;
-						}
-					}
-					if (j == 1) {
-						if((map[i][j] == 2) && (map[i+1][j] == 2) && (map[i+2][j] == 2) && (map[i+3][j] == 2)) {
-							System.out.println("rentre 2");
-							/*setNumStation(compteur);
-							setXDepart(j);
-							setYDepart(i+3);
-							setXArrive(j);
-							setYArrive(i);*/
-							addStation(new Station(compteur, j, i+3, j, i));
-							compteur++;
-						}
-					}
-					if (j == map.length-2) {
-						if((map[i][j] == 2) && (map[i+1][j] == 2) && (map[i+2][j] == 2) && (map[i+3][j] == 2)) {
-							System.out.println("rentre 3");
-							/*setNumStation(compteur);
-							setXDepart(j);
-							setYDepart(i);
-							setXArrive(j);
-							setYArrive(i+3);*/
-							addStation(new Station(compteur, j, i, j, i+3));
-							compteur++;
-						}
-					}
-					if (i == map.length-2) {
-						if((map[i][j] == 2) && (map[i][j+1] == 2) && (map[i][j+2] == 2) && (map[i][j+3] == 2)) {
-							System.out.println("rentre 4");
-							/*setNumStation(compteur);
-							setXDepart(j+3);
-							setYDepart(i);
-							setXArrive(j);
-							setYArrive(i);*/
+						}else if(map[i-1][j] == 1){
 							addStation(new Station(compteur, j+3, i, j, i));
-							compteur++;
 						}
+						compteur++;
+						
 					}
-					
-					
-				}
+					if((map[i][j] == 2) && (map[i+1][j] == 2) && (map[i+2][j] == 2) && (map[i+3][j] == 2)) {
+						System.out.println("rentre 2");
+						if((map[i][j+1] == 1)) {
+							addStation(new Station(compteur, j, i+3, j, i));
+						}else if(map[i][j-1] == 1){
+							addStation(new Station(compteur, j, i, j, i+3));
+						}
+						compteur++;
+					}	
 			}
 				
 		}
@@ -149,7 +130,7 @@ public class Reseau {
 		return this.map;
 	}
 	
-	public int actualiseMapVoiture() { // renvoie -1 si il n'y a pas de collision(s) dans la prévision sinon renvoie l'indice de la voiture qui pose problème
+	public int actualiseMapVoiture() { // renvoie -1 si il n'y a pas de collision(s) dans la prï¿½vision sinon renvoie l'indice de la voiture qui pose problï¿½me
 		
 		for(Voiture v : listeVoiture) {
 			mapVoiture[v.getY()][v.getX()]=false;
@@ -157,12 +138,12 @@ public class Reseau {
 		}
 		sauvegardeVoiture();
 		
-		//gérer la collision
+		//gï¿½rer la collision
 		
 		// PROBLEME SI VITESSE ELEVEE
 		
 		for(int i=0;i<listeVoiture.size();i++) {
-			for(int j=i+1;j<listeVoiture.size();j++) { // pas besoin de commencer à 0 car on a déjà vérifié
+			for(int j=i+1;j<listeVoiture.size();j++) { // pas besoin de commencer ï¿½ 0 car on a dï¿½jï¿½ vï¿½rifiï¿½
 				if(listeVoiture.get(i).getX() == listeVoiture.get(j).getX() && listeVoiture.get(i).getY() == listeVoiture.get(j).getY()) {
 					System.out.println("Collision ! pour : "+i);
 					return i;
@@ -188,8 +169,8 @@ public class Reseau {
 		
 		// A MODIFIER : VERIFIER LE SENS
 		
-		//gérer les virages
-		// Voir si ça marche car peut ne pas fonctionner à cause du sens de la voiture
+		//gï¿½rer les virages
+		// Voir si ï¿½a marche car peut ne pas fonctionner ï¿½ cause du sens de la voiture
 		
 		int coordX = v.getX();
 		int coordY = v.getY();
@@ -284,12 +265,12 @@ public class Reseau {
 		return dir;
 	}*/
 	
-	public boolean detecteCarrefour(Voiture v) { // regarde à l'avance si la voiture va arriver dans un carrefour pour adapter sa vitesse
+	public boolean detecteCarrefour(Voiture v) { // regarde ï¿½ l'avance si la voiture va arriver dans un carrefour pour adapter sa vitesse
 		//Voiture(int v,int n,String StatDep, String StatArr,int x, int y,String s)
 		Voiture voitTemp = new Voiture(v.getVitesse(),v.getNumero(),v.getStatDep(),v.getStatArr(),v.getX(),v.getY(),v.getSens());
 		// si detecte carrefour : vitesse--
 		
-		//on considère qu'on est en ligne droite
+		//on considï¿½re qu'on est en ligne droite
 		switch(voitTemp.getSens()) {
 		case 0 : // haut
 			for(int i=1;i<=6;i++) {
@@ -341,15 +322,15 @@ public class Reseau {
 	}
 	
 	
-	// calcul chemin le plus court : le fait au tout début et stocke les trajectoires dans un tableau
+	// calcul chemin le plus court : le fait au tout dï¿½but et stocke les trajectoires dans un tableau
 	
-	//rajouter conditions vérification des limites
+	//rajouter conditions vï¿½rification des limites
 	
 	public void calculCheminCourt() { // on considere qu'il y a assez de routes etc...
 		//n(n-1) : nombre de trajectoires
 		System.out.println("se lance");
 		
-		trajectoires = new ArrayList<ArrayList<ArrayList<String>>>(); // format : .get(i).get(j) : pour aller de i à j
+		trajectoires = new ArrayList<ArrayList<ArrayList<String>>>(); // format : .get(i).get(j) : pour aller de i ï¿½ j
 		
 		//test remplissage
 		for(int a=0;a<listeStation.size();a++) {
@@ -362,11 +343,11 @@ public class Reseau {
 		}
 		
 		for(int i=0;i<listeStation.size();i++) {
-			//lorsque on a calculé i->j pas besoin de recalculer j->i : se fait en sens inverse
-			//on se fixe le fait qu'il n'y ait qu'une seule arrivée/départ d'une station ?
+			//lorsque on a calculï¿½ i->j pas besoin de recalculer j->i : se fait en sens inverse
+			//on se fixe le fait qu'il n'y ait qu'une seule arrivï¿½e/dï¿½part d'une station ?
 			for(int j=0;j<listeStation.size();j++) {
 				if(i!=j) {
-					if(false) { // deja calculé i->j ?     // !trajectoires.get(i).get(j).isEmpty()
+					if(false) { // deja calculï¿½ i->j ?     // !trajectoires.get(i).get(j).isEmpty()
 						for(String s : trajectoires.get(i).get(j)) {
 							trajectoires.get(j).get(i).add(s);
 						}
@@ -374,7 +355,7 @@ public class Reseau {
 					else{
 						//pour l'instant station sur les bords et pas dans les coins
 						Voiture vVirtuel = new Voiture(1,listeStation.get(i).getXDepart(),listeStation.get(i).getYDepart(),0);
-						System.out.println("vVirtuel créée en x = "+vVirtuel.getX()+"  y = "+vVirtuel.getY());
+						System.out.println("vVirtuel crï¿½ï¿½e en x = "+vVirtuel.getX()+"  y = "+vVirtuel.getY());
 						
 						if(listeStation.get(i).getXDepart()==1) { // station sur le bord gauche
 							vVirtuel.setSens(3);
@@ -436,8 +417,8 @@ public class Reseau {
 										}
 									}
 								}
-								else if(Math.abs(yDiff)==0 || Math.abs(yDiff)==3 && false) { // directement à droite ou à gauche
-									if(xDiff>0) { // à droite
+								else if(Math.abs(yDiff)==0 || Math.abs(yDiff)==3 && false) { // directement ï¿½ droite ou ï¿½ gauche
+									if(xDiff>0) { // ï¿½ droite
 										switch(vVirtuel.getSens()) {
 										case 0:
 											vVirtuel.virage("droite");
@@ -453,7 +434,7 @@ public class Reseau {
 											break;
 										}
 									}
-									else { // à gauche
+									else { // ï¿½ gauche
 										switch(vVirtuel.getSens()) {
 										case 0:
 											vVirtuel.virage("gauche");
@@ -472,12 +453,12 @@ public class Reseau {
 								}
 								// station pas directement "en ligne droite"
 								
-								else if(xDiff>=0 && yDiff>=0) { // en bas à droite
+								else if(xDiff>=0 && yDiff>=0) { // en bas ï¿½ droite
 									switch(vVirtuel.getSens()) {
 									case 0:
-										//juste vérifier à droite
+										//juste vï¿½rifier ï¿½ droite
 										if(vVirtuel.getY()-1>0 && vVirtuel.getX()+1<map[0].length &&  map[vVirtuel.getY()-1][vVirtuel.getX()+1]==1) { // il y a une route qui continue
-											//vérifier si il y a un autre carrefour
+											//vï¿½rifier si il y a un autre carrefour
 											for(int a=vVirtuel.getX()+1;a<map[0].length;a++) {
 												if(mapCarrefour[vVirtuel.getY()-1][a]) { // il y a un autre carrefour
 													vVirtuel.virage("droite");
@@ -487,7 +468,7 @@ public class Reseau {
 										}
 										break;
 									case 1:
-										//juste vérifier en bas
+										//juste vï¿½rifier en bas
 										if(vVirtuel.getY()+4<map.length && vVirtuel.getX()-1 >0 && map[vVirtuel.getY()+4][vVirtuel.getX()-1]==1) {
 											for(int a=vVirtuel.getY()+4;a<map.length;a++) {
 												if(mapCarrefour[a][vVirtuel.getX()-1]) {
@@ -507,7 +488,7 @@ public class Reseau {
 												}
 											}
 										}
-										else if(vVirtuel.getY()+1<map.length && vVirtuel.getX()+4<map[0].length && map[vVirtuel.getY()+1][vVirtuel.getX()+4]==1) { // à droite
+										else if(vVirtuel.getY()+1<map.length && vVirtuel.getX()+4<map[0].length && map[vVirtuel.getY()+1][vVirtuel.getX()+4]==1) { // ï¿½ droite
 											for(int a=vVirtuel.getX()+4;a<map[0].length;a++) {
 												if(mapCarrefour[vVirtuel.getY()+1][a]) {
 													vVirtuel.virage("gauche");
@@ -526,7 +507,7 @@ public class Reseau {
 												}
 											}
 										}
-										else if(vVirtuel.getX()+5<map[0].length && map[vVirtuel.getY()][vVirtuel.getX()+5]==1) { // à droite
+										else if(vVirtuel.getX()+5<map[0].length && map[vVirtuel.getY()][vVirtuel.getX()+5]==1) { // ï¿½ droite
 											for(int a=vVirtuel.getX()+5;a<map[0].length;a++) {
 												if(mapCarrefour[vVirtuel.getY()][a]) {
 													vVirtuel.virage("avant");
@@ -537,10 +518,10 @@ public class Reseau {
 										break;
 									}
 								}
-								else if(xDiff<=0 && yDiff>=0) { // en bas à gauche
+								else if(xDiff<=0 && yDiff>=0) { // en bas ï¿½ gauche
 									switch(vVirtuel.getSens()) {
 									case 0:
-										//vérifier à gauche
+										//vï¿½rifier ï¿½ gauche
 										if(vVirtuel.getY()-1>0 && vVirtuel.getX()-4>0 && map[vVirtuel.getY()-1][vVirtuel.getX()-4]==1) {
 											for(int a=vVirtuel.getX()-4;a>0;a--) {
 												if(mapCarrefour[vVirtuel.getY()-1][a]) {
@@ -560,7 +541,7 @@ public class Reseau {
 											}
 											break;
 										}
-										else if(vVirtuel.getX()-5>0 && map[vVirtuel.getY()][vVirtuel.getX()-5]==1) { // à gauche
+										else if(vVirtuel.getX()-5>0 && map[vVirtuel.getY()][vVirtuel.getX()-5]==1) { // ï¿½ gauche
 											for(int a=vVirtuel.getX()-5;a>0;a--) {
 												if(mapCarrefour[vVirtuel.getY()][a]) {
 													vVirtuel.virage("avant");
@@ -580,7 +561,7 @@ public class Reseau {
 											}
 											break;
 										}
-										else if(vVirtuel.getY()+1<map.length && vVirtuel.getX()-1>0 && map[vVirtuel.getY()+1][vVirtuel.getX()-1]==1) { // à gauche
+										else if(vVirtuel.getY()+1<map.length && vVirtuel.getX()-1>0 && map[vVirtuel.getY()+1][vVirtuel.getX()-1]==1) { // ï¿½ gauche
 											for(int a=vVirtuel.getX()-1;a>0;a--) {
 												if(mapCarrefour[vVirtuel.getY()+1][a]) {
 													vVirtuel.virage("droite");
@@ -591,7 +572,7 @@ public class Reseau {
 										}
 										break;
 									case 3:
-										//vérifier en bas
+										//vï¿½rifier en bas
 										if(vVirtuel.getY()+1<map.length && vVirtuel.getX()+1<map[0].length && map[vVirtuel.getY()+1][vVirtuel.getX()+1]==1) {
 											for(int a=vVirtuel.getY()+1;a<map.length;a++) {
 												if(mapCarrefour[a][vVirtuel.getX()+1]) {
@@ -604,7 +585,7 @@ public class Reseau {
 										break;
 									}
 								}
-								else if(xDiff>=0 && yDiff<=0) { // en haut à droite
+								else if(xDiff>=0 && yDiff<=0) { // en haut ï¿½ droite
 									switch(vVirtuel.getSens()) {
 									case 0:
 										if(vVirtuel.getY()-5>0 && map[vVirtuel.getY()-5][vVirtuel.getX()]==1) { // en haut
@@ -616,7 +597,7 @@ public class Reseau {
 											}
 											break;
 										}
-										else if(vVirtuel.getY()-1>0 && vVirtuel.getX()+1<map[0].length && map[vVirtuel.getY()-1][vVirtuel.getX()+1]==1) { // à droite
+										else if(vVirtuel.getY()-1>0 && vVirtuel.getX()+1<map[0].length && map[vVirtuel.getY()-1][vVirtuel.getX()+1]==1) { // ï¿½ droite
 											for(int a=vVirtuel.getX()+1;a<map[0].length;a++) {
 												if(mapCarrefour[vVirtuel.getY()-1][a]) {
 													vVirtuel.virage("droite");
@@ -627,7 +608,7 @@ public class Reseau {
 										}
 										break;
 									case 1:
-										//vérifier en haut
+										//vï¿½rifier en haut
 										if(vVirtuel.getY()-1>0 && vVirtuel.getX()-1>0 && map[vVirtuel.getY()-1][vVirtuel.getX()-1]==1) {
 											for(int a=vVirtuel.getY()-1;a>0;a--) {
 												if(mapCarrefour[a][vVirtuel.getX()-1]) {
@@ -639,7 +620,7 @@ public class Reseau {
 										}
 										break;
 									case 2:
-										//vérifier à droite
+										//vï¿½rifier ï¿½ droite
 										if(vVirtuel.getY()+1<map.length && vVirtuel.getX()+4<map[0].length && map[vVirtuel.getY()+1][vVirtuel.getX()+4]==1) {
 											for(int a=vVirtuel.getX()+4;a<map[0].length;a++) {
 												if(mapCarrefour[vVirtuel.getY()+1][a]) {
@@ -661,7 +642,7 @@ public class Reseau {
 											}
 											break;
 										}
-										else if(vVirtuel.getX()+5<map[0].length && map[vVirtuel.getY()][vVirtuel.getX()+5]==1) { // à droite
+										else if(vVirtuel.getX()+5<map[0].length && map[vVirtuel.getY()][vVirtuel.getX()+5]==1) { // ï¿½ droite
 											for(int a=vVirtuel.getX()+5;a<map[0].length;a++) {
 												if(mapCarrefour[vVirtuel.getY()][a]) {
 													vVirtuel.virage("avant");
@@ -673,7 +654,7 @@ public class Reseau {
 										break;
 									}
 								}
-								else if(xDiff<=0 && yDiff<=0) { // en haut à gauche
+								else if(xDiff<=0 && yDiff<=0) { // en haut ï¿½ gauche
 									switch(vVirtuel.getSens()) {
 									case 0:
 										if(vVirtuel.getY()-5>0 && map[vVirtuel.getY()-5][vVirtuel.getX()]==1) { // en haut
@@ -685,7 +666,7 @@ public class Reseau {
 											}
 											break;
 										}
-										else if(vVirtuel.getY()-1>0 && vVirtuel.getX()-4>0 && map[vVirtuel.getY()-1][vVirtuel.getX()-4]==1) { // à gauche
+										else if(vVirtuel.getY()-1>0 && vVirtuel.getX()-4>0 && map[vVirtuel.getY()-1][vVirtuel.getX()-4]==1) { // ï¿½ gauche
 											for(int a=vVirtuel.getX()-4;a>0;a--) {
 												if(mapCarrefour[vVirtuel.getY()-1][a]) {
 													vVirtuel.virage("gauche");
@@ -705,7 +686,7 @@ public class Reseau {
 											}
 											break;
 										}
-										else if(vVirtuel.getX()-5>0 && map[vVirtuel.getY()][vVirtuel.getX()-5]==1) { // à gauche
+										else if(vVirtuel.getX()-5>0 && map[vVirtuel.getY()][vVirtuel.getX()-5]==1) { // ï¿½ gauche
 											for(int a=vVirtuel.getX()-5;a>0;a--) {
 												if(mapCarrefour[vVirtuel.getY()][a]) {
 													vVirtuel.virage("avant");
@@ -716,7 +697,7 @@ public class Reseau {
 										}
 										break;
 									case 2:
-										//vérifier à gauche
+										//vï¿½rifier ï¿½ gauche
 										if(vVirtuel.getY()+1<map.length && vVirtuel.getX()-1>0 && map[vVirtuel.getY()+1][vVirtuel.getX()-1]==1) {
 											for(int a=vVirtuel.getX()-1;a>0;a--) {
 												if(mapCarrefour[vVirtuel.getY()+1][a]) {
@@ -728,7 +709,7 @@ public class Reseau {
 										}
 										break;
 									case 3:
-										//vérifier en haut
+										//vï¿½rifier en haut
 										if(vVirtuel.getY()-4>0 && vVirtuel.getX()+1<map[0].length && map[vVirtuel.getY()-4][vVirtuel.getX()+1]==1) {
 											for(int a=vVirtuel.getY()-4;a>0;a--) {
 												if(mapCarrefour[a][vVirtuel.getX()+1]) {
@@ -741,13 +722,13 @@ public class Reseau {
 										break;
 									}
 								}
-								// on a les trajectoires stockées dans vVirtuel
-								//penser à changer le sens
+								// on a les trajectoires stockï¿½es dans vVirtuel
+								//penser ï¿½ changer le sens
 								
 								boolean avant = true;
 								boolean gauche = false;
 								boolean droite = false;
-								System.out.println("trajectoire stockée :");
+								System.out.println("trajectoire stockï¿½e :");
 								for(int a=0;a<vVirtuel.getTrajectoire().size();a++) {
 									System.out.print(vVirtuel.getTrajectoire().get(a)+" ");
 								}
@@ -867,10 +848,10 @@ public class Reseau {
 		
 		for(int i=0;i<trajectoires.size();i++) {
 			System.out.println();
-			System.out.println("Station de départ : "+i);
+			System.out.println("Station de dï¿½part : "+i);
 			for(int j=0;j<trajectoires.get(i).size();j++) {
 				System.out.println();
-				System.out.println("Station d'arrivée : "+j);
+				System.out.println("Station d'arrivï¿½e : "+j);
 				System.out.println();
 				for(int k=0;k<trajectoires.get(i).get(j).size();k++) {
 					System.out.print(trajectoires.get(i).get(j).get(k)+" ");
@@ -916,7 +897,7 @@ public class Reseau {
 		}
 	}
 	
-	public char[][] reconnaissanceRoute() { // on peut également s'en servir pour détecter les routes horizontales et verticales ?
+	public char[][] reconnaissanceRoute() { // on peut ï¿½galement s'en servir pour dï¿½tecter les routes horizontales et verticales ?
 		char[][] mapC = new char[map.length][map[0].length];
 		boolean routeEnHaut = false;
 		boolean routeEnBas = false;

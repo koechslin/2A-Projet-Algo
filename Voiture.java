@@ -5,8 +5,8 @@ public class Voiture {
 	
 	private int vitesse;
 	private int numero;
-	private String StatDep;
-	private String StatArr;
+	private int StatDep;
+	private int StatArr;
 	private String direction;
 	private int x;
 	private int y;
@@ -19,7 +19,7 @@ public class Voiture {
 	//méthode qui prend en paramètre une linkedList et le copie
 	//méthode virage qui prend en paramètre une direction et ajoute les directions successives à prendre dans la linkedList trajectoire
 	
-	public Voiture(int v,int n,String StatDep, String StatArr, int x, int y, int s){
+	public Voiture(int v,int n,int StatDep, int StatArr, int x, int y, int s){
 		this.vitesse = v;
 		this.numero = n;
 		this.StatDep = StatDep;
@@ -37,6 +37,9 @@ public class Voiture {
 		this.sensVoiture=s;
 		this.trajectoire = new LinkedList<String>();
 	}
+	public Voiture() {
+		this.trajectoire = new LinkedList<String>();
+	}
 	
 	public int getVitesse() {
 		return this.vitesse;
@@ -50,16 +53,16 @@ public class Voiture {
 	public void setNumero (int n) {
 		this.numero = n;
 	}
-	public String getStatDep() {
+	public int getStatDep() {
 		return this.StatDep;
 	}
-	public void setStatDep (String StatDep) {
+	public void setStatDep (int StatDep) {
 		this.StatDep = StatDep;
 	}
-	public String getStatArr() {
+	public int getStatArr() {
 		return this.StatArr;
 	}
-	public void setStatArr (String StatArr) {
+	public void setStatArr (int StatArr) {
 		this.StatArr = StatArr;
 	}
 	public String getDirection() {

@@ -13,25 +13,26 @@ public class Fenetre extends JFrame implements ActionListener{
 	Panel pan;
 	Timer time;
 	final int DELAI_BOUCLE = 1000;
+	JTextField textNbVoit;
 	
 		public Fenetre(){
 			
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
+			
+			this.setTitle("Simulation réseau voitures autonomes");
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			this.setLayout(null);
 			r = new Reseau();
 			
-			/*for(int i=0;i<r.getMapVoiture().length;i++) {
-				for(int j=0;j<r.getMapVoiture()[i].length;j++) {
-					if(r.getMapVoiture()[i][j]) {
-						r.addVoiture(new Voiture(1,j,i));
-					}
-				}
-			}
-			r.getVoitures().get(0).setDirection("bas");
-			r.getVoitures().get(1).setDirection("gauche");
-			r.getVoitures().get(2).setDirection("droite");
-			r.getVoitures().get(3).setDirection("haut");*/
 			
 			pan = new Panel(r);
+			//pan.setLocation(200, 200);
+			//this.setSize(1000,1000);
+			
+			//Creation des composants de la fenetre :
+			this.textNbVoit = new JTextField("Nombre de voitures :");
+			this.textNbVoit.setBounds(100,100,200,200);
+			
+			
 			this.setBounds(50,50,pan.reseau.getMap()[0].length*pan.t,pan.reseau.getMap().length*pan.t+40);
 			this.add(pan);
 			this.setVisible(true);
@@ -42,22 +43,19 @@ public class Fenetre extends JFrame implements ActionListener{
 				e.printStackTrace();
 			}
 			
-			/*Lecteur_Fichier fileReader =new Lecteur_Fichier();
-			fileReader.ouvertureFichier();
-			r.changeMap(fileReader.traitementFichier());
-			for(int i=0;i<r.map.length;i++) {
-				for(int j=0;j<r.map[i].length;j++) {
-					System.out.print(r.map[i][j]+" ");
-				}
-				System.out.println();
-			}
+			/*
 			this.setVisible(false);
 			this.setBounds(50,50,pan.reseau.getMap()[0].length*pan.t,pan.reseau.getMap().length*pan.t+40);
 			repaint();
 			this.setVisible(true);
 			repaint();*/
 			
-			r.calculCheminCourt();
+			//r.calculCheminCourt();
+			r.convertionMapGraphe();
+			System.out.println("Il y a "+r.noeuds.size()+" noeuds");
+			r.calculCheminGraphe();
+			r.conversionTrajectoire();
+			
 			
 			//IL FAUT AJOUTER UN DERNIER AVANT A TOUTES LES TRAJECTOIRES
 			for(int i=0;i<r.trajectoires.size();i++) {
@@ -66,25 +64,47 @@ public class Fenetre extends JFrame implements ActionListener{
 				}
 			}
 			
+			Voiture v = r.getVoitures().get(0);
+			v.setTrajectoire(r.trajectoires.get(5).get(0));
+			v.setStatDep(5);
+			v.setStatArr(0);
 			
-			r.getVoitures().get(0).setTrajectoire(r.trajectoires.get(0).get(1));
-			r.getVoitures().get(1).setTrajectoire(r.trajectoires.get(1).get(2));
-			r.getVoitures().get(2).setTrajectoire(r.trajectoires.get(2).get(3));
-			r.getVoitures().get(3).setTrajectoire(r.trajectoires.get(3).get(0));
-			
-			for(Voiture v : r.getVoitures()) {
+			/*for(Voiture v : r.getVoitures()) {
 				r.adapteSensVoiture(v);
 				v.setSortCarrefour(true);
 				v.change_voie();
-			}
+			}*/
+			r.adapteSensVoiture(v);
+			v.setSortCarrefour(true);
+			v.change_voie();
 			
 			while(true) {
-				for(Voiture v : r.getVoitures()) {
+				/*for(Voiture v : r.getVoitures()) {
 					r.sortieCarrefour(v);
 					v.change_voie();
 					if(!v.getTrajectoire().isEmpty()) {
 						v.avance();
 					}
+				}*/
+				r.sortieCarrefour(v);
+				v.change_voie();
+				if(!v.getTrajectoire().isEmpty()) {
+					v.avance();
+				}
+				else {
+					v.setStatDep(v.getStatArr());
+					v.setX(r.getStations().get(v.getStatDep()).getXDepart());
+					v.setY(r.getStations().get(v.getStatDep()).getYDepart());
+					int nouvelleDestination = (int)(Math.random()*r.getStations().size());
+					while(nouvelleDestination == v.getStatDep()) {
+						System.out.println("test");
+						nouvelleDestination = (int)(Math.random()*r.getStations().size());
+					}
+					v.setStatArr(nouvelleDestination);
+					v.setTrajectoire(r.trajectoires.get(v.getStatDep()).get(v.getStatArr()));
+					r.adapteSensVoiture(v);
+					v.setSortCarrefour(true);
+					v.change_voie();
 				}
 				repaint();
 				try {
@@ -94,9 +114,6 @@ public class Fenetre extends JFrame implements ActionListener{
 				}
 			}
 			
-			
-			//time = new Timer(DELAI_BOUCLE,this);
-			//time.start();
 		}
 		
 		public void paint(Graphics g) {
@@ -104,20 +121,6 @@ public class Fenetre extends JFrame implements ActionListener{
 		}
 		
 		public void actionPerformed(ActionEvent e) {
-			if(e.getSource()==time) {
-				//r.actualiseMapVoiture();
-				/*for(int i=0;i<r.trajectoireVoitures.get(0).size();i++) {
-					for(int j=0;j<r.trajectoireVoitures.get(0).get(i).length;j++) {
-						System.out.print(r.trajectoireVoitures.get(0).get(i)[j]+" ");
-					}
-					System.out.println();
-				}*/
-				
-				r.actualiseMapVoiture();
-				
-				
-				repaint();
-			}
 			
 		}
 		

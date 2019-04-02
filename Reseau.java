@@ -1,15 +1,40 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.TreeSet;
 
 import org.omg.CORBA.SystemException;
 
 public class Reseau {
+	public ArrayList<NoeudGraphe> noeuds;
+	public ArrayList<NoeudGraphe> noeudsStation;
 	private ArrayList<Voiture> listeVoiture;
 	// 0 : vide  /  1 : route  /  2 : station
 	// true si il y a une voiture
 	
 	
-	public int[][] map = 	{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	public int[][] map; 	/*{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,2,2,2,2,0,0,0,0,0,0,2,2,2,2,0,0,0,0},
+							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0},
+							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0},
+							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0},
+							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0},
+							{0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
+							{0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
+							{0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
+							{0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0},
+							{0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+							{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0},
+							{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0},
+							{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0},
+							{0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,0},
+							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0},
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};*/
+	
+	/*public int[][] map = 	{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 							{0,0,0,2,2,2,2,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -43,7 +68,7 @@ public class Reseau {
 							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};*/
 
 	public boolean[][] mapVoiture = new boolean[15][15];
 
@@ -58,8 +83,14 @@ public class Reseau {
 	public LinkedList<LinkedList<int[]>> trajectoireVoitures;
 	private LinkedList<boolean[][]> listeMapCalculEnAvance;
 	public ArrayList<ArrayList<ArrayList<String>>> trajectoires;
+	public Lecteur_Fichier lecteur;
 	
 	public Reseau() {
+		lecteur = new Lecteur_Fichier();
+		lecteur.ouvertureFichier();
+		map = lecteur.traitementFichier();
+		noeuds = new ArrayList<NoeudGraphe>();
+		noeudsStation = new ArrayList<NoeudGraphe>();
 		listeVoiture = new ArrayList<Voiture>();
 		listeSauvegardeVoiture = new ArrayList<Voiture>();
 		listeStation = new ArrayList<Station>();
@@ -98,9 +129,12 @@ public class Reseau {
 		
 		
 		// Ajout voiture
-		for(Station s:listeStation) {
+		listeVoiture.add(new Voiture(1,listeStation.get(5).getXDepart(),listeStation.get(5).getYDepart(),0));
+		listeVoiture.add(new Voiture(1,listeStation.get(1).getXDepart(),listeStation.get(1).getYDepart(),0));
+		listeVoiture.add(new Voiture(1,listeStation.get(3).getXDepart(),listeStation.get(3).getYDepart(),0));
+		/*for(Station s:listeStation) {
 			listeVoiture.add(new Voiture(1,s.getXDepart(),s.getYDepart(),0));
-		}
+		}*/
 	}
 	
 	public void setMapRoute(int[][] m) {
@@ -635,7 +669,7 @@ public class Reseau {
 									case 3:
 										if(vVirtuel.getY()-4>0 && vVirtuel.getX()+1<map[0].length && map[vVirtuel.getY()-4][vVirtuel.getX()+1]==1) { // en haut
 											for(int a=vVirtuel.getY()-4;a>0;a--) {
-												if(mapCarrefour[a][vVirtuel.getX()+1]) {
+												if(mapCarrefour[a][vVirtuel.getX()+1]||(listeStation.get(j).getXArrive()==vVirtuel.getX()+4&&listeStation.get(j).getYArrive()==a)) {
 													vVirtuel.virage("gauche");
 													break;
 												}
@@ -654,7 +688,7 @@ public class Reseau {
 										break;
 									}
 								}
-								else if(xDiff<=0 && yDiff<=0) { // en haut ï¿½ gauche
+								else if(xDiff<=0 && yDiff<=0) { // en haut à gauche
 									switch(vVirtuel.getSens()) {
 									case 0:
 										if(vVirtuel.getY()-5>0 && map[vVirtuel.getY()-5][vVirtuel.getX()]==1) { // en haut
@@ -882,17 +916,17 @@ public class Reseau {
 	}
 	public void adapteSensVoiture(Voiture v) { // a changer si station pas uniquement sur le bord
 		if(map[v.getY()][v.getX()]==2) { // la voiture est sur une station
-			if(v.getX()==1) { //bord gauche
-				v.setSens(3);
+			if(map[v.getY()-1][v.getX()]==1) {
+				v.setSens(0);
 			}
-			else if(v.getX()==map[0].length-2) { // bord droit
-				v.setSens(1);
-			}
-			else if(v.getY()==1) { //bord haut
+			else if(map[v.getY()+1][v.getX()]==1) {
 				v.setSens(2);
 			}
-			else if(v.getY()==map.length-2) { //bord bas
-				v.setSens(0);
+			else if(map[v.getY()][v.getX()-1]==1) {
+				v.setSens(1);
+			}
+			else if(map[v.getY()][v.getX()+1]==1) {
+				v.setSens(3);
 			}
 		}
 	}
@@ -906,7 +940,10 @@ public class Reseau {
 		int compteurRoute=0;
 		for(int i=0;i<map.length;i++) {
 			for(int j=0;j<map[i].length;j++) {
-				if(map[i][j]==1) {
+				if(map[i][j]==2) {
+					mapC[i][j]='s';
+				}
+				else if(map[i][j]==1) {
 					compteurRoute=0;
 					routeEnHaut=false;
 					routeEnBas=false;
@@ -1011,6 +1048,322 @@ public class Reseau {
 		ArrayList<Voiture> listeTemp = new ArrayList<Voiture>();
 		for(Voiture v : listeVoiture) {
 			Voiture temp = new Voiture(1,v.getX(),v.getY(),v.getSens());
+		}
+	}
+	
+	public void convertionMapGraphe() {
+		int num=0;
+		char[][] detectionRoute = this.reconnaissanceRoute();
+		for(int i=0;i<detectionRoute.length;i++) {
+			for(int j=0;j<detectionRoute[i].length;j++) {
+				if(detectionRoute[i][j]=='s') {
+					this.noeuds.add(new NoeudGraphe("station",j,i,num));
+					num++;
+					if(detectionRoute[i][j+1]=='s') { // station "horizontale"
+						for(int k=0;k<=3;k++) {
+							detectionRoute[i][j+k]=' ';
+						}
+					}
+					else { // station "verticale"
+						for(int k=0;k<=3;k++) {
+							detectionRoute[i+k][j]=' ';
+						}
+					}
+				}
+				else if(detectionRoute[i][j]=='c') {
+					this.noeuds.add(new NoeudGraphe("carrefour",j,i,num));
+					num++;
+					for(int a=0;a<=3;a++) {
+						for(int b=0;b<=3;b++) {
+							detectionRoute[i+a][j+b]=' ';
+						}
+					}
+				}
+			}
+		}
+		
+		for(NoeudGraphe n : noeuds) {
+			n.initNumeroPourRejoindre(noeuds.size());
+			if(n.type=="station") {
+				this.noeudsStation.add(n);
+			}
+		}
+		
+		// calcul des distances : 
+		
+		detectionRoute = this.reconnaissanceRoute(); // voir si nécessaire ?
+		
+		for(NoeudGraphe n : noeuds) {
+			if(n.getType()=="station") {
+				int compteurDistance = 1;
+				if(detectionRoute[n.getY()+1][n.getX()]=='v') { // en bas
+					while(detectionRoute[n.getY()+compteurDistance][n.getX()]=='v') {
+						compteurDistance++;
+					}
+					// on cherche le noeud atteint :
+					for(NoeudGraphe nTemp : noeuds) {
+						if(nTemp.getX()==n.getX() && nTemp.getY()==n.getY()+compteurDistance) {
+							n.ajouterNoeudAtteignable(nTemp, compteurDistance-1);
+							break;
+						}
+					}
+				}
+				else if(detectionRoute[n.getY()-1][n.getX()]=='v') { // en haut
+					while(detectionRoute[n.getY()-compteurDistance][n.getX()]=='v') {
+						compteurDistance++;
+					}
+					for(NoeudGraphe nTemp : noeuds) {
+						if(nTemp.getX()==n.getX() && nTemp.getY()==n.getY()-compteurDistance-3) {
+							n.ajouterNoeudAtteignable(nTemp, compteurDistance-1);
+							break;
+						}
+					}
+				}
+				else if(detectionRoute[n.getY()][n.getX()+1]=='h') { // a droite
+					while(detectionRoute[n.getY()][n.getX()+compteurDistance]=='h') {
+						compteurDistance++;
+					}
+					for(NoeudGraphe nTemp : noeuds) {
+						if(nTemp.getY()==n.getY() && nTemp.getX()==n.getX()+compteurDistance) {
+							n.ajouterNoeudAtteignable(nTemp, compteurDistance-1);
+							break;
+						}
+					}
+					
+				}
+				else if(detectionRoute[n.getY()][n.getX()-1]=='h') { // a gauche
+					while(detectionRoute[n.getY()][n.getX()-compteurDistance]=='h') {
+						compteurDistance++;
+					}
+					for(NoeudGraphe nTemp : noeuds) {
+						if(nTemp.getY()==n.getY() && nTemp.getX()==n.getX()-compteurDistance-3) {
+							n.ajouterNoeudAtteignable(nTemp, compteurDistance-1);
+							break;
+						}
+					}
+				}
+			}
+			else { // carrefour
+				int compteurDistance = 1;
+				if(detectionRoute[n.getY()+4][n.getX()]=='v') { // en bas
+					while(detectionRoute[n.getY()+3+compteurDistance][n.getX()]=='v') {
+						compteurDistance++;
+					}
+					for(NoeudGraphe nTemp : noeuds) {
+						if(nTemp.getX()==n.getX() && nTemp.getY()==n.getY()+3+compteurDistance) {
+							n.ajouterNoeudAtteignable(nTemp, compteurDistance-1);
+							break;
+						}
+					}
+				}
+				
+				compteurDistance =1;
+				if(detectionRoute[n.getY()-1][n.getX()]=='v') { // en haut
+					while(detectionRoute[n.getY()-compteurDistance][n.getX()]=='v') {
+						compteurDistance++;
+					}
+					for(NoeudGraphe nTemp : noeuds) {
+						if(nTemp.getX()==n.getX() && nTemp.getY()==n.getY()-compteurDistance-3) { // si c'est un carrefour
+							n.ajouterNoeudAtteignable(nTemp, compteurDistance-1);
+							break;
+						}
+						else if(nTemp.getX()==n.getX() && nTemp.getY()==n.getY()-compteurDistance) { // si c'est une station
+							n.ajouterNoeudAtteignable(nTemp, compteurDistance-1);
+							break;
+						}
+					}
+				}
+				
+				compteurDistance=1;
+				if(detectionRoute[n.getY()][n.getX()-1]=='h') { // à gauche
+					while(detectionRoute[n.getY()][n.getX()-compteurDistance]=='h') {
+						compteurDistance++;
+					}
+					for(NoeudGraphe nTemp : noeuds) {
+						if(nTemp.getY()==n.getY() && nTemp.getX()==n.getX()-compteurDistance-3) { // si c'est un carrefour
+							n.ajouterNoeudAtteignable(nTemp, compteurDistance-1);
+							break;
+						}
+						else if(nTemp.getY()==n.getY() && nTemp.getX()==n.getX()-compteurDistance) { // si c'est une station 
+							n.ajouterNoeudAtteignable(nTemp, compteurDistance-1);
+							break;
+						}
+					}
+				}
+				
+				compteurDistance=1;
+				if(detectionRoute[n.getY()][n.getX()+4]=='h') { // à droite
+					while(detectionRoute[n.getY()][n.getX()+3+compteurDistance]=='h') {
+						compteurDistance++;
+					}
+					for(NoeudGraphe nTemp : noeuds) {
+						if(nTemp.getY()==n.getY() && nTemp.getX()==n.getX()+3+compteurDistance) {
+							n.ajouterNoeudAtteignable(nTemp, compteurDistance-1);
+							break;
+						}
+					}
+				}
+			}
+		}
+		
+		for(NoeudGraphe n : noeuds) {
+			System.out.println();
+			System.out.println("-------------------");
+			System.out.println(n);
+			System.out.println("Noeuds atteignables : ");
+			for(int i=0;i<n.noeudAtteignable.size();i++) {
+				System.out.println(n.noeudAtteignable.get(i));
+				System.out.println("Distance : "+n.distanceNoeud.get(i));
+			}
+		}
+	}
+	
+	public void calculCheminGraphe() { // -1 signifiera que il n'y a pas besoin de parcourir
+		for(NoeudGraphe n : noeuds) {
+			//réinitialisation des distances
+			for(NoeudGraphe temp : noeuds) {
+				temp.setDistanceActuelle(0);
+			}
+			TreeSet<NoeudGraphe> noeudsTraites = new TreeSet<NoeudGraphe>();
+			LinkedList<NoeudGraphe> aTraite = new LinkedList<NoeudGraphe>();
+			aTraite.add(n); // n est le noeud "source"
+			while(!aTraite.isEmpty()) {
+				noeudsTraites.add(aTraite.getFirst());
+				
+				for(int i=0;i<aTraite.getFirst().getNoeudAtteignable().size();i++) {
+					if(!noeudsTraites.contains(aTraite.getFirst().getNoeudAtteignable().get(i)) && !aTraite.contains(aTraite.getFirst().getNoeudAtteignable().get(i))) {
+						aTraite.add(aTraite.getFirst().getNoeudAtteignable().get(i));
+					}
+					if(aTraite.getFirst().getNoeudAtteignable().get(i)!=n && (aTraite.getFirst().getNoeudAtteignable().get(i).distanceActuellePourRejoindre==0 || aTraite.getFirst().getNoeudAtteignable().get(i).distanceActuellePourRejoindre>aTraite.getFirst().distanceActuellePourRejoindre+aTraite.getFirst().distanceNoeud.get(i))) {
+						aTraite.getFirst().getNoeudAtteignable().get(i).distanceActuellePourRejoindre=aTraite.getFirst().distanceActuellePourRejoindre+aTraite.getFirst().distanceNoeud.get(i);
+						aTraite.getFirst().getNoeudAtteignable().get(i).setNumeroPourRejoindre(n.numeroNoeud, aTraite.getFirst().numeroNoeud);
+					}
+				}
+				aTraite.removeFirst();
+			}
+			
+		}
+	}
+	
+	public void conversionTrajectoire() {
+		trajectoires = new ArrayList<ArrayList<ArrayList<String>>>(); // format : .get(i).get(j) : pour aller de i a j
+		
+		for(int a=0;a<listeStation.size();a++) {
+			trajectoires.add(new ArrayList<ArrayList<String>>());
+		}
+		for(int a=0;a<listeStation.size();a++) {
+			for(int k=0;k<listeStation.size();k++) {
+				trajectoires.get(a).add(new ArrayList<String>());
+			}
+		}
+		
+		for(int i=0;i<noeudsStation.size();i++) {
+			NoeudGraphe noeudAAtteindre = noeudsStation.get(i);
+			for(int j=0;j<noeudsStation.size();j++) {
+				boolean premiereLigneDroite = true; // on met en place le boolean car dans la premiere ligne droite on ajoute un nombre de "avant" correspondant à la distance alors qu'apres c'est distance-1
+				if(noeudAAtteindre!=noeudsStation.get(j)) {
+					NoeudGraphe noeudActuel = noeudsStation.get(j);
+					NoeudGraphe noeudDepart = noeudsStation.get(j);
+					while(noeudActuel!=noeudAAtteindre) {
+						NoeudGraphe noeudProchaineEtape = noeuds.get(noeudActuel.getNumeroPourRejoindre()[noeudAAtteindre.getNumeroNoeud()]);
+						
+						//Recherche de la distance :
+						int distance=0;
+						for(int k=0;k<noeudActuel.noeudAtteignable.size();k++) {
+							if(noeudActuel.noeudAtteignable.get(k)==noeudProchaineEtape) {
+								distance = noeudActuel.distanceNoeud.get(k);
+							}
+						}
+						
+						if(premiereLigneDroite) {
+							for(int k=0;k<distance;k++) {
+								//System.out.println("NoeudAAtteindre : "+noeudAAtteindre.getNumeroNoeud()+"   noeudDepart : "+noeudDepart.getNumeroNoeud());
+								//test
+								//System.out.println("ajout avant pour i = "+i+"  j = "+j);
+								trajectoires.get(j).get(i).add("avant");
+							}
+							premiereLigneDroite=false;
+						}
+						else {
+							for(int k=0;k<distance-1;k++) {
+								trajectoires.get(j).get(i).add("avant");
+							}
+						}
+						
+						// Recherche direction virage :
+						if(noeudProchaineEtape.getNumeroPourRejoindre()[noeudAAtteindre.getNumeroNoeud()]!=-1) {
+							Voiture temp = new Voiture();
+							int x1=noeudProchaineEtape.getX()-noeudActuel.getX();
+							int y1=noeudProchaineEtape.getY()-noeudActuel.getY();
+							int x2=noeuds.get(noeudProchaineEtape.getNumeroPourRejoindre()[noeudAAtteindre.getNumeroNoeud()]).getX()-noeudProchaineEtape.getX();
+							int y2=noeuds.get(noeudProchaineEtape.getNumeroPourRejoindre()[noeudAAtteindre.getNumeroNoeud()]).getY()-noeudProchaineEtape.getY();
+							
+							if(x1>0) { // 1 : avant -> pendant       2 : pendant -> après
+								if(x2>0) {
+									temp.virage("avant");
+								}
+								else if(x2<0) {
+									System.out.println("normalement impossible");
+								}
+								else if(y2>0) {
+									temp.virage("droite");
+								}
+								else if(y2<0) {
+									temp.virage("gauche");
+								}
+							}
+							else if(x1<0) {
+								if(x2>0) {
+									System.out.println("normalement impossible");
+								}
+								else if(x2<0) {
+									temp.virage("avant");
+								}
+								else if(y2>0) {
+									temp.virage("gauche");
+								}
+								else if(y2<0) {
+									temp.virage("droite");
+								}
+							}
+							else if(y1>0) {
+								if(x2>0) {
+									//System.out.println("rentre pour i = "+i+" j = "+j);
+									temp.virage("gauche");
+								}
+								else if(x2<0) {
+									temp.virage("droite");
+								}
+								else if(y2>0) {
+									temp.virage("avant");
+								}
+								else if(y2<0) {
+									System.out.println("normalement impossible");
+								}
+							}
+							else if(y1<0) {
+								if(x2>0) {
+									temp.virage("droite");	
+								}
+								else if(x2<0) {
+									temp.virage("gauche");
+								}
+								else if(y2>0) {
+									System.out.println("normalement impossible");
+								}
+								else if(y2<0) {
+									temp.virage("avant");
+								}
+							}
+							for(String s : temp.getTrajectoire()) {
+								trajectoires.get(j).get(i).add(s);
+							}
+						}
+						
+						noeudActuel = noeudProchaineEtape;
+					}
+				}
+			}
 		}
 	}
 }

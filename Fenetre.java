@@ -123,8 +123,9 @@ public class Fenetre extends JFrame /*implements ActionListener*/{
 			repaint();
 			this.setVisible(true);
 			repaint();*/
-			
-			r.calculCheminCourt();
+			r.convertionMapGraphe();
+			r.calculCheminGraphe();
+			r.conversionTrajectoire();
 			
 			//IL FAUT AJOUTER UN DERNIER AVANT A TOUTES LES TRAJECTOIRES
 			for(int i=0;i<r.trajectoires.size();i++) {
@@ -132,26 +133,47 @@ public class Fenetre extends JFrame /*implements ActionListener*/{
 					r.trajectoires.get(i).get(j).add("avant");
 				}
 			}
+			Voiture v = r.getVoitures().get(0);
+			v.setTrajectoire(r.trajectoires.get(5).get(0));
+			v.setStatDep(5);
+			v.setStatArr(0);
 			
-			
-			r.getVoitures().get(0).setTrajectoire(r.trajectoires.get(0).get(1));
-			r.getVoitures().get(1).setTrajectoire(r.trajectoires.get(1).get(2));
-			r.getVoitures().get(2).setTrajectoire(r.trajectoires.get(2).get(3));
-			r.getVoitures().get(3).setTrajectoire(r.trajectoires.get(3).get(0));
-			
-			for(Voiture v : r.getVoitures()) {
+			/*for(Voiture v : r.getVoitures()) {
 				r.adapteSensVoiture(v);
 				v.setSortCarrefour(true);
 				v.change_voie();
-			}
+			}*/
+			r.adapteSensVoiture(v);
+			v.setSortCarrefour(true);
+			v.change_voie();
 			
 			while(true) {
-				for(Voiture v : r.getVoitures()) {
+				/*for(Voiture v : r.getVoitures()) {
 					r.sortieCarrefour(v);
 					v.change_voie();
 					if(!v.getTrajectoire().isEmpty()) {
 						v.avance();
 					}
+				}*/
+				r.sortieCarrefour(v);
+				v.change_voie();
+				if(!v.getTrajectoire().isEmpty()) {
+					v.avance();
+				}
+				else {
+					v.setStatDep(v.getStatArr());
+					v.setX(r.getStations().get(v.getStatDep()).getXDepart());
+					v.setY(r.getStations().get(v.getStatDep()).getYDepart());
+					int nouvelleDestination = (int)(Math.random()*r.getStations().size());
+					while(nouvelleDestination == v.getStatDep()) {
+						System.out.println("test");
+						nouvelleDestination = (int)(Math.random()*r.getStations().size());
+					}
+					v.setStatArr(nouvelleDestination);
+					v.setTrajectoire(r.trajectoires.get(v.getStatDep()).get(v.getStatArr()));
+					r.adapteSensVoiture(v);
+					v.setSortCarrefour(true);
+					v.change_voie();
 				}
 				repaint();
 				try {
@@ -161,35 +183,38 @@ public class Fenetre extends JFrame /*implements ActionListener*/{
 				}
 			}
 			
+		}
+			
 			
 			//time = new Timer(DELAI_BOUCLE,this);
 			//time.start();
-			/*
-		
-		
-		
-		}
+			
 		
 		public void paint(Graphics g) {
 			this.pan.repaint();
+			this.panelGauche.repaint();
+			this.panelDroite.repaint();
+			this.panelHautDroite.repaint();
+			this.panelBasDroite.repaint();
 		}
+}
 		
-		public void actionPerformed(ActionEvent e) {
+		/*public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==time) {
 				//r.actualiseMapVoiture();
-				/*for(int i=0;i<r.trajectoireVoitures.get(0).size();i++) {
+				for(int i=0;i<r.trajectoireVoitures.get(0).size();i++) {
 					for(int j=0;j<r.trajectoireVoitures.get(0).get(i).length;j++) {
 						System.out.print(r.trajectoireVoitures.get(0).get(i)[j]+" ");
 					}
 					System.out.println();
-				}*/
+				}
 				
-				/*r.actualiseMapVoiture();
-				*/
+				r.actualiseMapVoiture();
+				
 				
 				//repaint();
 			}
 			
-		}
+		}*/
 		
 

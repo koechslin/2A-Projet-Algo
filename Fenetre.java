@@ -7,10 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.awt.event.*;
 
 
 
-public class Fenetre extends JFrame /*implements ActionListener*/{
+public class Fenetre extends JFrame implements ActionListener{
 	private JPanel panelPrincipal;
 	private JPanel panelGauche;
 	private JPanel panelDroite;
@@ -19,12 +20,17 @@ public class Fenetre extends JFrame /*implements ActionListener*/{
 	private JLabel labelNbVoitures;
 	private JTextField textNbVoitures;
 	private JLabel labelMode;
-	private JCheckBox Manuel;
-	private JCheckBox Automatique;
-	private JTextArea TextAreaVoiture;
-	private JTextArea TextAreaStation;
+	private JTextField TextFieldVoiture;
+	private JTextField TextFieldStation;
 	private JLabel labelControle;
 	private JButton BoutonGo;
+	private JLabel textStation;
+	private JLabel textVoiture;
+	private JRadioButton Automatique;
+	private JRadioButton Manuel;
+	private JButton importMap;
+	private JButton recharge;
+	private Lecteur_Fichier lecteur;
 	
 	
 	Reseau r;
@@ -33,9 +39,10 @@ public class Fenetre extends JFrame /*implements ActionListener*/{
 	final int DELAI_BOUCLE = 1000;
 	
 		public Fenetre(){
-			
+			this.setLayout(null);
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
 			r = new Reseau();
+			lecteur = new Lecteur_Fichier();
 			
 			/*for(int i=0;i<r.getMapVoiture().length;i++) {
 				for(int j=0;j<r.getMapVoiture()[i].length;j++) {
@@ -50,58 +57,104 @@ public class Fenetre extends JFrame /*implements ActionListener*/{
 			r.getVoitures().get(3).setDirection("haut");*/
 			
 			/*construction des elements gtaphiques de la fenetre*/
-			panelPrincipal = new JPanel(new BorderLayout());
+			panelPrincipal = new JPanel();
 			panelGauche = new JPanel();
-			panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
-			
+			//panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
+			panelGauche.setLayout(null);
 			panelDroite = new JPanel();
-			panelDroite.setLayout(new BoxLayout(panelDroite, BoxLayout.PAGE_AXIS));
+			panelDroite.setLayout(null);
 			panelBasDroite = new JPanel();
-			panelBasDroite.setLayout(new BoxLayout(panelBasDroite, BoxLayout.PAGE_AXIS));
+			panelBasDroite.setLayout(null);
 			panelHautDroite = new JPanel();
-			panelHautDroite.setLayout(new BoxLayout(panelHautDroite, BoxLayout.PAGE_AXIS));
+			panelHautDroite.setLayout(null);
 			
-			pan = new Panel(r);
-			this.setBounds(50,50,pan.reseau.getMap()[0].length*pan.t,pan.reseau.getMap().length*pan.t+40);
+			pan = new Panel(r,861,900);
+			//this.setBounds(50,50,pan.reseau.getMap()[0].length*pan.t,pan.reseau.getMap().length*pan.t+40);
+			//this.setSize(900, 900);
+			this.pan.setBounds(this.getInsets().left+500, this.getInsets().top, 861, 900-this.getInsets().top);
+			panelDroite.setBounds(this.getInsets().left+1361,this.getInsets().top,1800-this.getInsets().left-1361, 900-this.getInsets().top);
+			panelDroite.setBackground(Color.RED);
+			panelGauche.setBounds(this.getInsets().left,this.getInsets().top,500, 900-this.getInsets().top);
+			panelGauche.setBackground(Color.GREEN);
+			this.panelPrincipal.setBounds(0, 0, 1800, 900);
+			this.panelPrincipal.setLayout(null);
+			
 			
 			//ajout panel de droite
 			
-			panelDroite.add(panelHautDroite);
-			panelDroite.add(panelBasDroite);
+			//panelDroite.add(panelHautDroite);
+			//panelDroite.add(panelBasDroite);
 			//ajout panel Haut droite
 			labelMode = new JLabel("Mode:");
-			Manuel = new JCheckBox("Manuel");
-			Automatique = new JCheckBox("Automatique");
-			panelHautDroite.add(labelMode);
-			panelHautDroite.add(Manuel);
-			panelHautDroite.add(Automatique);
+			labelMode.setBounds(30, 30, 100, 50);
+			Manuel = new JRadioButton("Manuel");
+			Manuel.setBounds(30,60,120,30);
+			Automatique = new JRadioButton("Automatique");
+			Automatique.setBounds(30, 90,120,30);
+			ButtonGroup groupB = new ButtonGroup();
+			groupB.add(Manuel);
+			groupB.add(Automatique);
+			panelDroite.add(labelMode);
+			panelDroite.add(Manuel);
+			panelDroite.add(Automatique);
+			
 			//ajout panel Bas droite
+			textStation = new JLabel("Station : ");
+			textStation.setBounds(30,150,60,30);
+			textVoiture = new JLabel("Voiture : ");
+			textVoiture.setBounds(30,190,60,30);
 			BoutonGo = new JButton("GO");
+			BoutonGo.setBounds(30, 230, 100, 30);
 			labelControle = new JLabel("Controle:");
-			TextAreaVoiture = new JTextArea("Voiture");
-			TextAreaStation = new JTextArea("Station");
-			panelBasDroite.add(TextAreaStation);
-			panelBasDroite.add(TextAreaVoiture);
-			panelBasDroite.add(labelControle);
-			panelBasDroite.add(BoutonGo);
+			labelControle.setBounds(30, 500, 120, 30);
+			TextFieldVoiture = new JTextField();
+			TextFieldVoiture.setBounds(30, 270, 120, 30);
+			TextFieldStation = new JTextField();
+			TextFieldStation.setBounds(30, 310, 120, 30);
+			panelDroite.add(TextFieldStation);
+			panelDroite.add(TextFieldVoiture);
+			panelDroite.add(labelControle);
+			panelDroite.add(BoutonGo);
+			panelDroite.add(textStation);
+			panelDroite.add(textVoiture);
 			
 			//ajout panel de gauche
-			labelNbVoitures = new JLabel("nombre de voitures: ");
-			textNbVoitures = new JTextField("entrer nombre de voitures", 18);
+			labelNbVoitures = new JLabel("Nombre de voitures : ");
+			labelNbVoitures.setFont(new Font("Serif",Font.PLAIN,35));
+			labelNbVoitures.setBounds(panelGauche.getWidth()/2-150,80,350,50);
+			textNbVoitures = new JTextField();
+			textNbVoitures.setBounds(panelGauche.getWidth()/2-50,200,100,80);
+			importMap = new JButton("Importer une map");
+			importMap.setBounds(panelGauche.getWidth()/2-75,500,150,50);
+			importMap.addActionListener(this);
+			recharge = new JButton("Recharger la simulation");
+			recharge.setBounds(panelGauche.getWidth()/2-100,350,200,50);
+			recharge.addActionListener(this);
+			panelGauche.add(importMap);
+			panelGauche.add(recharge);
 			panelGauche.add(labelNbVoitures);
 			panelGauche.add(textNbVoitures);
 			
 			/*ajout au panel principal*/
-			panelPrincipal.add(pan, BorderLayout.CENTER);
-			panelPrincipal.add(panelGauche, BorderLayout.WEST);
-			panelPrincipal.add(panelDroite, BorderLayout.EAST);
+			panelPrincipal.add(pan);
+			panelPrincipal.add(panelGauche);
+			panelPrincipal.add(panelDroite);
 			
 			
 			
 			
-			this.add(panelPrincipal, BorderLayout.CENTER);
-			this.setSize(1300,900);
+			this.add(panelPrincipal);
+			this.setSize(1800,900);
 			this.setVisible(true);
+			int a=0;
+			while(a==0) {
+				repaint();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 			
 			try {
 				Thread.sleep(2000);
@@ -191,11 +244,58 @@ public class Fenetre extends JFrame /*implements ActionListener*/{
 			
 		
 		public void paint(Graphics g) {
+			if(Manuel.isSelected()) {
+				this.TextFieldStation.setVisible(true);
+				this.TextFieldVoiture.setVisible(true);
+				this.labelControle.setVisible(true);
+				this.BoutonGo.setVisible(true);
+				this.textStation.setVisible(true);
+				this.textVoiture.setVisible(true);
+			}
+			else {
+				this.TextFieldStation.setVisible(false);
+				this.TextFieldVoiture.setVisible(false);
+				this.labelControle.setVisible(false);
+				this.BoutonGo.setVisible(false);
+				this.textStation.setVisible(false);
+				this.textVoiture.setVisible(false);
+			}
 			this.pan.repaint();
+			this.panelPrincipal.repaint();
 			this.panelGauche.repaint();
 			this.panelDroite.repaint();
-			this.panelHautDroite.repaint();
-			this.panelBasDroite.repaint();
+		}
+		
+		public void actionPerformed(ActionEvent e) {
+			/*for(int i = 0 ; i < textNbVoitures.getText() ; i++){
+				addVoiture(new Voiture(1, getStations()[(int)Math.random()*listeStation.size()].getXDepart(), getStations()[(int)Math.random()*listeStation.size()].getYDepart()));
+			}*/
+			if(e.getSource()==this.recharge) {
+				if(!this.textNbVoitures.getText().isEmpty()) {
+					if(textNbVoitures.getText().matches("-?\\d+(\\.\\d+)?")) { // on verifie si c'est un entier
+						r.recharge(Integer.parseInt(textNbVoitures.getText()));
+					System.out.println(this.r.getVoitures().size());
+					}
+					else {
+						//message d'erreur
+						JOptionPane.showMessageDialog(this, "Veuillez entrer un nombre de voitures entier et positif");
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(this, "Veuillez entrer un nombre de voitures entier et positif");
+				}
+				
+				
+			}
+			else if(e.getSource()==this.importMap) {
+				this.lecteur.ouvertureFichier();
+				if(this.lecteur.file !=null) { // si on a bien choisi un fichier
+					this.r.setMapRoute(this.lecteur.traitementFichier());
+					this.pan.actualiseMapDesin();
+					this.pan.recalculT();	
+				}	
+			}
+				
 		}
 }
 		

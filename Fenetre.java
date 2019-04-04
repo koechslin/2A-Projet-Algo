@@ -1,4 +1,3 @@
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
@@ -110,13 +109,15 @@ public class Fenetre extends JFrame implements ActionListener, MouseListener{
 			
 			//panelDroite.add(panelHautDroite);
 			//panelDroite.add(panelBasDroite);
-			//ajout panel Haut droite
-			labelMode = new JLabel("Mode:");
-			labelMode.setBounds(30, 30, 100, 50);
+			
+
+labelMode = new JLabel("Mode:");
+			labelMode.setBounds((int)(0.3*panelDroite.getWidth()), (int)(0.01*panelDroite.getHeight()), (int)(0.5*panelDroite.getWidth()), (int)(0.1*panelDroite.getHeight()));
+			labelMode.setFont(new Font("Serif",Font.PLAIN,35));
 			Manuel = new JRadioButton("Manuel");
-			Manuel.setBounds(30,60,120,30);
+			Manuel.setBounds((int)(0.2*panelDroite.getWidth()), (int)(0.1*panelDroite.getHeight()), (int)(0.5*panelDroite.getWidth()), (int)(0.03*panelDroite.getHeight()));
 			Automatique = new JRadioButton("Automatique");
-			Automatique.setBounds(30, 90,120,30);
+			Automatique.setBounds((int)(0.2*panelDroite.getWidth()), (int)(0.14*panelDroite.getHeight()), (int)(0.5*panelDroite.getWidth()), (int)(0.03*panelDroite.getHeight()));
 			ButtonGroup groupB = new ButtonGroup();
 			groupB.add(Manuel);
 			groupB.add(Automatique);
@@ -125,18 +126,20 @@ public class Fenetre extends JFrame implements ActionListener, MouseListener{
 			panelDroite.add(Automatique);
 			
 			//ajout panel Bas droite
+			
 			textStation = new JLabel("Station : ");
-			textStation.setBounds(30,150,60,30);
+			textStation.setBounds((int)(0.02*panelDroite.getWidth()), (int)(0.35*panelDroite.getHeight()), (int)(0.3*panelDroite.getWidth()), (int)(0.05*panelDroite.getHeight()));
 			textVoiture = new JLabel("Voiture : ");
-			textVoiture.setBounds(30,190,60,30);
+			textVoiture.setBounds((int)(0.02*panelDroite.getWidth()), (int)(0.4*panelDroite.getHeight()), (int)(0.3*panelDroite.getWidth()), (int)(0.05*panelDroite.getHeight()));
 			BoutonGo = new JButton("GO");
-			BoutonGo.setBounds(30, 230, 100, 30);
+			BoutonGo.setBounds((int)(0.2*panelDroite.getWidth()), (int)(0.5*panelDroite.getHeight()), (int)(0.5*panelDroite.getWidth()), (int)(0.05*panelDroite.getHeight()));
 			labelControle = new JLabel("Controle:");
-			labelControle.setBounds(30, 500, 120, 30);
+			labelControle.setBounds((int)(0.15*panelDroite.getWidth()), (int)(0.25*panelDroite.getHeight()), (int)(panelDroite.getWidth()), (int)(0.1*panelDroite.getHeight()));
+			labelControle.setFont(new Font("Serif",Font.PLAIN,35));
 			TextFieldVoiture = new JTextField();
-			TextFieldVoiture.setBounds(30, 270, 120, 30);
+			TextFieldVoiture.setBounds((int)(0.3*panelDroite.getWidth()), (int)(0.35*panelDroite.getHeight()), (int)(0.5*panelDroite.getWidth()), (int)(0.05*panelDroite.getHeight()));
 			TextFieldStation = new JTextField();
-			TextFieldStation.setBounds(30, 310, 120, 30);
+			TextFieldStation.setBounds((int)(0.3*panelDroite.getWidth()), (int)(0.4*panelDroite.getHeight()), (int)(0.5*panelDroite.getWidth()), (int)(0.05*panelDroite.getHeight()));
 			panelDroite.add(TextFieldStation);
 			panelDroite.add(TextFieldVoiture);
 			panelDroite.add(labelControle);
@@ -380,5 +383,4 @@ public class Fenetre extends JFrame implements ActionListener, MouseListener{
 			}
 			
 		}*/
-		
-
+	

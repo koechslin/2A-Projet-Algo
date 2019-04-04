@@ -43,6 +43,8 @@ public class Fenetre extends JFrame implements ActionListener{
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
 			r = new Reseau();
 			lecteur = new Lecteur_Fichier();
+			Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+			this.setSize((int)tailleEcran.getWidth()-150,(int)tailleEcran.getHeight()-150);
 			
 			/*for(int i=0;i<r.getMapVoiture().length;i++) {
 				for(int j=0;j<r.getMapVoiture()[i].length;j++) {
@@ -68,17 +70,17 @@ public class Fenetre extends JFrame implements ActionListener{
 			panelHautDroite = new JPanel();
 			panelHautDroite.setLayout(null);
 			
-			pan = new Panel(r,861,900);
+			pan = new Panel(r,(int)(0.6*tailleEcran.getWidth()-150)-this.getInsets().left-this.getInsets().right,(int)(tailleEcran.getHeight()-150)-this.getInsets().top-this.getInsets().bottom);
 			//this.setBounds(50,50,pan.reseau.getMap()[0].length*pan.t,pan.reseau.getMap().length*pan.t+40);
 			//this.setSize(900, 900);
-			this.pan.setBounds(this.getInsets().left+500, this.getInsets().top, 861, 900-this.getInsets().top);
-			panelDroite.setBounds(this.getInsets().left+1361,this.getInsets().top,1800-this.getInsets().left-1361, 900-this.getInsets().top);
+			this.pan.setBounds((int)(0.2*tailleEcran.getWidth()-150)-this.getInsets().right, this.getInsets().top,(int)(0.6*tailleEcran.getWidth()-150)-this.getInsets().left-this.getInsets().right,(int)(tailleEcran.getHeight()-150)-this.getInsets().top-this.getInsets().bottom);
+			panelDroite.setBounds(this.getInsets().left+1361,this.getInsets().top,(int)(0.2*tailleEcran.getWidth()-150)-this.getInsets().left-this.getInsets().right,(int)(tailleEcran.getHeight()-150)-this.getInsets().top-this.getInsets().bottom);
 			panelDroite.setBackground(Color.RED);
-			panelGauche.setBounds(this.getInsets().left,this.getInsets().top,500, 900-this.getInsets().top);
+			panelGauche.setBounds(this.getInsets().left,this.getInsets().top,(int)(0.6*tailleEcran.getWidth()-150)-this.getInsets().left-this.getInsets().right,(int)(tailleEcran.getHeight()-150)-this.getInsets().top-this.getInsets().bottom);
 			panelGauche.setBackground(Color.GREEN);
 			this.panelPrincipal.setBounds(0, 0, 1800, 900);
 			this.panelPrincipal.setLayout(null);
-			
+			System.out.println("test");
 			
 			//ajout panel de droite
 			
@@ -142,15 +144,14 @@ public class Fenetre extends JFrame implements ActionListener{
 			
 			
 			
-			
 			this.add(panelPrincipal);
-			this.setSize(1800,900);
 			this.setVisible(true);
+			System.out.println("test");
 			int a=0;
 			while(a==0) {
 				repaint();
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}

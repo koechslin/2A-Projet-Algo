@@ -29,6 +29,12 @@ public class Fenetre extends JFrame implements ActionListener, MouseListener{
 	private JButton importMap;
 	private JButton recharge;
 	private Lecteur_Fichier lecteur;
+	private int insetTop;
+	private int insetBottom;
+	private int insetLeft;
+	private int insetRight;
+	private boolean calculInset = true;
+	private double proportionPan;
 	
 	
 	Reseau r;
@@ -37,6 +43,8 @@ public class Fenetre extends JFrame implements ActionListener, MouseListener{
 	final int DELAI_BOUCLE = 1000;
 	
 		public Fenetre(){
+			
+			
 			this.addMouseListener(this);
 			this.setLayout(null);
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
@@ -44,6 +52,11 @@ public class Fenetre extends JFrame implements ActionListener, MouseListener{
 			lecteur = new Lecteur_Fichier();
 			Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 			this.setSize((int)tailleEcran.getWidth()-150,(int)tailleEcran.getHeight()-150);
+			this.setVisible(true);
+			insetTop = this.getInsets().top;
+			insetBottom = this.getInsets().bottom;
+			insetLeft = this.getInsets().left;
+			insetRight = this.getInsets().right;
 			
 			/*for(int i=0;i<r.getMapVoiture().length;i++) {
 				for(int j=0;j<r.getMapVoiture()[i].length;j++) {
@@ -68,14 +81,20 @@ public class Fenetre extends JFrame implements ActionListener, MouseListener{
 			panelBasDroite.setLayout(null);
 			panelHautDroite = new JPanel();
 			panelHautDroite.setLayout(null);
-			System.out.println("inset : "+this.getInsets().top);
-			this.panelPrincipal.setBounds(this.getInsets().left, this.getInsets().top,(int) tailleEcran.getWidth()-150-this.getInsets().left-this.getInsets().right,(int) tailleEcran.getHeight()-150-this.getInsets().top-this.getInsets().bottom);
+			this.panelPrincipal.setBounds(0, 0,(int) tailleEcran.getWidth()-150-this.getInsets().left-this.getInsets().right,(int) tailleEcran.getHeight()-150-this.getInsets().top-this.getInsets().bottom);
+			proportionPan = (double)panelPrincipal.getHeight()/(double)panelPrincipal.getWidth();
 			panelPrincipal.setBackground(Color.PINK);
 			pan = new Panel(r,panelPrincipal.getWidth(),panelPrincipal.getHeight());
 			
-			panelGauche.setBounds(0,0,(int)(panelPrincipal.getWidth()*0.2),panelPrincipal.getHeight());
-			panelDroite.setBounds((int)(0.79*panelPrincipal.getWidth()),0,(int)(panelPrincipal.getWidth()*0.2),panelPrincipal.getHeight());
-			pan.setBounds((int)(0.2*panelPrincipal.getWidth()),0,(int)(panelPrincipal.getWidth()*0.6),panelPrincipal.getHeight());
+			/*panelGauche.setBounds(0,0,(int)(panelPrincipal.getWidth()*(1.0-proportionPan)/2.0),panelPrincipal.getHeight());
+			panelDroite.setBounds((int)(((1.0-proportionPan)/2.0)+proportionPan)*panelPrincipal.getWidth(),0,(int)(panelPrincipal.getWidth()*(1.0-proportionPan)/2.0),panelPrincipal.getHeight());
+			pan.setBounds((int)(0.2*panelPrincipal.getWidth()),0,(int)(panelPrincipal.getWidth()*proportionPan),panelPrincipal.getHeight());*/
+			panelGauche.setBounds(0,0,(int)(((1.0-proportionPan)/2.0)*panelPrincipal.getWidth()),panelPrincipal.getHeight());
+			int posXPan = (int)(((1.0-proportionPan)/2.0)*panelPrincipal.getWidth());
+			pan.setBounds(posXPan,0,(int)(proportionPan*panelPrincipal.getWidth()),panelPrincipal.getHeight());
+			int posXDroite = (int)((((1.0-proportionPan)/2.0)+proportionPan)*panelPrincipal.getWidth());
+			System.out.println("pos x droite" + posXDroite);
+			panelDroite.setBounds(posXDroite,0,(int)(((1.0-proportionPan)/2.0)*panelPrincipal.getWidth()),panelPrincipal.getHeight());
 			
 			//this.setBounds(50,50,pan.reseau.getMap()[0].length*pan.t,pan.reseau.getMap().length*pan.t+40);
 			//this.setSize(900, 900);
@@ -249,6 +268,10 @@ public class Fenetre extends JFrame implements ActionListener, MouseListener{
 			
 		
 		public void paint(Graphics g) {
+			if(calculInset) {
+				calculInset = false;
+				return;
+			}
 			if(Manuel.isSelected()) {
 				this.TextFieldStation.setVisible(true);
 				this.TextFieldVoiture.setVisible(true);

@@ -18,30 +18,34 @@ public class Panel extends JPanel{
 	private BufferedImage vdroite=null;
 	private BufferedImage vhaut=null;
 	private BufferedImage vbas=null;
+	private int h;
+	private int l;
 	
 	public char[][] mapDessin;
 	
-	public Panel(Reseau res){
+	public Panel(Reseau res,int width, int height){
 		
 		try {
-			herbe = ImageIO.read(new File("E:/Documents/Travail/INSA/Parrain/Algo/Projet/Herbe.PNG"));
-			station = ImageIO.read(new File("E:/Documents/Travail/INSA/Parrain/Algo/Projet/station.png"));
-			vgauche = ImageIO.read(new File("E:/Documents/Travail/INSA/Parrain/Algo/Projet/vgauche.png"));
-			vdroite = ImageIO.read(new File("E:/Documents/Travail/INSA/Parrain/Algo/Projet/vdroite.png"));
-			vhaut = ImageIO.read(new File("E:/Documents/Travail/INSA/Parrain/Algo/Projet/vhaut.png"));
-			vbas = ImageIO.read(new File("E:/Documents/Travail/INSA/Parrain/Algo/Projet/vbas.png"));
+			herbe = ImageIO.read(new File("Herbe.PNG"));
+			station = ImageIO.read(new File("station.png"));
+			vgauche = ImageIO.read(new File("vgauche.png"));
+			vdroite = ImageIO.read(new File("vdroite.png"));
+			vhaut = ImageIO.read(new File("vhaut.png"));
+			vbas = ImageIO.read(new File("vbas.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
 		reseau = res;
-		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		int hauteur = (int)tailleEcran.getHeight();
-		int largeur = (int)tailleEcran.getWidth();
+		//Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		//int hauteur = (int)tailleEcran.getHeight();
+		//int largeur = (int)tailleEcran.getWidth();
+		h = height;
+		l = width;
 		
-		t = Math.min(hauteur/(res.map.length+5),largeur/(res.map[0].length+5));
+		t = Math.min(h/(res.map.length),l/(res.map[0].length));
 		
-		this.setBounds(0,0,(reseau.map.length+1)*t,(reseau.map[0].length+1)*t);
+		//this.setBounds(0,0,(reseau.map.length+1)*t,(reseau.map[0].length+1)*t);
 		mapDessin = res.reconnaissanceRoute();
 		
 	}
@@ -102,7 +106,7 @@ public class Panel extends JPanel{
 					g.fillRect(j*t,i*t,t,t);
 					
 					/*
-					//tracé des lignes
+					//trace des lignes
 					g.setColor(Color.yellow);
 					if(vertical && !horizontal){
 						verticale(g,i,j,t);
@@ -111,7 +115,7 @@ public class Panel extends JPanel{
 					}
 					*/
 					
-					// Nouveau tracé ligne (test)
+					// Nouveau trace ligne (test)
 					g.setColor(Color.yellow);
 					if(mapDessin[i][j]=='v'){
 						verticale(g,i,j,t);
@@ -140,38 +144,40 @@ public class Panel extends JPanel{
 				
 					// ***VOITURE***
 					for(Voiture v : this.reseau.getVoitures()) {
-						//g.setColor(Color.WHITE);
-						Graphics2D g2d = (Graphics2D) g;
-						double rotation=0;
-						switch(v.getSens()) {
-						case 0:
-							//rotation =Math.PI/2;
-							g2d.drawImage(vhaut, v.getX()*t, v.getY()*t, t, t, null);
-							
-							break;
-						case 1:
-							//rotation =0;
-							g2d.drawImage(vgauche, v.getX()*t, v.getY()*t, t, t, null);
-							break;
-						case 2:
-							//rotation=-Math.PI/2;
-							g2d.drawImage(vbas, v.getX()*t, v.getY()*t, t, t, null);
-							break;
-						case 3:
-							//rotation=Math.PI;
-							g2d.drawImage(vdroite, v.getX()*t, v.getY()*t, t, t, null);
-							break;
-						}
-						//AffineTransform tx = AffineTransform.getRotateInstance(rotation, voiture_1.getWidth()/2, voiture_1.getHeight()/2);
-						//AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+						if(!(mapDessin[v.getY()][v.getX()]=='s')) {
+							//g.setColor(Color.WHITE);
+							Graphics2D g2d = (Graphics2D) g;
+							double rotation=0;
+							switch(v.getSens()) {
+							case 0:
+								//rotation =Math.PI/2;
+								g2d.drawImage(vhaut, v.getX()*t, v.getY()*t, t, t, null);
+								
+								break;
+							case 1:
+								//rotation =0;
+								g2d.drawImage(vgauche, v.getX()*t, v.getY()*t, t, t, null);
+								break;
+							case 2:
+								//rotation=-Math.PI/2;
+								g2d.drawImage(vbas, v.getX()*t, v.getY()*t, t, t, null);
+								break;
+							case 3:
+								//rotation=Math.PI;
+								g2d.drawImage(vdroite, v.getX()*t, v.getY()*t, t, t, null);
+								break;
+							}
+							//AffineTransform tx = AffineTransform.getRotateInstance(rotation, voiture_1.getWidth()/2, voiture_1.getHeight()/2);
+							//AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
-						// Drawing the rotated image at the required drawing locations
-						//g2d.drawImage(op.filter(voiture_1, null), v.getX()*t, v.getY()*t,t,t, null); //rotation
-						
-						//g2d.rotate(90, mapDessin[0].length*t/2,mapDessin.length*t/2);
-						//g2d.drawImage(voiture_1, v.getX()*t, v.getY()*t, t, t, null);   // à utiliser
-						//g2d.rotate(-90,mapDessin[0].length*t/2,mapDessin[0].length*t/2);
-						//g.fillRect(v.getX()*t, v.getY()*t, t, t);
+							// Drawing the rotated image at the required drawing locations
+							//g2d.drawImage(op.filter(voiture_1, null), v.getX()*t, v.getY()*t,t,t, null); //rotation
+							
+							//g2d.rotate(90, mapDessin[0].length*t/2,mapDessin.length*t/2);
+							//g2d.drawImage(voiture_1, v.getX()*t, v.getY()*t, t, t, null);   // a utiliser
+							//g2d.rotate(-90,mapDessin[0].length*t/2,mapDessin[0].length*t/2);
+							//g.fillRect(v.getX()*t, v.getY()*t, t, t);
+						}
 					}
 					
 				/*if(reseau.mapVoiture[i][j]){
@@ -204,31 +210,37 @@ public class Panel extends JPanel{
 	}
 	public void horizontale(Graphics g,int i, int j,int t){
 		g.setColor(Color.yellow);
-		g.fillRect(j*t,i*t+1,t,t/10);
+		g.fillRect(j*t,i*t+1,t,t/12);
 		
 		if(i+3<mapDessin.length && mapDessin[i+3][j]=='h'  && mapDessin[i+1][j]=='h' && mapDessin[i+2][j]=='h'  ){
-		g.fillRect(j*t,(i+2)*t-t/9,t,t/10);
+		g.fillRect(j*t,(i+2)*t-t/12,t,t/12);
 		}
 		
 		if(i-3>0 && mapDessin[i-3][j]=='h'  && mapDessin[i-1][j]=='h' && mapDessin[i-2][j]=='h'  ){
-			g.fillRect(j*t,(i-1)*t-t/9,t,t/10);
-			g.fillRect(j*t,(i+1)*t-t/9,t,t/10);
+			g.fillRect(j*t,(i-1)*t-t/12,t,t/12);
+			g.fillRect(j*t,(i+1)*t-t/12,t,t/12);
 				
 		}
 		
 	}
 	public void verticale(Graphics g,int i, int j, int t){
 		g.setColor(Color.yellow);
-		g.fillRect(j*t+1,i*t,t/10,t);
+		g.fillRect(j*t+1,i*t,t/12,t);
 		if(j+3<mapDessin[0].length && mapDessin[i][j+3]=='v'  && mapDessin[i][j+1]=='h' && mapDessin[i][j+2]=='h'  ){
-		g.fillRect((j+2)*t-t/10,i*t,t,t/10);
+		g.fillRect((j+2)*t-t/12,i*t,t,t/12);
 		}
 		
 		if(j-3>0 && mapDessin[i][j-3]=='v'  && mapDessin[i][j-1]=='v' && mapDessin[i][j-2]=='v'  ){
-			g.fillRect((j-1)*t-t/9,i*t,t/10,t);
-			g.fillRect((j+1)*t-t/9,i*t,t/10,t);
+			g.fillRect((j-1)*t-t/12,i*t,t/12,t);
+			g.fillRect((j+1)*t-t/12,i*t,t/12,t);
 				
 		}
+	}
+	public void actualiseMapDesin() {
+		this.mapDessin = this.reseau.reconnaissanceRoute();
+	}
+	public void recalculT() {
+		t = Math.min(h/(reseau.map.length),l/(reseau.map[0].length));
 	}
 }
 

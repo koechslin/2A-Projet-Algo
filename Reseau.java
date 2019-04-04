@@ -12,7 +12,7 @@ public class Reseau {
 	// true si il y a une voiture
 	
 	
-	public int[][] map; 	/*{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	public int[][] map= 	{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 							{0,0,0,2,2,2,2,0,0,0,0,0,0,2,2,2,2,0,0,0,0},
 							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0},
 							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0},
@@ -32,7 +32,7 @@ public class Reseau {
 							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0},
 							{0,0,0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0},
 							{0,0,0,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0},
-							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};*/
+							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 	
 	/*public int[][] map = 	{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 							{0,0,0,2,2,2,2,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -87,8 +87,8 @@ public class Reseau {
 	
 	public Reseau() {
 		lecteur = new Lecteur_Fichier();
-		lecteur.ouvertureFichier();
-		map = lecteur.traitementFichier();
+		//lecteur.ouvertureFichier();
+		//map = lecteur.traitementFichier();
 		noeuds = new ArrayList<NoeudGraphe>();
 		noeudsStation = new ArrayList<NoeudGraphe>();
 		listeVoiture = new ArrayList<Voiture>();
@@ -129,7 +129,7 @@ public class Reseau {
 		
 		
 		// Ajout voiture
-		listeVoiture.add(new Voiture(1,listeStation.get(5).getXDepart(),listeStation.get(5).getYDepart(),0));
+		//listeVoiture.add(new Voiture(1,listeStation.get(5).getXDepart(),listeStation.get(5).getYDepart(),0));
 		listeVoiture.add(new Voiture(1,listeStation.get(1).getXDepart(),listeStation.get(1).getYDepart(),0));
 		listeVoiture.add(new Voiture(1,listeStation.get(3).getXDepart(),listeStation.get(3).getYDepart(),0));
 		/*for(Station s:listeStation) {
@@ -139,6 +139,7 @@ public class Reseau {
 	
 	public void setMapRoute(int[][] m) {
 		this.map=m;
+		this.mapCarrefour = new boolean[m.length][m[0].length];
 	}
 	public void setMapVoiture(boolean[][] m) {
 		this.mapVoiture=m;
@@ -1219,6 +1220,7 @@ public class Reseau {
 	}
 	
 	public void calculCheminGraphe() { // -1 signifiera que il n'y a pas besoin de parcourir
+		//Algorithme de Dijkstra
 		for(NoeudGraphe n : noeuds) {
 			//réinitialisation des distances
 			for(NoeudGraphe temp : noeuds) {
@@ -1364,6 +1366,14 @@ public class Reseau {
 					}
 				}
 			}
+		}
+	}
+	
+	public void recharge(int nVoit) {
+		this.listeVoiture = new ArrayList<Voiture>();
+		for(int i=0;i<nVoit;i++) {
+			int s = (int)(Math.random()*this.listeStation.size());
+			listeVoiture.add(new Voiture(1,this.listeStation.get(s).getXDepart(),listeStation.get(s).getYDepart(),0));
 		}
 	}
 }

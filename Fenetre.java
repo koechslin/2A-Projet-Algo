@@ -133,7 +133,7 @@ labelMode = new JLabel("Mode:");
 			textVoiture.setBounds((int)(0.02*panelDroite.getWidth()), (int)(0.4*panelDroite.getHeight()), (int)(0.3*panelDroite.getWidth()), (int)(0.05*panelDroite.getHeight()));
 			BoutonGo = new JButton("GO");
 			BoutonGo.setBounds((int)(0.2*panelDroite.getWidth()), (int)(0.5*panelDroite.getHeight()), (int)(0.5*panelDroite.getWidth()), (int)(0.05*panelDroite.getHeight()));
-			labelControle = new JLabel("Controle:");
+			labelControle = new JLabel("Contrôle:");
 			labelControle.setBounds((int)(0.15*panelDroite.getWidth()), (int)(0.25*panelDroite.getHeight()), (int)(panelDroite.getWidth()), (int)(0.1*panelDroite.getHeight()));
 			labelControle.setFont(new Font("Serif",Font.PLAIN,35));
 			TextFieldVoiture = new JTextField();

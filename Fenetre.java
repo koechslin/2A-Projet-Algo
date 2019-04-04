@@ -3,15 +3,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.*;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.awt.event.*;
 
 
 
-public class Fenetre extends JFrame implements ActionListener{
+public class Fenetre extends JFrame implements ActionListener, MouseListener{
 	private JPanel panelPrincipal;
 	private JPanel panelGauche;
 	private JPanel panelDroite;
@@ -39,6 +37,7 @@ public class Fenetre extends JFrame implements ActionListener{
 	final int DELAI_BOUCLE = 1000;
 	
 		public Fenetre(){
+			this.addMouseListener(this);
 			this.setLayout(null);
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
 			r = new Reseau();
@@ -69,16 +68,22 @@ public class Fenetre extends JFrame implements ActionListener{
 			panelBasDroite.setLayout(null);
 			panelHautDroite = new JPanel();
 			panelHautDroite.setLayout(null);
+			System.out.println("inset : "+this.getInsets().top);
+			this.panelPrincipal.setBounds(this.getInsets().left, this.getInsets().top,(int) tailleEcran.getWidth()-150-this.getInsets().left-this.getInsets().right,(int) tailleEcran.getHeight()-150-this.getInsets().top-this.getInsets().bottom);
+			panelPrincipal.setBackground(Color.PINK);
+			pan = new Panel(r,panelPrincipal.getWidth(),panelPrincipal.getHeight());
 			
-			pan = new Panel(r,(int)(0.6*tailleEcran.getWidth()-150)-this.getInsets().left-this.getInsets().right,(int)(tailleEcran.getHeight()-150)-this.getInsets().top-this.getInsets().bottom);
+			panelGauche.setBounds(0,0,(int)(panelPrincipal.getWidth()*0.2),panelPrincipal.getHeight());
+			panelDroite.setBounds((int)(0.79*panelPrincipal.getWidth()),0,(int)(panelPrincipal.getWidth()*0.2),panelPrincipal.getHeight());
+			pan.setBounds((int)(0.2*panelPrincipal.getWidth()),0,(int)(panelPrincipal.getWidth()*0.6),panelPrincipal.getHeight());
+			
 			//this.setBounds(50,50,pan.reseau.getMap()[0].length*pan.t,pan.reseau.getMap().length*pan.t+40);
 			//this.setSize(900, 900);
-			this.pan.setBounds((int)(0.2*tailleEcran.getWidth()-150)-this.getInsets().right, this.getInsets().top,(int)(0.6*tailleEcran.getWidth()-150)-this.getInsets().left-this.getInsets().right,(int)(tailleEcran.getHeight()-150)-this.getInsets().top-this.getInsets().bottom);
-			panelDroite.setBounds(this.getInsets().left+1361,this.getInsets().top,(int)(0.2*tailleEcran.getWidth()-150)-this.getInsets().left-this.getInsets().right,(int)(tailleEcran.getHeight()-150)-this.getInsets().top-this.getInsets().bottom);
+			//this.pan.setBounds(this.getInsets().left+(int)(0.2*(tailleEcran.getWidth()-150-this.getInsets().left-this.getInsets().right)), this.getInsets().top,(int)(0.6*(tailleEcran.getWidth()-150-this.getInsets().left-this.getInsets().right)),(int)(tailleEcran.getHeight())-150-this.getInsets().top-this.getInsets().bottom);
+			//panelDroite.setBounds(this.getInsets().left+(int)(0.79*(tailleEcran.getWidth()-150-this.getInsets().left-this.getInsets().right)),this.getInsets().top,(int)(0.2*(tailleEcran.getWidth()-150-this.getInsets().left-this.getInsets().right)),(int)(tailleEcran.getHeight())-150-this.getInsets().top-this.getInsets().bottom);
 			panelDroite.setBackground(Color.RED);
-			panelGauche.setBounds(this.getInsets().left,this.getInsets().top,(int)(0.6*tailleEcran.getWidth()-150)-this.getInsets().left-this.getInsets().right,(int)(tailleEcran.getHeight()-150)-this.getInsets().top-this.getInsets().bottom);
+			//panelGauche.setBounds(this.getInsets().left,this.getInsets().top,(int)(0.2*(tailleEcran.getWidth()-150-this.getInsets().left-this.getInsets().right)),(int)(tailleEcran.getHeight())-150-this.getInsets().top-this.getInsets().bottom);
 			panelGauche.setBackground(Color.GREEN);
-			this.panelPrincipal.setBounds(0, 0, 1800, 900);
 			this.panelPrincipal.setLayout(null);
 			System.out.println("test");
 			
@@ -146,7 +151,6 @@ public class Fenetre extends JFrame implements ActionListener{
 			
 			this.add(panelPrincipal);
 			this.setVisible(true);
-			System.out.println("test");
 			int a=0;
 			while(a==0) {
 				repaint();
@@ -297,6 +301,42 @@ public class Fenetre extends JFrame implements ActionListener{
 				}	
 			}
 				
+		}
+
+
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			System.out.println("x = "+arg0.getX());
+			System.out.println("y = "+arg0.getY());
+		}
+
+
+		@Override
+		public void mouseEntered(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void mouseExited(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
 		}
 }
 		

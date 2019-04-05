@@ -133,6 +133,7 @@ labelMode = new JLabel("Mode:");
 			textVoiture.setBounds((int)(0.02*panelDroite.getWidth()), (int)(0.4*panelDroite.getHeight()), (int)(0.3*panelDroite.getWidth()), (int)(0.05*panelDroite.getHeight()));
 			BoutonGo = new JButton("GO");
 			BoutonGo.setBounds((int)(0.2*panelDroite.getWidth()), (int)(0.5*panelDroite.getHeight()), (int)(0.5*panelDroite.getWidth()), (int)(0.05*panelDroite.getHeight()));
+			BoutonGo.addActionListener(this);
 			labelControle = new JLabel("Contrôle:");
 			labelControle.setBounds((int)(0.15*panelDroite.getWidth()), (int)(0.25*panelDroite.getHeight()), (int)(panelDroite.getWidth()), (int)(0.1*panelDroite.getHeight()));
 			labelControle.setFont(new Font("Serif",Font.PLAIN,35));
@@ -328,9 +329,25 @@ labelMode = new JLabel("Mode:");
 			}
 			
 			else if(e.getSource()==this.BoutonGo) {
-				if(!this.TextFieldVoiture.getText().isEmpty() && !this.TextFieldStation.getText().isEmpty()) {
+				if((!this.TextFieldVoiture.getText().isEmpty()) && (!this.TextFieldStation.getText().isEmpty())) {
 					if((TextFieldVoiture.getText().matches("-?\\d+(\\.\\d+)?")) && (TextFieldStation.getText().matches("-?\\d+(\\.\\d+)?"))) {
-						System.out.println("remplir cette partie");    //REMPLIR CETTE PARTIE
+						/*if((Integer.parseInt(TextFieldVoiture.getText()) < Integer.parseInt(textNbVoitures.getText())) && (Integer.parseInt(TextFieldVoiture.getText()) >= 0) 
+								&& (Integer.parseInt(TextFieldStation.getText()) < getStations().size()) && (Integer.parseInt(TextFieldStation.getText()) >= 0)) {
+							getVoitures()[Integer.parseInt(TextFieldVoiture.getText())].setStatArr(getStations()[Integer.parseInt(TextFieldStation.getText())]);
+							getVoitures()[Integer.parseInt(TextFieldVoiture.getText())].setTrajectoire(ArrayList<String> t);
+						}else {
+							if(((Integer.parseInt(TextFieldVoiture.getText()) >= Integer.parseInt(textNbVoitures.getText())) || (Integer.parseInt(TextFieldVoiture.getText()) < 0)) 
+									&& ((Integer.parseInt(TextFieldStation.getText()) >= getStations().size()) || (Integer.parseInt(TextFieldStation.getText()) < 0))) {
+								JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de voiture entre 0 et " + (Integer.parseInt(textNbVoitures.getText())-1) + " et un numéro de station entre 0 et " + (getStations().size()-1));
+							}
+							else if((Integer.parseInt(TextFieldVoiture.getText()) >= Integer.parseInt(textNbVoitures.getText())) || (Integer.parseInt(TextFieldVoiture.getText()) < 0)) {
+								JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de voiture entre 0 et " + (Integer.parseInt(textNbVoitures.getText())-1));
+							}
+							else if((Integer.parseInt(TextFieldStation.getText()) >= getStations().size()) || (Integer.parseInt(TextFieldStation.getText()) < 0)) {
+								JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de station entre 0 et " + (getStations().size()-1));
+							}
+						}
+						System.out.println("remplir cette partie");    //REMPLIR CETTE PARTIE*/
 					}else{
 						if((!TextFieldVoiture.getText().matches("-?\\d+(\\.\\d+)?")) && (!TextFieldStation.getText().matches("-?\\d+(\\.\\d+)?"))) {
 							JOptionPane.showMessageDialog(this, "Veuillez entrer des numéros de voiture et de station entiers et positifs");

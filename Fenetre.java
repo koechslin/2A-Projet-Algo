@@ -69,7 +69,7 @@ public class Fenetre extends JFrame implements ActionListener, MouseListener{
 			r.getVoitures().get(2).setDirection("droite");
 			r.getVoitures().get(3).setDirection("haut");*/
 			
-			/*construction des elements gtaphiques de la fenetre*/
+			/*construction des elements graphiques de la fenetre*/
 			panelPrincipal = new JPanel();
 			panelGauche = new JPanel();
 			//panelGauche.setLayout(new BoxLayout(panelGauche, BoxLayout.PAGE_AXIS));
@@ -326,6 +326,37 @@ labelMode = new JLabel("Mode:");
 					this.pan.recalculT();	
 				}	
 			}
+			
+			else if(e.getSource()==this.BoutonGo) {
+				if(!this.TextFieldVoiture.getText().isEmpty() && !this.TextFieldStation.getText().isEmpty()) {
+					if((TextFieldVoiture.getText().matches("-?\\d+(\\.\\d+)?")) && (TextFieldStation.getText().matches("-?\\d+(\\.\\d+)?"))) {
+						System.out.println("remplir cette partie");    //REMPLIR CETTE PARTIE
+					}else{
+						if((!TextFieldVoiture.getText().matches("-?\\d+(\\.\\d+)?")) && (!TextFieldStation.getText().matches("-?\\d+(\\.\\d+)?"))) {
+							JOptionPane.showMessageDialog(this, "Veuillez entrer des numéros de voiture et de station entiers et positifs");
+						}
+						else if(!TextFieldVoiture.getText().matches("-?\\d+(\\.\\d+)?")) {
+							JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de voiture entier et positif");
+						}
+						else if(!TextFieldStation.getText().matches("-?\\d+(\\.\\d+)?")) {
+							JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de station entier et positif");
+						}
+					}
+				}else {
+					if(this.TextFieldVoiture.getText().isEmpty() && this.TextFieldStation.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(this, "Veuillez entrer des numéros de voiture et de station");
+					}
+					else if (this.TextFieldVoiture.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de voiture");
+					}
+					else if(this.TextFieldStation.getText().isEmpty()) {
+						JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de station");
+					}
+				}
+			}
+				
+					
+
 				
 		}
 

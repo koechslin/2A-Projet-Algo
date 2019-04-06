@@ -15,9 +15,9 @@ public class Voiture {
 	private int sensVoiture;
 	private boolean sortCarrefour=false;
 	private String voie="droite";
-	//mettre le tableau de trajectoire ici, la méthode de "transcription", la méthode pour les virages
-	//méthode qui prend en paramètre une linkedList et le copie
-	//méthode virage qui prend en paramètre une direction et ajoute les directions successives à prendre dans la linkedList trajectoire
+	private boolean enCirculation = false;
+	private boolean commandeManuelle = false;
+	private int stationManuelle;
 	
 	public Voiture(int v,int n,int StatDep, int StatArr, int x, int y, int s){
 		this.vitesse = v;
@@ -90,6 +90,10 @@ public class Voiture {
 		this.sensVoiture = s;
 	}
 	public void avance() {
+		if(this.trajectoire.getFirst()=="fin carrefour") {
+			this.trajectoire.removeFirst();
+		}
+		if(!this.trajectoire.isEmpty()) {
 			if(this.trajectoire.getFirst() == "droite") {
 				sensVoiture --;
 				if(sensVoiture < 0) {
@@ -102,21 +106,25 @@ public class Voiture {
 					sensVoiture -= 4;
 				}
 			}
-		switch (sensVoiture) {
-		case 0:
-			y -= vitesse;
-			break;
-		case 1:
-			x -= vitesse;
-			break;
-		case 2:
-			y += vitesse;
-			break;
-		case 3:
-			x += vitesse;
-			break;
+			switch (sensVoiture) {
+			case 0:
+				y -= vitesse;
+				break;
+			case 1:
+				x -= vitesse;
+				break;
+			case 2:
+				y += vitesse;
+				break;
+			case 3:
+				x += vitesse;
+				break;
+			}
+			this.trajectoire.removeFirst();
 		}
-		this.trajectoire.removeFirst();
+		if(this.trajectoire.isEmpty()) {
+			enCirculation = false;
+		}
 	}
 	
 	public void ralentit(int deceleration) {
@@ -132,7 +140,6 @@ public class Voiture {
 	}
 	
 	public void setTrajectoire(ArrayList<String> t) {
-		//voir si ça marche ou besoin de faire une "hard" copie
 		this.trajectoire = new LinkedList<String>();
 		for(String s : t) {
 			trajectoire.add(s);
@@ -153,8 +160,9 @@ public class Voiture {
 			this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");
 			break;
 		}
+		this.trajectoire.add("fin carrefour");
 	}
-	public void change_voie() { //Voir si nécessité de faire avancer la voiture ou ça se fait automatiquement
+	public void change_voie() {
 		if(this.sortCarrefour) {
 			String DirProchCarr="";
 			for(int i = 0 ; i < trajectoire.size() ; i++) {
@@ -180,8 +188,7 @@ public class Voiture {
 				}
 				this.voie="gauche";
 			}
-			else if(this.voie!="droite" && DirProchCarr!="gauche") { // enleve condition "droite" car en ligne droite il faut quand meme se mettre à droite
-				// Ajout dirProchCarr != gauche
+			else if(this.voie!="droite" && DirProchCarr!="gauche") {
 				switch (sensVoiture) {
 				case 0:
 					x ++;
@@ -209,6 +216,24 @@ public class Voiture {
 	}
 	public void setSortCarrefour(boolean b) {
 		this.sortCarrefour=b;
+	}
+	public void setEnCirculation(boolean c) {
+		this.enCirculation = c;
+	}
+	public boolean getEnCirculation() {
+		return this.enCirculation;
+	}
+	public void setManuelle(boolean m) {
+		this.commandeManuelle=m;
+	}
+	public boolean getManuelle() {
+		return this.commandeManuelle;
+	}
+	public void setStationManuelle(int s) {
+		this.stationManuelle=s;
+	}
+	public int getStationManuelle() {
+		return this.stationManuelle;
 	}
 
 }

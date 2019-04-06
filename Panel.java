@@ -9,9 +9,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class Panel extends JPanel{
-	// 0 vide 1 route 2 station, dynamique : 0 rien 1 voiture
 	public Reseau reseau;
-	public int t = 10; //taille d'une case
+	private int t; //taille d'une case
 	private BufferedImage herbe=null;
 	private BufferedImage station=null;
 	private BufferedImage vgauche=null;
@@ -37,15 +36,10 @@ public class Panel extends JPanel{
 		}
 		
 		reseau = res;
-		//Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		//int hauteur = (int)tailleEcran.getHeight();
-		//int largeur = (int)tailleEcran.getWidth();
 		h = height;
 		l = width;
-		
+
 		t = Math.min(h/(res.map.length),l/(res.map[0].length));
-		
-		//this.setBounds(0,0,(reseau.map.length+1)*t,(reseau.map[0].length+1)*t);
 		mapDessin = res.reconnaissanceRoute();
 		
 	}
@@ -241,6 +235,9 @@ public class Panel extends JPanel{
 	}
 	public void recalculT() {
 		t = Math.min(h/(reseau.map.length),l/(reseau.map[0].length));
+	}
+	public int getT() {
+		return t;
 	}
 }
 

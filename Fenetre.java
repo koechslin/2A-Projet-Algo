@@ -328,7 +328,7 @@ labelMode = new JLabel("Mode:");
 				this.lecteur.ouvertureFichier();
 				if(this.lecteur.file !=null) { // si on a bien choisi un fichier
 					this.r.setMapRoute(this.lecteur.traitementFichier());
-					this.pan.actualiseMapDesin();
+					this.pan.actualiseMapDessin();
 					this.pan.recalculT();	
 				}	
 			}
@@ -337,9 +337,11 @@ labelMode = new JLabel("Mode:");
 				if((!this.TextFieldVoiture.getText().isEmpty()) && (!this.TextFieldStation.getText().isEmpty())) {
 					if((TextFieldVoiture.getText().matches("-?\\d+(\\.\\d+)?")) && (TextFieldStation.getText().matches("-?\\d+(\\.\\d+)?"))) {
 						if((Integer.parseInt(TextFieldVoiture.getText()) < Integer.parseInt(textNbVoitures.getText())) && (Integer.parseInt(TextFieldVoiture.getText()) >= 0) 
+	
 								&& (Integer.parseInt(TextFieldStation.getText()) < r.getStations().size()) && (Integer.parseInt(TextFieldStation.getText()) >= 0)) {
-							/*r.getVoitures().get(Integer.parseInt(TextFieldVoiture.getText())).v.setStatArr(r.getStations().get(Integer.parseInt(TextFieldStation.getText())));
-							r.getVoitures().get(Integer.parseInt(TextFieldVoiture.getText())).v.setTrajectoire(ArrayList<String> t);*/
+							r.getVoitures().get(Integer.parseInt(TextFieldVoiture.getText())).setStatArr(Integer.parseInt(TextFieldStation.getText()));
+							//r.getVoitures().get(Integer.parseInt(TextFieldVoiture.getText())).setTrajectoire(r.trajectoires.get(r.getVoitures().get(Integer.parseInt(TextFieldVoiture.getText())).getStatDep().getNumStation()).get(Integer.parseInt(TextFieldStation.getText())));
+							System.out.println(r.getVoitures().get(Integer.parseInt(TextFieldVoiture.getText())).getStatArr());
 						}else {
 							if(((Integer.parseInt(TextFieldVoiture.getText()) >= Integer.parseInt(textNbVoitures.getText())) || (Integer.parseInt(TextFieldVoiture.getText()) < 0)) 
 									&& ((Integer.parseInt(TextFieldStation.getText()) >= r.getStations().size()) || (Integer.parseInt(TextFieldStation.getText()) < 0))) {

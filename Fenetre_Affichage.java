@@ -11,7 +11,7 @@ public class Fenetre_Affichage extends JFrame implements ActionListener{
 	private int hauteur;
 	private int largeur;
 	private Timer timer;
-	private int delai = 200;
+	private int delai = 300;
 	
 	public Fenetre_Affichage(int h, int l) {
 		hauteur = h;
@@ -63,29 +63,37 @@ public class Fenetre_Affichage extends JFrame implements ActionListener{
 	}
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==timer) {
+			this.res.predictionCollision(res.getVoitures(), 5);
+			
 			for(Voiture v : res.getVoitures()) {
-				if(v.getEnCirculation()) {
-					v.change_voie();
-					v.avance();
-				}
-				else {
+				if(!v.getEnCirculation()) {
 					v.setStatDep(v.getStatArr());
 					v.setX(res.getStations().get(v.getStatArr()).getXDepart());
 					v.setY(res.getStations().get(v.getStatArr()).getYDepart());
 					if(v.getManuelle() && v.getStationManuelle()!= v.getStatDep()) {
 						v.setStatArr(v.getStationManuelle());
-						//
-						res.adapteSensVoiture(v);
-						v.setEnCirculation(true);
-						v.setSortCarrefour(true);
-						v.setTrajectoire(res.trajectoires.get(v.getStatDep()).get(v.getStatArr()));
-						//
 						v.setManuelle(false);
 					}
 					else {
-						
+						// automatique
+						int destination = (int)(Math.random()*res.getStations().size());
+						while(destination == v.getStatDep()) {
+							destination = (int)(Math.random()*res.getStations().size());
+						}
+						v.setStatArr(destination);
 					}
+					res.adapteSensVoiture(v);
+					v.setEnCirculation(true);
+					v.setSortCarrefour(true);
+					v.setTrajectoire(res.trajectoires.get(v.getStatDep()).get(v.getStatArr()));
 				}
+				v.change_voie();
+				v.avance();
+				
+				/*if(v.getEnCirculation()) {
+						v.change_voie();
+						v.avance();
+				}*/
 			}
 			repaint();
 		}

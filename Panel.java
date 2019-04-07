@@ -142,6 +142,8 @@ public class Panel extends JPanel{
 						if(voitSurbrillance!=-1 && v.getNumero()==this.voitSurbrillance) {
 							g.setColor(Color.BLUE);
 							g.drawRect(v.getX()*t,v.getY()*t,t,t);
+							g.drawRect(v.getX()*t-1,v.getY()*t-1,t+2,t+2);
+							g.drawRect(v.getX()*t-2,v.getY()*t-2,t+4,t+4);
 						}
 						if(!(mapDessin[v.getY()][v.getX()]=='s')) {
 							//g.setColor(Color.WHITE);

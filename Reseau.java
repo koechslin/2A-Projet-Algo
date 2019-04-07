@@ -99,12 +99,12 @@ public class Reseau {
 		
 		
 		// Ajout voiture
-		listeVoiture.add(new Voiture(1,listeStation.get(1).getXDepart(),listeStation.get(1).getYDepart(),0,0));
-		listeVoiture.get(0).setStatDep(1);
-		listeVoiture.get(0).setStatArr(1);
-		listeVoiture.add(new Voiture(1,listeStation.get(3).getXDepart(),listeStation.get(3).getYDepart(),0,1));
-		listeVoiture.get(1).setStatDep(3);
-		listeVoiture.get(1).setStatArr(3);
+		listeVoiture.add(new Voiture(1,listeStation.get(0).getXDepart(),listeStation.get(0).getYDepart(),0,0));
+		listeVoiture.get(0).setStatDep(0);
+		listeVoiture.get(0).setStatArr(0);
+		listeVoiture.add(new Voiture(1,listeStation.get(2).getXDepart(),listeStation.get(2).getYDepart(),0,1));
+		listeVoiture.get(1).setStatDep(2);
+		listeVoiture.get(1).setStatArr(2);
 		/*for(Station s:listeStation) {
 			listeVoiture.add(new Voiture(1,s.getXDepart(),s.getYDepart(),0));
 		}*/
@@ -691,5 +691,54 @@ public class Reseau {
 			}
 				
 		}
+	}
+	public int predictionCollision(ArrayList<Voiture> v,int coup) { // entier renvoye : numéro de la 1ere voiture qui entre en collision (si -1 : c'est bon)
+		if(coup == 0) {
+			return -1;
+		}
+		//Copie des voitures :
+		ArrayList<Voiture> copieVoit = new ArrayList<Voiture>();
+		for(int i=0;i<v.size();i++) {
+			Voiture voitTemp = new Voiture(v.get(i).getVitesse(),v.get(i).getX(),v.get(i).getY(),v.get(i).getSens(),v.get(i).getNumero());
+			voitTemp.setTrajectoire(new ArrayList<String>(v.get(i).getTrajectoire()));
+			copieVoit.add(voitTemp);
+		}
+		
+		//On les fait avancer d'un coup :
+		for(Voiture voit : copieVoit) {
+			voit.change_voie();
+			voit.avance();
+		}
+		
+		// On vérifie les collisions
+		for(Voiture v1 : copieVoit) {
+			//System.out.println("coord v1 : x = "+v1.getX()+"  y = "+v1.getY());
+			for(Voiture v2 : copieVoit) {
+				if(v1!=v2) {
+					//System.out.println("coord v2 : x = "+v2.getX()+"  y = "+v2.getY());
+					if(v1.getX()==v2.getX() && v1.getY() == v2.getY()) { // collision
+						System.out.println("collision");
+						if(v1.getVitesse()>0) {
+							v.get(v1.getNumero()).ralentit(1);
+							v.get(v1.getNumero()).setAttente(v.get(v1.getNumero()).getAttente()+1);
+							return v1.getNumero();
+						}
+						else {
+							v.get(v2.getNumero()).ralentit(1);
+							v.get(v2.getNumero()).setAttente(v.get(v2.getNumero()).getAttente()+1);
+							return v2.getNumero();
+						}
+					}
+				}
+			}
+		}
+		// Si on arrive la c'est qu'il n'y a pas de collision
+		int evaluation = predictionCollision(copieVoit,coup-1);
+		/*while(evaluation!=-1) {//tant qu'il y a collision
+			evaluation = predictionCollision(copieVoit,coup-1);
+		}*/
+		
+		
+		return -1;
 	}
 }

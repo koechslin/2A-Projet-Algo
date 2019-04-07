@@ -285,6 +285,8 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 				if(Integer.parseInt(TextFieldVoiture.getText())>=affichage.getReseau().getVoitures().size() || Integer.parseInt(TextFieldVoiture.getText())<0) {
 					afficheErreurVoiture=true;
 					erreurVoiture.setVisible(true);
+					affichage.getPan().setVoitSurbrillance(-1);
+					affichage.repaint();
 				}
 				else {
 					afficheErreurVoiture=false;
@@ -298,9 +300,9 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 			if(afficheErreurVoiture) {
 				afficheErreurVoiture=false;
 				erreurVoiture.setVisible(false);
-				affichage.getPan().setVoitSurbrillance(-1);
-				affichage.repaint();
 			}
+			affichage.getPan().setVoitSurbrillance(-1);
+			affichage.repaint();
 		}
 	}
 	public void keyTyped(KeyEvent e) {

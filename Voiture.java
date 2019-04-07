@@ -18,6 +18,7 @@ public class Voiture {
 	private boolean enCirculation = false;
 	private boolean commandeManuelle = false;
 	private int stationManuelle;
+	private int attente=0;
 	
 	public Voiture(int v,int n,int StatDep, int StatArr, int x, int y, int s){
 		this.vitesse = v;
@@ -91,10 +92,20 @@ public class Voiture {
 		this.sensVoiture = s;
 	}
 	public void avance() {
-		if(this.trajectoire.getFirst()=="fin carrefour") {
-			this.trajectoire.removeFirst();
+		if(attente>0) {
+			attente--;
+			vitesse++;
+			return;
 		}
 		if(!this.trajectoire.isEmpty()) {
+			if(this.trajectoire.getFirst()=="fin carrefour") {
+				this.trajectoire.removeFirst();
+			}
+			if(this.trajectoire.isEmpty()) {
+				enCirculation = false;
+				return;
+			}
+			
 			if(this.trajectoire.getFirst() == "droite") {
 				sensVoiture --;
 				if(sensVoiture < 0) {
@@ -235,6 +246,12 @@ public class Voiture {
 	}
 	public int getStationManuelle() {
 		return this.stationManuelle;
+	}
+	public int getAttente() {
+		return this.attente;
+	}
+	public void setAttente(int a) {
+		this.attente = a;
 	}
 
 }

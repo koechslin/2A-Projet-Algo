@@ -19,6 +19,7 @@ public class Panel extends JPanel{
 	private BufferedImage vbas=null;
 	private int h;
 	private int l;
+	private int voitSurbrillance=-1;
 	
 	public char[][] mapDessin;
 	
@@ -138,6 +139,10 @@ public class Panel extends JPanel{
 				
 					// ***VOITURE***
 					for(Voiture v : this.reseau.getVoitures()) {
+						if(voitSurbrillance!=-1 && v.getNumero()==this.voitSurbrillance) {
+							g.setColor(Color.BLUE);
+							g.drawRect(v.getX()*t,v.getY()*t,t,t);
+						}
 						if(!(mapDessin[v.getY()][v.getX()]=='s')) {
 							//g.setColor(Color.WHITE);
 							Graphics2D g2d = (Graphics2D) g;
@@ -230,7 +235,7 @@ public class Panel extends JPanel{
 				
 		}
 	}
-	public void actualiseMapDesin() {
+	public void actualiseMapDessin() {
 		this.mapDessin = this.reseau.reconnaissanceRoute();
 	}
 	public void recalculT() {
@@ -238,6 +243,12 @@ public class Panel extends JPanel{
 	}
 	public int getT() {
 		return t;
+	}
+	public int getVoitSurbrillance() {
+		return this.voitSurbrillance;
+	}
+	public void setVoitSurbrillance(int s) {
+		this.voitSurbrillance = s;
 	}
 }
 

@@ -99,8 +99,12 @@ public class Reseau {
 		
 		
 		// Ajout voiture
-		listeVoiture.add(new Voiture(1,listeStation.get(1).getXDepart(),listeStation.get(1).getYDepart(),0));
-		listeVoiture.add(new Voiture(1,listeStation.get(3).getXDepart(),listeStation.get(3).getYDepart(),0));
+		listeVoiture.add(new Voiture(1,listeStation.get(1).getXDepart(),listeStation.get(1).getYDepart(),0,0));
+		listeVoiture.get(0).setStatDep(1);
+		listeVoiture.get(0).setStatArr(1);
+		listeVoiture.add(new Voiture(1,listeStation.get(3).getXDepart(),listeStation.get(3).getYDepart(),0,1));
+		listeVoiture.get(1).setStatDep(3);
+		listeVoiture.get(1).setStatArr(3);
 		/*for(Station s:listeStation) {
 			listeVoiture.add(new Voiture(1,s.getXDepart(),s.getYDepart(),0));
 		}*/
@@ -351,7 +355,7 @@ public class Reseau {
 		return mapC;
 	}
 	
-	public void convertionMapGraphe() {
+	public void conversionMapGraphe() {
 		this.noeuds = new ArrayList<NoeudGraphe>();
 		this.noeudsStation = new ArrayList<NoeudGraphe>();
 		int num=0;
@@ -539,7 +543,6 @@ public class Reseau {
 	
 	public void conversionTrajectoire() {
 		trajectoires = new ArrayList<ArrayList<ArrayList<String>>>(); // format : .get(i).get(j) : pour aller de i a j
-		System.out.println(listeStation.size()+" stations ");
 		for(int a=0;a<listeStation.size();a++) {
 			trajectoires.add(new ArrayList<ArrayList<String>>());
 		}
@@ -548,7 +551,6 @@ public class Reseau {
 				trajectoires.get(a).add(new ArrayList<String>());
 			}
 		}
-		System.out.println(noeudsStation.size()+"  noeuds stations");
 		for(int i=0;i<noeudsStation.size();i++) {
 			NoeudGraphe noeudAAtteindre = noeudsStation.get(i);
 			for(int j=0;j<noeudsStation.size();j++) {
@@ -659,8 +661,9 @@ public class Reseau {
 		this.listeVoiture = new ArrayList<Voiture>();
 		for(int i=0;i<nVoit;i++) {
 			int s = (int)(Math.random()*this.listeStation.size());
-			System.out.println("station : "+s+" avec x = "+this.listeStation.get(s).getXDepart()+"  y = "+this.listeStation.get(s).getYDepart());
-			listeVoiture.add(new Voiture(1,this.listeStation.get(s).getXDepart(),listeStation.get(s).getYDepart(),0));
+			listeVoiture.add(new Voiture(1,this.listeStation.get(s).getXDepart(),listeStation.get(s).getYDepart(),0,i));
+			listeVoiture.get(i).setStatArr(s);
+			listeVoiture.get(i).setStatDep(s);
 		}
 	}
 	public void creationStation() {

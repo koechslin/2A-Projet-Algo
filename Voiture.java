@@ -30,12 +30,13 @@ public class Voiture {
 		this.sensVoiture = s;
 	}
 	
-	public Voiture(int vit,int xV,int yV,int s) {
+	public Voiture(int vit,int xV,int yV,int s,int n) {
 		this.x = xV;
 		this.y = yV;
 		this.vitesse = vit;
 		this.sensVoiture=s;
 		this.trajectoire = new LinkedList<String>();
+		this.numero=n;
 	}
 	public Voiture() {
 		this.trajectoire = new LinkedList<String>();

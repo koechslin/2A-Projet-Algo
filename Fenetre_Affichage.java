@@ -17,7 +17,7 @@ public class Fenetre_Affichage extends JFrame implements ActionListener{
 		hauteur = h;
 		largeur = l;
 		res = new Reseau();
-		res.convertionMapGraphe();
+		res.conversionMapGraphe();
 		res.calculCheminGraphe();
 		res.conversionTrajectoire();
 		
@@ -73,8 +73,6 @@ public class Fenetre_Affichage extends JFrame implements ActionListener{
 					v.setX(res.getStations().get(v.getStatArr()).getXDepart());
 					v.setY(res.getStations().get(v.getStatArr()).getYDepart());
 					if(v.getManuelle() && v.getStationManuelle()!= v.getStatDep()) {
-						//VERIFIER QUE LA VOITURE N EST PAS DEJA SUR LA STATION
-						//PROBLEME CHANGE VOIE : essai de partir de 2 et d'aller à 1
 						v.setStatArr(v.getStationManuelle());
 						//
 						res.adapteSensVoiture(v);

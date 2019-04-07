@@ -177,20 +177,14 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 			lecteur.ouvertureFichier();
 			if(lecteur.file !=null) { // si on a bien choisi un fichier
 				affichage.getReseau().setMapRoute(lecteur.traitementFichier());
-				affichage.getPan().actualiseMapDesin();
+				affichage.getPan().actualiseMapDessin();
 				affichage.getPan().recalculT();
 				affichage.actualiseTaille();
 				affichage.getReseau().creationStation();
 				//
 				//MARCHE PAS ?
 				affichage.getReseau().recharge(affichage.getReseau().getVoitures().size());
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				affichage.getReseau().convertionMapGraphe();
+				affichage.getReseau().conversionMapGraphe();
 				affichage.getReseau().calculCheminGraphe();
 				affichage.getReseau().conversionTrajectoire();
 				//
@@ -288,13 +282,15 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 	public void keyReleased(KeyEvent e) {
 		if(!TextFieldVoiture.getText().isEmpty()) {
 			if(TextFieldVoiture.getText().matches("-?\\d+(\\.\\d+)?")) { // on verifie si c'est un entier
-				if(Integer.parseInt(TextFieldVoiture.getText())>=affichage.getReseau().getVoitures().size()) {
+				if(Integer.parseInt(TextFieldVoiture.getText())>=affichage.getReseau().getVoitures().size() || Integer.parseInt(TextFieldVoiture.getText())<0) {
 					afficheErreurVoiture=true;
 					erreurVoiture.setVisible(true);
 				}
 				else {
 					afficheErreurVoiture=false;
 					erreurVoiture.setVisible(false);
+					affichage.getPan().setVoitSurbrillance(Integer.parseInt(TextFieldVoiture.getText()));
+					affichage.repaint();
 				}
 			}
 		}
@@ -302,6 +298,8 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 			if(afficheErreurVoiture) {
 				afficheErreurVoiture=false;
 				erreurVoiture.setVisible(false);
+				affichage.getPan().setVoitSurbrillance(-1);
+				affichage.repaint();
 			}
 		}
 	}

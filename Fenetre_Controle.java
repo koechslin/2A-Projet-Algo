@@ -61,7 +61,7 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		erreurVoiture.setLineWrap(true);
 		erreurVoiture.setOpaque(false);
 		erreurVoiture.setFont(new Font("Serif",Font.PLAIN,13));
-		erreurVoiture.setBounds(270, 277, 195, 100);
+		erreurVoiture.setBounds((int)(0.47*this.getWidth()), (int)(0.48*this.getWidth()), (int)(0.34*this.getWidth()), (int)(0.18*this.getWidth()));
 		erreurVoiture.setVisible(false);
 		
 		labelNbVoitures = new JLabel("Nombre de voitures : ");

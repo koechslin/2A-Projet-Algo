@@ -76,26 +76,26 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		labelMode.setBounds((int)(0.07*this.getWidth()),(int)(0.27*this.getHeight()),(int)(0.28*this.getWidth()),(int)(0.07*this.getWidth()));
 		
 		TextFieldVoiture = new JTextField();
-		TextFieldVoiture.setBounds(210,303,50,50);
+		TextFieldVoiture.setBounds((int)(0.37*this.getWidth()),(int)(0.53*this.getWidth()),(int)(0.10*this.getWidth()),(int)(0.10*this.getWidth()));
 		
 		TextFieldStation = new JTextField();
-		TextFieldStation.setBounds(210,383,50,50);
+		TextFieldStation.setBounds((int)(0.37*this.getWidth()),(int)(0.67*this.getWidth()),(int)(0.10*this.getWidth()),(int)(0.10*this.getWidth()));
 		
 		labelControle = new JLabel("Contr�le :");
 		labelControle.setFont(new Font("Serif",Font.PLAIN,30));
-		labelControle.setBounds(235,220,200,50);
+		labelControle.setBounds((int)(0.41*this.getWidth()),(int)(0.39*this.getWidth()),(int)(0.35*this.getWidth()),(int)(0.10*this.getWidth()));
 		
 		BoutonGo = new JButton("Go");
-		BoutonGo.setBounds(215,470,170,40);
+		BoutonGo.setBounds((int)(0.38*this.getWidth()),(int)(0.82*this.getWidth()),(int)(0.30*this.getWidth()),(int)(0.07*this.getWidth()));
 		BoutonGo.addActionListener(this);
 		
 		textStation = new JLabel("Station : ");
 		textStation.setFont(new Font("Serif",Font.PLAIN,22));
-		textStation.setBounds(100,380,200,50);
+		textStation.setBounds((int)(0.18*this.getWidth()),(int)(0.67*this.getWidth()),(int)(0.35*this.getWidth()),(int)(0.10*this.getWidth()));
 		
 		textVoiture = new JLabel("Voiture : ");
 		textVoiture.setFont(new Font("Serif",Font.PLAIN,22));
-		textVoiture.setBounds(100,300,200,50);
+		textVoiture.setBounds((int)(0.18*this.getWidth()),(int)(0.54*this.getWidth()),(int)(0.35*this.getWidth()),(int)(0.10*this.getWidth()));
 		
 		Automatique =  new JRadioButton("Automatique");
 		Automatique.setFont(new Font("Serif",Font.PLAIN,21));

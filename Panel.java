@@ -20,6 +20,7 @@ public class Panel extends JPanel{
 	private int h;
 	private int l;
 	private int voitSurbrillance=-1;
+	private String mode="Automatique";
 	
 	public char[][] mapDessin;
 	
@@ -139,11 +140,22 @@ public class Panel extends JPanel{
 				
 					// ***VOITURE***
 					for(Voiture v : this.reseau.getVoitures()) {
-						if(voitSurbrillance!=-1 && v.getNumero()==this.voitSurbrillance) {
+						//Surbrillance de la voiture selectionnee
+						if(voitSurbrillance!=-1 && v.getNumero()==this.voitSurbrillance && mode=="Manuel") {
 							g.setColor(Color.BLUE);
 							g.drawRect(v.getX()*t,v.getY()*t,t,t);
 							g.drawRect(v.getX()*t-1,v.getY()*t-1,t+2,t+2);
 							g.drawRect(v.getX()*t-2,v.getY()*t-2,t+4,t+4);
+						}
+						for(Voiture v2 : this.reseau.getVoitures()) {
+							if(this.reseau.map[v.getY()][v.getX()]!=2 && v!=v2) {
+								if(v.getX()==v2.getX()&&v.getY()==v2.getY()) {
+									g.setColor(Color.RED);
+									g.drawRect(v.getX()*t,v.getY()*t,t,t);
+									g.drawRect(v.getX()*t-1,v.getY()*t-1,t+2,t+2);
+									g.drawRect(v.getX()*t-2,v.getY()*t-2,t+4,t+4);
+								}
+							}
 						}
 						if(!(mapDessin[v.getY()][v.getX()]=='s')) {
 							//g.setColor(Color.WHITE);
@@ -251,6 +263,12 @@ public class Panel extends JPanel{
 	}
 	public void setVoitSurbrillance(int s) {
 		this.voitSurbrillance = s;
+	}
+	public String getMode() {
+		return this.mode;
+	}
+	public void setMode(String m) {
+		this.mode=m;
 	}
 }
 

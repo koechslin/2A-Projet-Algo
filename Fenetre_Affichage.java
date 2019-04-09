@@ -1,4 +1,3 @@
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,11 +30,10 @@ public class Fenetre_Affichage extends JFrame implements ActionListener{
 		
 		timer = new Timer(delai,this);
 		
-		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(null);
-		setTitle("Affichage du rï¿½seau");
-		setLocation((int)(0.45*tailleEcran.getWidth()),(int)(0.05*tailleEcran.getHeight()));
+		setTitle("Affichage du réseau");
+		setLocation(800,100);
 		
 		setVisible(true); // on met la fenetre visible avant pour avoir les insets
 		pan = new Panel(res,largeur-this.getInsets().left-this.getInsets().right,hauteur-this.getInsets().top-this.getInsets().bottom);
@@ -89,13 +87,26 @@ public class Fenetre_Affichage extends JFrame implements ActionListener{
 					v.setSortCarrefour(true);
 					v.setTrajectoire(res.trajectoires.get(v.getStatDep()).get(v.getStatArr()));
 				}
+				else {
+					res.sortieCarrefour(v);
+				}
+				
 				v.change_voie();
 				v.avance();
-				
-				/*if(v.getEnCirculation()) {
-						v.change_voie();
-						v.avance();
-				}*/
+				if(v.getSortCarrefour()) {
+					v.setSortCarrefour(false);
+				}
+			}
+			for(Voiture voit1 : res.getVoitures()) {
+				for(Voiture voit2 : res.getVoitures()) {
+					if(voit1!=voit2) {
+						if(this.res.map[voit1.getY()][voit1.getX()]!=2) {
+							if(voit1.getX()==voit2.getX() && voit1.getY()==voit2.getY()) {
+								System.out.println("collision réelle");
+							}
+						}
+					}
+				}
 			}
 			repaint();
 		}

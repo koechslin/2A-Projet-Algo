@@ -249,6 +249,7 @@ public class Reseau {
 	}
 	
 	public char[][] reconnaissanceRoute() {
+		mapCarrefour = new boolean[map.length][map[0].length];
 		char[][] mapC = new char[map.length][map[0].length];
 		boolean routeEnHaut = false;
 		boolean routeEnBas = false;
@@ -331,6 +332,7 @@ public class Reseau {
 					case 2:
 						if((routeEnHaut&&routeAGauche)||(routeEnHaut&&routeADroite)||(routeEnBas&&routeAGauche)||(routeEnBas&&routeADroite)) {
 							mapC[i][j]='c';
+							mapCarrefour[i][j]=true;
 						}
 						else if(routeEnHaut && routeEnBas) {
 							mapC[i][j]='v';
@@ -341,9 +343,11 @@ public class Reseau {
 						break;
 					case 3:
 						mapC[i][j]='c';
+						mapCarrefour[i][j]=true;
 						break;
 					case 4 :
 						mapC[i][j]='c';
+						mapCarrefour[i][j]=true;
 						break;
 						default :
 							break;
@@ -706,8 +710,56 @@ public class Reseau {
 		
 		//On les fait avancer d'un coup :
 		for(Voiture voit : copieVoit) {
-			voit.change_voie();
-			voit.avance();
+			if(v.get(voit.getNumero()).getAttente()>0) {
+				continue;
+			}
+			if(map[voit.getY()][voit.getX()]!=2) {
+					sortieCarrefour(voit);
+					if(voit.getSortCarrefour()) {
+						boolean doitChanger = voit.doitChangerVoie();
+						if(doitChanger) {
+							boolean peutChanger = true;
+							if(voit.getVoie()=="droite") {
+								switch(voit.getSens()) {
+								case 0:
+									for(Voiture temp : copieVoit) {
+										if(temp.getX()==)
+									} // ralentir dans v, puis ne pas le faire avancer ici ?
+									break;
+								case 1:
+									
+									break;
+								case 2:
+									
+									break;
+								case 3:
+									break;
+								}
+							}
+							else if(voit.getVoie()=="gauche") {
+								
+							}
+						}
+					}
+					voit.change_voie();
+					voit.avance();		
+			}
+			else {
+				// on cherche toutes les autres voitures sur la meme station et on met leur vitesse a 0
+				for(Voiture v2 : copieVoit) {
+					if(v2!=voit) {
+						if(v2.getX()==voit.getX() && v2.getY() == voit.getY()) { // voiture differente sur la meme station 
+							v.get(v2.getNumero()).ralentit(1);
+							v.get(v2.getNumero()).setAttente(v.get(v2.getNumero()).getAttente()+1);
+						}
+					}
+				}
+				voit.setSortCarrefour(true);
+				voit.change_voie();
+				voit.avance();
+				
+			}
+			
 		}
 		
 		// On vérifie les collisions
@@ -716,8 +768,7 @@ public class Reseau {
 			for(Voiture v2 : copieVoit) {
 				if(v1!=v2) {
 					//System.out.println("coord v2 : x = "+v2.getX()+"  y = "+v2.getY());
-					if(v1.getX()==v2.getX() && v1.getY() == v2.getY()) { // collision
-						System.out.println("collision");
+					if(v1.getX()==v2.getX() && v1.getY() == v2.getY() && map[v1.getY()][v1.getX()]!=2) { // collision
 						if(v1.getVitesse()>0) {
 							v.get(v1.getNumero()).ralentit(1);
 							v.get(v1.getNumero()).setAttente(v.get(v1.getNumero()).getAttente()+1);
@@ -734,9 +785,9 @@ public class Reseau {
 		}
 		// Si on arrive la c'est qu'il n'y a pas de collision
 		int evaluation = predictionCollision(copieVoit,coup-1);
-		/*while(evaluation!=-1) {//tant qu'il y a collision
+		while(evaluation!=-1) {//tant qu'il y a collision
 			evaluation = predictionCollision(copieVoit,coup-1);
-		}*/
+		}
 		
 		
 		return -1;

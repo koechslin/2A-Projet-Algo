@@ -40,15 +40,19 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 	private boolean afficheErreurStation = false;
 	
 	public Fenetre_Controle() {
+		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLayout(null);
 		this.setResizable(false);
 		this.setTitle("Contrôle");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize(600, 600);
-		this.setLocation(100, 100);
+		this.setSize((int)(0.3*tailleEcran.getWidth()),(int)(0.6*tailleEcran.getHeight()));
+		this.setLocation((int)(0.03*tailleEcran.getWidth()), (int)(0.1*tailleEcran.getHeight()));
+		//this.setSize(600, 600);
+		//this.setLocation(100, 100);
 		
 		//Initialisation des elements
-		affichage = new Fenetre_Affichage(800,800);
+		//affichage = new Fenetre_Affichage(800,800);
+		affichage = new Fenetre_Affichage((int)(0.80*tailleEcran.getWidth()),(int)(0.80*tailleEcran.getHeight()));
 		
 		erreurVoiture = new JTextArea("Attention : votre nombre dépasse le nombre de voitures !");
 		erreurVoiture.setEditable(false);
@@ -154,6 +158,7 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 	}
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==Manuel) {
+			this.affichage.getPan().setMode("Manuel");
 			BoutonGo.setVisible(true);
 			textStation.setVisible(true);
 			textVoiture.setVisible(true);
@@ -165,6 +170,7 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 			}
 		}
 		else if(e.getSource()==Automatique) {
+			this.affichage.getPan().setMode("Automatique");
 			BoutonGo.setVisible(false);
 			textStation.setVisible(false);
 			textVoiture.setVisible(false);

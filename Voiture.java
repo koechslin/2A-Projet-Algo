@@ -19,6 +19,7 @@ public class Voiture {
 	private boolean commandeManuelle = false;
 	private int stationManuelle;
 	private int attente=0;
+	private boolean aChangeVoie=false;
 	
 	public Voiture(int v,int n,int StatDep, int StatArr, int x, int y, int s){
 		this.vitesse = v;
@@ -94,7 +95,10 @@ public class Voiture {
 	public void avance() {
 		if(attente>0) {
 			attente--;
-			vitesse++;
+			if(attente==0) {
+				vitesse++;
+			}
+			
 			return;
 		}
 		if(!this.trajectoire.isEmpty()) {
@@ -172,7 +176,7 @@ public class Voiture {
 			this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");
 			break;
 		}
-		this.trajectoire.add("fin carrefour");
+		//this.trajectoire.add("fin carrefour");
 	}
 	public void change_voie() {
 		if(this.sortCarrefour) {
@@ -252,6 +256,32 @@ public class Voiture {
 	}
 	public void setAttente(int a) {
 		this.attente = a;
+	}
+	public void setAChangeVoie(boolean b) {
+		this.aChangeVoie=b;
+	}
+	public boolean getAChangeVoie() {
+		return this.aChangeVoie;
+	}
+	public boolean doitChangerVoie() {
+		// on considere qu'elle sort d'un carrefour
+			String DirProchCarr="";
+			for(int i = 0 ; i < trajectoire.size() ; i++) {
+				if (trajectoire.get(i) != "avant") {
+					DirProchCarr = trajectoire.get(i);
+					break;
+				}
+			}
+			if(DirProchCarr == "gauche"&&this.voie!="gauche") {
+				return true;
+			}
+			else if(this.voie!="droite" && DirProchCarr!="gauche") {
+				return true;
+			}
+			return false;
+	}
+	public String getVoie() {
+		return this.voie;
 	}
 
 }

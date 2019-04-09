@@ -705,6 +705,7 @@ public class Reseau {
 		for(int i=0;i<v.size();i++) {
 			Voiture voitTemp = new Voiture(v.get(i).getVitesse(),v.get(i).getX(),v.get(i).getY(),v.get(i).getSens(),v.get(i).getNumero());
 			voitTemp.setTrajectoire(new ArrayList<String>(v.get(i).getTrajectoire()));
+			voitTemp.setVoie(v.get(i).getVoie());
 			copieVoit.add(voitTemp);
 		}
 		
@@ -720,29 +721,192 @@ public class Reseau {
 						if(doitChanger) {
 							boolean peutChanger = true;
 							if(voit.getVoie()=="droite") {
+								//System.out.println("rentre droite");
 								switch(voit.getSens()) {
 								case 0:
 									for(Voiture temp : copieVoit) {
-										if(temp.getX()==)
-									} // ralentir dans v, puis ne pas le faire avancer ici ?
+										if(temp.getY()==voit.getY() && temp.getX()==voit.getX()-1) {
+											if(temp.getAttente()==0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+										else if(temp.getY()==voit.getY()-1&&temp.getX()==voit.getX()-1) {
+											if(temp.getAttente()!=0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+									}
 									break;
 								case 1:
-									
+									for(Voiture temp : copieVoit) {
+										if(temp.getY()==voit.getY()+1 && temp.getX()==voit.getX()) {
+											if(temp.getAttente()==0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+										else if(temp.getY()==voit.getY()+1&&temp.getX()==voit.getX()-1) {
+											if(temp.getAttente()!=0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+									}
 									break;
 								case 2:
-									
+									for(Voiture temp : copieVoit) {
+										if(temp.getY()==voit.getY() && temp.getX()==voit.getX()+1) {
+											if(temp.getAttente()==0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+										else if(temp.getY()==voit.getY()-1&&temp.getX()==voit.getX()+1) {
+											if(temp.getAttente()!=0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+									}
 									break;
 								case 3:
+									for(Voiture temp : copieVoit) {
+										if(temp.getY()==voit.getY()-1 && temp.getX()==voit.getX()) {
+											if(temp.getAttente()==0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+										else if(temp.getY()==voit.getY()-1&&temp.getX()==voit.getX()+1) {
+											if(temp.getAttente()!=0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+									}
 									break;
 								}
 							}
 							else if(voit.getVoie()=="gauche") {
-								
+								//System.out.println("rentre gauche");
+								switch(voit.getSens()) {
+								case 0:
+									for(Voiture temp : copieVoit) {
+										if(temp.getY()==voit.getY() && temp.getX()==voit.getX()+1) {
+											if(temp.getAttente()==0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+										else if(temp.getY()==voit.getY()-1&&temp.getX()==voit.getX()+1) {
+											if(temp.getAttente()!=0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+									}
+									break;
+								case 1:
+									for(Voiture temp : copieVoit) {
+										if(temp.getY()==voit.getY()-1 && temp.getX()==voit.getX()) {
+											if(v.get(temp.getNumero()).getAttente()==0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+										else if(temp.getY()==voit.getY()-1&&temp.getX()==voit.getX()-1) {
+											if(v.get(temp.getNumero()).getAttente()!=0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+									}
+									break;
+								case 2:
+									for(Voiture temp : copieVoit) {
+										if(temp.getY()==voit.getY() && temp.getX()==voit.getX()-1) {
+											if(temp.getAttente()==0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+										else if(temp.getY()==voit.getY()-1&&temp.getX()==voit.getX()-1) {
+											if(temp.getAttente()!=0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+									}
+									break;
+								case 3:
+									for(Voiture temp : copieVoit) {
+										if(temp.getY()==voit.getY()+1 && temp.getX()==voit.getX()) {
+											if(temp.getAttente()==0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+										else if(temp.getY()==voit.getY()+1&&temp.getX()==voit.getX()+1) {
+											if(temp.getAttente()!=0) {
+												v.get(voit.getNumero()).setAttente(1);
+												v.get(voit.getNumero()).ralentit(1);
+												peutChanger = false;
+												break;
+											}
+										}
+									}
+									break;
+								}
+							}
+							if(peutChanger) {
+								voit.change_voie();
+								voit.avance();
+							}
+							else {
+								return voit.getNumero();
 							}
 						}
+						else {
+							voit.change_voie();
+							voit.avance();	
+						}
 					}
-					voit.change_voie();
-					voit.avance();		
+					else {
+						voit.avance();
+					}
+						
 			}
 			else {
 				// on cherche toutes les autres voitures sur la meme station et on met leur vitesse a 0

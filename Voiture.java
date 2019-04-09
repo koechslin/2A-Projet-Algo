@@ -179,6 +179,9 @@ public class Voiture {
 		//this.trajectoire.add("fin carrefour");
 	}
 	public void change_voie() {
+		if(this.attente!=0) {
+			return;
+		}
 		if(this.sortCarrefour) {
 			String DirProchCarr="";
 			for(int i = 0 ; i < trajectoire.size() ; i++) {
@@ -282,6 +285,9 @@ public class Voiture {
 	}
 	public String getVoie() {
 		return this.voie;
+	}
+	public void setVoie(String v) {
+		this.voie = v;
 	}
 
 }

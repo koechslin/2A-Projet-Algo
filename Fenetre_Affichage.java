@@ -1,3 +1,4 @@
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,10 +31,11 @@ public class Fenetre_Affichage extends JFrame implements ActionListener{
 		
 		timer = new Timer(delai,this);
 		
+		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(null);
-		setTitle("Affichage du réseau");
-		setLocation(800,100);
+		setTitle("Affichage du rï¿½seau");
+		setLocation((int)(0.45*tailleEcran.getWidth()),(int)(0.05*tailleEcran.getHeight()));
 		
 		setVisible(true); // on met la fenetre visible avant pour avoir les insets
 		pan = new Panel(res,largeur-this.getInsets().left-this.getInsets().right,hauteur-this.getInsets().top-this.getInsets().bottom);

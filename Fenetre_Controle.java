@@ -43,10 +43,11 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLayout(null);
 		this.setResizable(false);
-		this.setTitle("Contrôle");
+		this.setTitle("Contrï¿½le");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setSize((int)(0.3*tailleEcran.getWidth()),(int)(0.6*tailleEcran.getHeight()));
+		this.setSize((int)(0.4*tailleEcran.getWidth()), (int)(0.72*tailleEcran.getHeight()));
 		this.setLocation((int)(0.03*tailleEcran.getWidth()), (int)(0.1*tailleEcran.getHeight()));
+
 		//this.setSize(600, 600);
 		//this.setLocation(100, 100);
 		
@@ -54,7 +55,7 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		//affichage = new Fenetre_Affichage(800,800);
 		affichage = new Fenetre_Affichage((int)(0.80*tailleEcran.getWidth()),(int)(0.80*tailleEcran.getHeight()));
 		
-		erreurVoiture = new JTextArea("Attention : votre nombre dépasse le nombre de voitures !");
+		erreurVoiture = new JTextArea("Attention : votre nombre dï¿½passe le nombre de voitures !");
 		erreurVoiture.setEditable(false);
 		erreurVoiture.setFocusable(false);
 		erreurVoiture.setLineWrap(true);
@@ -64,15 +65,15 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		erreurVoiture.setVisible(false);
 		
 		labelNbVoitures = new JLabel("Nombre de voitures : ");
-		labelNbVoitures.setBounds(20,2,200,50);
+		labelNbVoitures.setBounds((int)(0.05*this.getWidth()),(int)(0.02*this.getHeight()),(int)(0.5*this.getWidth()),(int)(0.1*this.getHeight()));
 		labelNbVoitures.setFont(new Font("Serif",Font.PLAIN,22));
 		
 		textNbVoitures = new JTextField();
-		textNbVoitures.setBounds(80,60,60,50);
+		textNbVoitures.setBounds((int)(0.15*this.getWidth()),(int)(0.12*this.getHeight()),(int)(0.12*this.getHeight()),(int)(0.10*this.getHeight()));
 		
 		labelMode = new JLabel("Mode : ");
 		labelMode.setFont(new Font("Serif",Font.PLAIN,22));
-		labelMode.setBounds(40,150,200,50);
+		labelMode.setBounds((int)(0.07*this.getWidth()),(int)(0.27*this.getHeight()),(int)(0.28*this.getWidth()),(int)(0.07*this.getWidth()));
 		
 		TextFieldVoiture = new JTextField();
 		TextFieldVoiture.setBounds(210,303,50,50);
@@ -80,7 +81,7 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		TextFieldStation = new JTextField();
 		TextFieldStation.setBounds(210,383,50,50);
 		
-		labelControle = new JLabel("Contrôle :");
+		labelControle = new JLabel("Contrï¿½le :");
 		labelControle.setFont(new Font("Serif",Font.PLAIN,30));
 		labelControle.setBounds(235,220,200,50);
 		
@@ -98,7 +99,7 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		
 		Automatique =  new JRadioButton("Automatique");
 		Automatique.setFont(new Font("Serif",Font.PLAIN,21));
-		Automatique.setBounds(160,153,145,50);
+		Automatique.setBounds((int)(0.28*this.getWidth()),(int)(0.27*this.getHeight()),(int)(0.25*this.getWidth()),(int)(0.07*this.getWidth()));
 		Automatique.addActionListener(this);
 		Automatique.setSelected(true);
 		
@@ -111,7 +112,7 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		
 		Manuel = new JRadioButton("Manuel");
 		Manuel.setFont(new Font("Serif",Font.PLAIN,21));
-		Manuel.setBounds(370,153,145,50);
+		Manuel.setBounds((int)(0.64*this.getWidth()),(int)(0.27*this.getHeight()),(int)(0.25*this.getWidth()),(int)(0.07*this.getWidth()));
 		Manuel.addActionListener(this);
 		
 		ButtonGroup groupB = new ButtonGroup();
@@ -119,11 +120,11 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		groupB.add(Automatique);
 		
 		importMap = new JButton("Importer une map");
-		importMap.setBounds(320,85,180,40);
+		importMap.setBounds((int)(0.56*this.getWidth()),(int)(0.15*this.getWidth()),(int)(0.31*this.getWidth()),(int)(0.07*this.getWidth()));
 		importMap.addActionListener(this);
 		
 		recharge = new JButton("Recharger la simulation");
-		recharge.setBounds(320,30,180,40);
+		recharge.setBounds((int)(0.56*this.getWidth()),(int)(0.05*this.getWidth()),(int)(0.31*this.getWidth()),(int)(0.07*this.getWidth()));
 		recharge.addActionListener(this);
 		
 		lecteur = new Lecteur_Fichier();
@@ -203,20 +204,20 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 					int voiture = Integer.parseInt(TextFieldVoiture.getText());
 					int station = Integer.parseInt(TextFieldStation.getText());
 					if(voiture<this.affichage.getReseau().getVoitures().size() && voiture >=0 && station<this.affichage.getReseau().getStations().size() && station>=0) {
-						//donner la trajectoire à la voiture
+						//donner la trajectoire ï¿½ la voiture
 						this.affichage.getReseau().getVoitures().get(voiture).setManuelle(true);
 						this.affichage.getReseau().getVoitures().get(voiture).setStationManuelle(station);
 						
 					}
 					else if(voiture<this.affichage.getReseau().getVoitures().size() && voiture >=0 && (station>=this.affichage.getReseau().getStations().size() || station<0)) {
-						JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de station entre 0 et " + (this.affichage.getReseau().getStations().size()-1));
+						JOptionPane.showMessageDialog(this, "Veuillez entrer un numï¿½ro de station entre 0 et " + (this.affichage.getReseau().getStations().size()-1));
 					}
 					else if((voiture>=this.affichage.getReseau().getVoitures().size() || voiture <0) && station<this.affichage.getReseau().getStations().size() && station>=0) {
-						JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de voiture entre 0 et " + (this.affichage.getReseau().getVoitures().size()-1));
+						JOptionPane.showMessageDialog(this, "Veuillez entrer un numï¿½ro de voiture entre 0 et " + (this.affichage.getReseau().getVoitures().size()-1));
 					}
 					else {
 						//aucun des deux
-						JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de voiture entre 0 et " + (this.affichage.getReseau().getVoitures().size()-1)+" et un numéro de station entre 0 et "+(this.affichage.getReseau().getStations().size()-1));
+						JOptionPane.showMessageDialog(this, "Veuillez entrer un numï¿½ro de voiture entre 0 et " + (this.affichage.getReseau().getVoitures().size()-1)+" et un numï¿½ro de station entre 0 et "+(this.affichage.getReseau().getStations().size()-1));
 					}
 					
 					/*
@@ -227,38 +228,38 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 					}else {
 						if(((Integer.parseInt(TextFieldVoiture.getText()) >= Integer.parseInt(textNbVoitures.getText())) || (Integer.parseInt(TextFieldVoiture.getText()) < 0)) 
 								&& ((Integer.parseInt(TextFieldStation.getText()) >= getStations().size()) || (Integer.parseInt(TextFieldStation.getText()) < 0))) {
-							JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de voiture entre 0 et " + (Integer.parseInt(textNbVoitures.getText())-1) + " et un numéro de station entre 0 et " + (getStations().size()-1));
+							JOptionPane.showMessageDialog(this, "Veuillez entrer un numï¿½ro de voiture entre 0 et " + (Integer.parseInt(textNbVoitures.getText())-1) + " et un numï¿½ro de station entre 0 et " + (getStations().size()-1));
 						}
 						else if((Integer.parseInt(TextFieldVoiture.getText()) >= Integer.parseInt(textNbVoitures.getText())) || (Integer.parseInt(TextFieldVoiture.getText()) < 0)) {
-							JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de voiture entre 0 et " + (Integer.parseInt(textNbVoitures.getText())-1));
+							JOptionPane.showMessageDialog(this, "Veuillez entrer un numï¿½ro de voiture entre 0 et " + (Integer.parseInt(textNbVoitures.getText())-1));
 						}
 						else if((Integer.parseInt(TextFieldStation.getText()) >= getStations().size()) || (Integer.parseInt(TextFieldStation.getText()) < 0)) {
-							JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de station entre 0 et " + (getStations().size()-1));
+							JOptionPane.showMessageDialog(this, "Veuillez entrer un numï¿½ro de station entre 0 et " + (getStations().size()-1));
 						}
 					}
 					System.out.println("remplir cette partie");    //REMPLIR CETTE PARTIE*/
 				}
 				else{
 					if((!TextFieldVoiture.getText().matches("-?\\d+(\\.\\d+)?")) && (!TextFieldStation.getText().matches("-?\\d+(\\.\\d+)?"))) {
-						JOptionPane.showMessageDialog(this, "Veuillez entrer des numéros de voiture et de station entiers et positifs");
+						JOptionPane.showMessageDialog(this, "Veuillez entrer des numï¿½ros de voiture et de station entiers et positifs");
 					}
 					else if(!TextFieldVoiture.getText().matches("-?\\d+(\\.\\d+)?")) {
-						JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de voiture entier et positif");
+						JOptionPane.showMessageDialog(this, "Veuillez entrer un numï¿½ro de voiture entier et positif");
 					}
 					else if(!TextFieldStation.getText().matches("-?\\d+(\\.\\d+)?")) {
-						JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de station entier et positif");
+						JOptionPane.showMessageDialog(this, "Veuillez entrer un numï¿½ro de station entier et positif");
 					}
 				}
 			}
 			else {
 				if(this.TextFieldVoiture.getText().isEmpty() && this.TextFieldStation.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(this, "Veuillez entrer des numéros de voiture et de station");
+					JOptionPane.showMessageDialog(this, "Veuillez entrer des numï¿½ros de voiture et de station");
 				}
 				else if (this.TextFieldVoiture.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de voiture");
+					JOptionPane.showMessageDialog(this, "Veuillez entrer un numï¿½ro de voiture");
 				}
 				else if(this.TextFieldStation.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(this, "Veuillez entrer un numéro de station");
+					JOptionPane.showMessageDialog(this, "Veuillez entrer un numï¿½ro de station");
 				}
 			}
 		}

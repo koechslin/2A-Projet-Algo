@@ -35,7 +35,7 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 	private JPanel content;
 	private Fenetre_Affichage affichage;
 	private JTextArea erreurVoiture;
-	private JLabel erreurStation;
+	private JTextArea erreurStation;
 	private boolean afficheErreurVoiture = false;
 	private boolean afficheErreurStation = false;
 	
@@ -55,7 +55,7 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		//affichage = new Fenetre_Affichage(800,800);
 		affichage = new Fenetre_Affichage((int)(0.80*tailleEcran.getWidth()),(int)(0.80*tailleEcran.getHeight()));
 		
-		erreurVoiture = new JTextArea("Attention : votre nombre d�passe le nombre de voitures !");
+		erreurVoiture = new JTextArea("Attention : votre nombre depasse le nombre de voitures !");
 		erreurVoiture.setEditable(false);
 		erreurVoiture.setFocusable(false);
 		erreurVoiture.setLineWrap(true);
@@ -63,6 +63,15 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		erreurVoiture.setFont(new Font("Serif",Font.PLAIN,13));
 		erreurVoiture.setBounds((int)(0.47*this.getWidth()), (int)(0.48*this.getWidth()), (int)(0.34*this.getWidth()), (int)(0.18*this.getWidth()));
 		erreurVoiture.setVisible(false);
+		
+		erreurStation = new JTextArea("Attention : votre nombre depasse le nombre de stations !");
+		erreurStation.setEditable(false);
+		erreurStation.setFocusable(false);
+		erreurStation.setLineWrap(true);
+		erreurStation.setOpaque(false);
+		erreurStation.setFont(new Font("Serif",Font.PLAIN,13));
+		erreurStation.setBounds((int)(0.47*this.getWidth()), (int)(0.7*this.getWidth()), (int)(0.34*this.getWidth()), (int)(0.18*this.getWidth()));
+		erreurStation.setVisible(false);
 		
 		labelNbVoitures = new JLabel("Nombre de voitures : ");
 		labelNbVoitures.setBounds((int)(0.05*this.getWidth()),(int)(0.02*this.getHeight()),(int)(0.5*this.getWidth()),(int)(0.1*this.getHeight()));
@@ -150,8 +159,12 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		content.add(importMap);
 		content.add(recharge);
 		content.add(erreurVoiture);
+		content.add(erreurStation);
+		
 		this.add(content);
 		TextFieldVoiture.addKeyListener(this);
+		TextFieldStation.addKeyListener(this);
+		
 	}
 	
 	public void paint(Graphics g) {
@@ -303,12 +316,37 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 				}
 			}
 		}
-		else {
+		else if(TextFieldVoiture.getText().isEmpty()){
 			if(afficheErreurVoiture) {
 				afficheErreurVoiture=false;
 				erreurVoiture.setVisible(false);
 			}
 			affichage.getPan().setVoitSurbrillance(-1);
+			affichage.repaint();
+		}
+		if(!TextFieldStation.getText().isEmpty()){
+			
+			if(TextFieldStation.getText().matches("-?\\d+(\\.\\d+)?")){ // on verifie si c'est un entier
+					if(Integer.parseInt(TextFieldStation.getText())>=affichage.getReseau().getStations().size() || Integer.parseInt(TextFieldStation.getText())<0) {
+						afficheErreurStation=true;
+						erreurStation.setVisible(true);
+						affichage.getPan().setStatSurbrillance(-1);
+						affichage.repaint();
+						
+					}else {
+						afficheErreurStation=false;
+						erreurStation.setVisible(false);
+						affichage.getPan().setStatSurbrillance(Integer.parseInt(TextFieldStation.getText()));
+						affichage.repaint();
+						
+					}
+			} 
+		}else if(TextFieldStation.getText().isEmpty()){
+			if(afficheErreurStation) {
+				afficheErreurStation=false;
+				erreurStation.setVisible(false);
+			}
+			affichage.getPan().setStatSurbrillance(-1);
 			affichage.repaint();
 		}
 	}

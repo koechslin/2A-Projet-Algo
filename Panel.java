@@ -20,8 +20,9 @@ public class Panel extends JPanel{
 	private int h;
 	private int l;
 	private int voitSurbrillance=-1;
+	private int statSurbrillance=-1;
 	private String mode="Automatique";
-	
+	private boolean defmap = false;
 	public char[][] mapDessin;
 	
 	public Panel(Reseau res,int width, int height){
@@ -49,7 +50,7 @@ public class Panel extends JPanel{
 		boolean horizontal = false;
 		boolean vertical = false;
 		boolean carrefour = false;
-		
+		int k = 0;
 		//			***HERBE***
 		for(int i=0;i<reseau.map.length;i++){
 			for (int j=0;j<reseau.map[0].length;j++){
@@ -127,7 +128,6 @@ public class Panel extends JPanel{
 					//g.fillRect(j*t,i*t,t,t);
 				}
 					
-					
 					//CARREFOUR :
 					/*
 					if(horizontal && vertical) {
@@ -137,6 +137,7 @@ public class Panel extends JPanel{
 					if(mapDessin[i][j]=='c') {
 						reseau.mapCarrefour[i][j]=true;
 					}
+					
 				
 					// ***VOITURE***
 					for(Voiture v : this.reseau.getVoitures()) {
@@ -192,6 +193,41 @@ public class Panel extends JPanel{
 							//g.fillRect(v.getX()*t, v.getY()*t, t, t);
 						}
 					}
+					//Surbrillance Station
+
+					String numAffiche="";
+					int ii = 0;
+					int jj=0;
+					for( Station s : reseau.listeStation){
+						g.setColor(Color.white);
+						g.setFont(new Font("impact", Font.BOLD, 20));
+						numAffiche = " "+Integer.toString(s.getNumStation());
+						ii=s.getXDepart();
+						jj=s.getYDepart();
+						//System.out.println("taille array: "+reseau.listeStation.size()+" k: "+k+ " numéro station affiché : "+reseau.listeStation.get(k).numStation);
+						if(ii+1<reseau.map[0].length && reseau.map[jj][ii+1]==1){	//si route à droite
+							ii-=1;
+						}else if(ii-1>0 && reseau.map[jj][ii-1]==1){	//si route à gauche
+							ii+=1;
+							jj+=2;
+						}else if(jj+1<reseau.map.length && reseau.map[jj+1][ii]==1){	//si route en bas
+							ii+=2;
+						}else if(jj-1>0&& reseau.map[jj-1][ii]==1){	//si route en haut
+							ii-=2;
+							jj+=2;
+						}	
+						g.drawString(numAffiche,(ii)*t,(jj)*t);
+						if(statSurbrillance!=-1 && s.getNumStation() == this.statSurbrillance){
+							g.setColor(Color.BLUE);
+							jj-=1;
+							g.drawRect(ii*t,jj*t,t,t);
+							g.drawRect(ii*t-1,jj*t-1,t+2,t+2);
+							g.drawRect(ii*t-2,jj*t-2,t+4,t+4);
+							System.out.println(this.statSurbrillance+"surbrillance station");
+						}
+						
+					}
+					
 					
 				/*if(reseau.mapVoiture[i][j]){
 					
@@ -263,6 +299,9 @@ public class Panel extends JPanel{
 	}
 	public void setVoitSurbrillance(int s) {
 		this.voitSurbrillance = s;
+	}
+	public void setStatSurbrillance(int s){
+		this.statSurbrillance =s;
 	}
 	public String getMode() {
 		return this.mode;

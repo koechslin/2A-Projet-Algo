@@ -43,7 +43,7 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLayout(null);
 		this.setResizable(false);
-		this.setTitle("Contr�le");
+		this.setTitle("Contrôle");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setSize((int)(0.4*tailleEcran.getWidth()), (int)(0.72*tailleEcran.getHeight()));
 		this.setLocation((int)(0.03*tailleEcran.getWidth()), (int)(0.1*tailleEcran.getHeight()));
@@ -90,7 +90,7 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		TextFieldStation = new JTextField();
 		TextFieldStation.setBounds((int)(0.37*this.getWidth()),(int)(0.67*this.getWidth()),(int)(0.10*this.getWidth()),(int)(0.10*this.getWidth()));
 		
-		labelControle = new JLabel("Contr�le :");
+		labelControle = new JLabel("Contrôle :");
 		labelControle.setFont(new Font("Serif",Font.PLAIN,30));
 		labelControle.setBounds((int)(0.41*this.getWidth()),(int)(0.39*this.getWidth()),(int)(0.35*this.getWidth()),(int)(0.10*this.getWidth()));
 		
@@ -195,8 +195,9 @@ public class Fenetre_Controle extends JFrame implements ActionListener, KeyListe
 		}
 		else if(e.getSource()==importMap) {
 			lecteur.ouvertureFichier();
-			if(lecteur.file !=null) { // si on a bien choisi un fichier
+			if(lecteur.getFile() !=null) { // si on a bien choisi un fichier
 				affichage.getReseau().setMapRoute(lecteur.traitementFichier());
+				affichage.getReseau().InitMapCarrefour();
 				affichage.getPan().actualiseMapDessin();
 				affichage.getPan().recalculT();
 				affichage.actualiseTaille();

@@ -7,19 +7,19 @@ public class Voiture {
 	private int numero;
 	private int StatDep;
 	private int StatArr;
-	private String direction;
 	private int x;
 	private int y;
 	private final int VITESSE_MAX = 3;
-	private LinkedList<String> trajectoire;
+	private int stationManuelle;
+	private int attente = 0;
 	private int sensVoiture;
-	private boolean sortCarrefour=false;
-	private String voie="droite";
+	private boolean sortCarrefour = false;
 	private boolean enCirculation = false;
 	private boolean commandeManuelle = false;
-	private int stationManuelle;
-	private int attente=0;
-	private boolean aChangeVoie=false;
+	private boolean aChangeVoie = false;
+	private String voie = "droite";
+	private LinkedList<String> trajectoire;
+
 	
 	public Voiture(int v,int n,int StatDep, int StatArr, int x, int y, int s){
 		this.vitesse = v;
@@ -31,18 +31,18 @@ public class Voiture {
 		this.trajectoire = new LinkedList<String>();
 		this.sensVoiture = s;
 	}
-	
-	public Voiture(int vit,int xV,int yV,int s,int n) {
+	public Voiture(int vit,int n, int xV,int yV,int s) {
+		this.vitesse = vit;
+		this.numero = n;
 		this.x = xV;
 		this.y = yV;
-		this.vitesse = vit;
-		this.sensVoiture=s;
+		this.sensVoiture = s;
 		this.trajectoire = new LinkedList<String>();
-		this.numero=n;
 	}
 	public Voiture() {
 		this.trajectoire = new LinkedList<String>();
 	}
+	
 	
 	public int getVitesse() {
 		return this.vitesse;
@@ -68,12 +68,6 @@ public class Voiture {
 	public void setStatArr (int StatArr) {
 		this.StatArr = StatArr;
 	}
-	public String getDirection() {
-		return this.direction;
-	}
-	public void setDirection (String d) {
-		this.direction = d;
-	}
 	public int getX() {
 		return this.x;
 	}
@@ -92,17 +86,65 @@ public class Voiture {
 	public void setSens( int s) {
 		this.sensVoiture = s;
 	}
+	public LinkedList<String> getTrajectoire(){
+		return this.trajectoire;
+	}
+	public boolean getSortCarrefour() {
+		return this.sortCarrefour;
+	}
+	public void setSortCarrefour(boolean b) {
+		this.sortCarrefour = b;
+	}
+	public boolean getEnCirculation() {
+		return this.enCirculation;
+	}
+	public void setEnCirculation(boolean c) {
+		this.enCirculation = c;
+	}
+	public boolean getManuelle() {
+		return this.commandeManuelle;
+	}
+	public void setManuelle(boolean m) {
+		this.commandeManuelle = m;
+	}
+	public int getStationManuelle() {
+		return this.stationManuelle;
+	}
+	public void setStationManuelle(int s) {
+		this.stationManuelle = s;
+	}
+	public int getAttente() {
+		return this.attente;
+	}
+	public void setAttente(int a) {
+		this.attente = a;
+	}
+	public boolean getAChangeVoie() {
+		return this.aChangeVoie;
+	}
+	public void setAChangeVoie(boolean b) {
+		this.aChangeVoie = b;
+	}
+	public String getVoie() {
+		return this.voie;
+	}
+	public void setVoie(String v) {
+		this.voie = v;
+	}
+	
+	
+	
 	public void avance() {
 		if(attente>0) {
-			attente--;
-			if(attente==0) {
-				vitesse++;
+			attente --;
+			if(attente == 0) {
+				vitesse ++;
 			}
 			
 			return;
 		}
 		if(!this.trajectoire.isEmpty()) {
-			if(this.trajectoire.getFirst()=="fin carrefour") {
+			if(this.trajectoire.getFirst() == "fin carrefour") {
 				this.trajectoire.removeFirst();
 			}
 			if(this.trajectoire.isEmpty()) {
@@ -149,6 +191,7 @@ public class Voiture {
 		}
 				
 	}
+	
 	public void accelere(int acceleration) {
 		if(this.vitesse + acceleration <= VITESSE_MAX) {
 			this.vitesse += acceleration;
@@ -160,38 +203,39 @@ public class Voiture {
 		for(String s : t) {
 			trajectoire.add(s);
 		}
-		this.voie="droite";
+		this.voie = "droite";
 	}
+	
 	public void virage (String direction) {
 		switch(direction) {
 		case "gauche":
-			this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");
+			this.trajectoire.add("avant"); this.trajectoire.add("avant"); this.trajectoire.add("avant");
 			this.trajectoire.add("gauche");
-			this.trajectoire.add("avant");this.trajectoire.add("avant");
+			this.trajectoire.add("avant"); this.trajectoire.add("avant");
 			break;
 		case "droite":
 			this.trajectoire.add("avant");
 			this.trajectoire.add("droite");
 			break;
 		case "avant":
-			this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");this.trajectoire.add("avant");
+			this.trajectoire.add("avant"); this.trajectoire.add("avant"); this.trajectoire.add("avant"); this.trajectoire.add("avant"); this.trajectoire.add("avant");
 			break;
 		}
-		//this.trajectoire.add("fin carrefour");
 	}
+	
 	public void change_voie() {
-		if(this.attente!=0) {
+		if(this.attente != 0) {
 			return;
 		}
 		if(this.sortCarrefour) {
-			String DirProchCarr="";
-			for(int i = 0 ; i < trajectoire.size() ; i++) {
+			String DirProchCarr = "";
+			for(int i = 0 ; i < trajectoire.size() ; i ++) {
 				if (trajectoire.get(i) != "avant") {
 					DirProchCarr = trajectoire.get(i);
 					break;
 				}
 			}
-			if(DirProchCarr == "gauche"&&this.voie!="gauche") {
+			if(DirProchCarr == "gauche" && this.voie != "gauche") {
 				switch (sensVoiture) {
 				case 0:
 					x --;
@@ -206,9 +250,9 @@ public class Voiture {
 					y --;
 					break;
 				}
-				this.voie="gauche";
+				this.voie = "gauche";
 			}
-			else if(this.voie!="droite" && DirProchCarr!="gauche") {
+			else if(this.voie != "droite" && DirProchCarr != "gauche") {
 				switch (sensVoiture) {
 				case 0:
 					x ++;
@@ -223,72 +267,27 @@ public class Voiture {
 					y ++;
 					break;
 				}
-				this.voie="droite";
+				this.voie = "droite";
 			}
 		}
 	}
 	
-	public LinkedList<String> getTrajectoire(){
-		return this.trajectoire;
-	}
-	public boolean getSortCarrefour() {
-		return this.sortCarrefour;
-	}
-	public void setSortCarrefour(boolean b) {
-		this.sortCarrefour=b;
-	}
-	public void setEnCirculation(boolean c) {
-		this.enCirculation = c;
-	}
-	public boolean getEnCirculation() {
-		return this.enCirculation;
-	}
-	public void setManuelle(boolean m) {
-		this.commandeManuelle=m;
-	}
-	public boolean getManuelle() {
-		return this.commandeManuelle;
-	}
-	public void setStationManuelle(int s) {
-		this.stationManuelle=s;
-	}
-	public int getStationManuelle() {
-		return this.stationManuelle;
-	}
-	public int getAttente() {
-		return this.attente;
-	}
-	public void setAttente(int a) {
-		this.attente = a;
-	}
-	public void setAChangeVoie(boolean b) {
-		this.aChangeVoie=b;
-	}
-	public boolean getAChangeVoie() {
-		return this.aChangeVoie;
-	}
 	public boolean doitChangerVoie() {
 		// on considere qu'elle sort d'un carrefour
 			String DirProchCarr="";
-			for(int i = 0 ; i < trajectoire.size() ; i++) {
+			for(int i = 0 ; i < trajectoire.size() ; i ++) {
 				if (trajectoire.get(i) != "avant") {
 					DirProchCarr = trajectoire.get(i);
 					break;
 				}
 			}
-			if(DirProchCarr == "gauche"&&this.voie!="gauche") {
+			if(DirProchCarr == "gauche" && this.voie != "gauche") {
 				return true;
 			}
-			else if(this.voie!="droite" && DirProchCarr!="gauche") {
+			else if(this.voie != "droite" && DirProchCarr != "gauche") {
 				return true;
 			}
 			return false;
-	}
-	public String getVoie() {
-		return this.voie;
-	}
-	public void setVoie(String v) {
-		this.voie = v;
 	}
 
 }

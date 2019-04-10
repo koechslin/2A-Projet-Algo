@@ -451,7 +451,7 @@ public class Reseau {
 		
 		for(NoeudGraphe n : noeuds) {
 			n.initNumeroPourRejoindre(noeuds.size());
-			if(n.type=="station") {
+			if(n.getType()=="station") {
 				this.noeudsStation.add(n);
 			}
 		}
@@ -591,9 +591,9 @@ public class Reseau {
 					if(!noeudsTraites.contains(aTraite.getFirst().getNoeudAtteignable().get(i)) && !aTraite.contains(aTraite.getFirst().getNoeudAtteignable().get(i))) {
 						aTraite.add(aTraite.getFirst().getNoeudAtteignable().get(i));
 					}
-					if(aTraite.getFirst().getNoeudAtteignable().get(i)!=n && (aTraite.getFirst().getNoeudAtteignable().get(i).distanceActuellePourRejoindre==0 || aTraite.getFirst().getNoeudAtteignable().get(i).distanceActuellePourRejoindre>aTraite.getFirst().distanceActuellePourRejoindre+aTraite.getFirst().distanceNoeud.get(i))) {
-						aTraite.getFirst().getNoeudAtteignable().get(i).distanceActuellePourRejoindre=aTraite.getFirst().distanceActuellePourRejoindre+aTraite.getFirst().distanceNoeud.get(i);
-						aTraite.getFirst().getNoeudAtteignable().get(i).setNumeroPourRejoindre(n.numeroNoeud, aTraite.getFirst().numeroNoeud);
+					if(aTraite.getFirst().getNoeudAtteignable().get(i)!=n && (aTraite.getFirst().getNoeudAtteignable().get(i).getDistanceActuelle()==0 || aTraite.getFirst().getNoeudAtteignable().get(i).getDistanceActuelle()>aTraite.getFirst().getDistanceActuelle()+aTraite.getFirst().getDistanceNoeud().get(i))) {
+						aTraite.getFirst().getNoeudAtteignable().get(i).getDistanceActuelle()=aTraite.getFirst().getDistanceActuelle()+aTraite.getFirst().getDistanceNoeud().get(i);
+						aTraite.getFirst().getNoeudAtteignable().get(i).setNumeroPourRejoindre(n.getNumeroNoeud(), aTraite.getFirst().getNumeroNoeud());
 					}
 				}
 				aTraite.removeFirst();
@@ -625,9 +625,9 @@ public class Reseau {
 						//Recherche de la distance :
 						//PROBLEME LA ?
 						int distance=0;
-						for(int k=0;k<noeudActuel.noeudAtteignable.size();k++) {
-							if(noeudActuel.noeudAtteignable.get(k)==noeudProchaineEtape) {
-								distance = noeudActuel.distanceNoeud.get(k);
+						for(int k=0;k<noeudActuel.getNoeudAtteignable().size();k++) {
+							if(noeudActuel.getNoeudAtteignable().get(k)==noeudProchaineEtape) {
+								distance = noeudActuel.getDistanceNoeud().get(k);
 							}
 						}
 						

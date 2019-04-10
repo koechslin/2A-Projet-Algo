@@ -267,60 +267,82 @@ public class Reseau {
 					routeEnBas=false;
 					routeAGauche=false;
 					routeADroite=false;
-					if(i>=4) {
-						routeEnHaut=true;
-						for(int k=1;k<=4;k++) {
-							if(map[i-k][j]!=1) {
+					int k=1;
+					while(i-k>=0 && k<=4) {
+						routeEnHaut =true;
+						if(map[i-k][j]!=1) {
+							if(map[i-k][j]==2) {
+								break;
+							}
+							else {
 								routeEnHaut=false;
 								break;
 							}
 						}
-						if(routeEnHaut) {
-							compteurRoute++;
-						}
+						k++;
 					}
-					if(i<=map.length-5) {
+					if(routeEnHaut) {
+						compteurRoute++;
+					}
+					k=1;
+					while(i+k<map.length&&k<=4) {
 						routeEnBas=true;
-						for(int k=1;k<=4;k++) {
-							if(map[i+k][j]!=1) {
+						if(map[i+k][j]!=1) {
+							if(map[i+k][j]==2) {
+								break;
+							}
+							else {
 								routeEnBas=false;
 								break;
 							}
 						}
-						if(routeEnBas) {
-							compteurRoute++;
-						}
+						k++;
 					}
-					if(j>=4) {
-						routeAGauche = true;
-						for(int k=1;k<=4;k++) {
-							if(map[i][j-k]!=1) {
-								routeAGauche = false;
+					if(routeEnBas) {
+						compteurRoute++;
+					}
+					k=1;
+					while(j-k>=0&&k<=4) {
+						routeAGauche=true;
+						if(map[i][j-k]!=1) {
+							if(map[i][j-k]==2) {
+								break;
+							}
+							else {
+								routeAGauche=false;
 								break;
 							}
 						}
-						if(routeAGauche) {
-							compteurRoute++;
-						}
+						k++;
 					}
-					if(j<=map[i].length-5) {
-						routeADroite =true;
-						for(int k=1;k<=4;k++) {
-							if(map[i][j+k]!=1) {
-								routeADroite =false;
+					if(routeAGauche) {
+						compteurRoute++;
+					}
+					k=1;
+					while(j+k<map[i].length&&k<=4) {
+						routeADroite=true;
+						if(map[i][j+k]!=1) {
+							if(map[i][j+k]==2) {
+								break;
+							}
+							else {
+								routeADroite=false;
 								break;
 							}
 						}
-						if(routeADroite) {
-							compteurRoute++;
-						}
+						k++;
 					}
+					if(routeADroite) {
+						compteurRoute++;
+					}
+					//////
 					
 					switch(compteurRoute) {
 					case 0:
 						// Impossible ?
 						break;
 					case 1:
+						//Impossible maintenant ?
 						// Cas lorsque on est proche d'une station ?
 						if(routeADroite || routeAGauche) {
 							mapC[i][j]='h';
@@ -455,7 +477,7 @@ public class Reseau {
 			}
 			else { // carrefour
 				int compteurDistance = 1;
-				if(detectionRoute[n.getY()+4][n.getX()]=='v') { // en bas
+				if(n.getY()+4<detectionRoute.length&&detectionRoute[n.getY()+4][n.getX()]=='v') { // en bas
 					while(detectionRoute[n.getY()+3+compteurDistance][n.getX()]=='v') {
 						compteurDistance++;
 					}
@@ -468,7 +490,7 @@ public class Reseau {
 				}
 				
 				compteurDistance =1;
-				if(detectionRoute[n.getY()-1][n.getX()]=='v') { // en haut
+				if(n.getY()-1>=0&&detectionRoute[n.getY()-1][n.getX()]=='v') { // en haut
 					while(detectionRoute[n.getY()-compteurDistance][n.getX()]=='v') {
 						compteurDistance++;
 					}
@@ -485,7 +507,7 @@ public class Reseau {
 				}
 				
 				compteurDistance=1;
-				if(detectionRoute[n.getY()][n.getX()-1]=='h') { // à gauche
+				if(n.getX()-1>=0&&detectionRoute[n.getY()][n.getX()-1]=='h') { // à gauche
 					while(detectionRoute[n.getY()][n.getX()-compteurDistance]=='h') {
 						compteurDistance++;
 					}
@@ -502,7 +524,7 @@ public class Reseau {
 				}
 				
 				compteurDistance=1;
-				if(detectionRoute[n.getY()][n.getX()+4]=='h') { // à droite
+				if(n.getX()+4<detectionRoute[0].length&&detectionRoute[n.getY()][n.getX()+4]=='h') { // à droite
 					while(detectionRoute[n.getY()][n.getX()+3+compteurDistance]=='h') {
 						compteurDistance++;
 					}
@@ -566,6 +588,7 @@ public class Reseau {
 						NoeudGraphe noeudProchaineEtape = noeuds.get(noeudActuel.getNumeroPourRejoindre()[noeudAAtteindre.getNumeroNoeud()]);
 						
 						//Recherche de la distance :
+						//PROBLEME LA ?
 						int distance=0;
 						for(int k=0;k<noeudActuel.noeudAtteignable.size();k++) {
 							if(noeudActuel.noeudAtteignable.get(k)==noeudProchaineEtape) {
@@ -668,6 +691,7 @@ public class Reseau {
 			listeVoiture.add(new Voiture(1,this.listeStation.get(s).getXDepart(),listeStation.get(s).getYDepart(),0,i));
 			listeVoiture.get(i).setStatArr(s);
 			listeVoiture.get(i).setStatDep(s);
+			listeVoiture.get(i).setVoie("droite");
 		}
 	}
 	public void creationStation() {

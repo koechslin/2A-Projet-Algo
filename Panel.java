@@ -141,6 +141,14 @@ public class Panel extends JPanel{
 				
 					// ***VOITURE***
 					for(Voiture v : this.reseau.getVoitures()) {
+						if(mapDessin[v.getY()][v.getX()]!='c' &&mapDessin[v.getY()][v.getX()]!='s' && mapDessin[v.getY()][v.getX()]!='h'&&mapDessin[v.getY()][v.getX()]!='v') {
+							System.out.println("bizarre");
+							System.out.println("de "+v.getStatDep()+" a "+v.getStatArr());
+							g.setColor(Color.RED);
+							g.drawRect(v.getX()*t,v.getY()*t,t,t);
+							g.drawRect(v.getX()*t-1,v.getY()*t-1,t+2,t+2);
+							g.drawRect(v.getX()*t-2,v.getY()*t-2,t+4,t+4);
+						}
 						//Surbrillance de la voiture selectionnee
 						if(voitSurbrillance!=-1 && v.getNumero()==this.voitSurbrillance && mode=="Manuel") {
 							g.setColor(Color.BLUE);
@@ -198,16 +206,16 @@ public class Panel extends JPanel{
 					String numAffiche="";
 					int ii = 0;
 					int jj=0;
-					for( Station s : reseau.listeStation){
+					for( Station s : reseau.getStations()){
 						g.setColor(Color.white);
 						g.setFont(new Font("impact", Font.BOLD, 20));
 						numAffiche = " "+Integer.toString(s.getNumStation());
 						ii=s.getXDepart();
 						jj=s.getYDepart();
-						//System.out.println("taille array: "+reseau.listeStation.size()+" k: "+k+ " numéro station affiché : "+reseau.listeStation.get(k).numStation);
-						if(ii+1<reseau.map[0].length && reseau.map[jj][ii+1]==1){	//si route à droite
+						//System.out.println("taille array: "+reseau.listeStation.size()+" k: "+k+ " numï¿½ro station affichï¿½ : "+reseau.listeStation.get(k).numStation);
+						if(ii+1<reseau.map[0].length && reseau.map[jj][ii+1]==1){	//si route ï¿½ droite
 							ii-=1;
-						}else if(ii-1>0 && reseau.map[jj][ii-1]==1){	//si route à gauche
+						}else if(ii-1>0 && reseau.map[jj][ii-1]==1){	//si route ï¿½ gauche
 							ii+=1;
 							jj+=2;
 						}else if(jj+1<reseau.map.length && reseau.map[jj+1][ii]==1){	//si route en bas
@@ -223,7 +231,6 @@ public class Panel extends JPanel{
 							g.drawRect(ii*t,jj*t,t,t);
 							g.drawRect(ii*t-1,jj*t-1,t+2,t+2);
 							g.drawRect(ii*t-2,jj*t-2,t+4,t+4);
-							System.out.println(this.statSurbrillance+"surbrillance station");
 						}
 						
 					}

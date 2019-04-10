@@ -160,6 +160,7 @@ public class Voiture {
 		for(String s : t) {
 			trajectoire.add(s);
 		}
+		this.voie="droite";
 	}
 	public void virage (String direction) {
 		switch(direction) {

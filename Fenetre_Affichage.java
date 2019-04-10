@@ -22,10 +22,10 @@ public class Fenetre_Affichage extends JFrame implements ActionListener{
 		res.calculCheminGraphe();
 		res.conversionTrajectoire();
 		
-		//on ajoute un dernier avant a toutes les trajectoires
-		for(int i=0;i<res.trajectoires.size();i++) {
-			for(int j=0; j<res.trajectoires.get(i).size();j++) {
-				res.trajectoires.get(i).get(j).add("avant");
+		//on ajoute un dernier avant a toutes les getTrajectoires()
+		for(int i=0;i<res.getTrajectoires().size();i++) {
+			for(int j=0; j<res.getTrajectoires().get(i).size();j++) {
+				res.getTrajectoires().get(i).get(j).add("avant");
 			}
 		}
 		
@@ -34,7 +34,7 @@ public class Fenetre_Affichage extends JFrame implements ActionListener{
 		Dimension tailleEcran = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(null);
-		setTitle("Affichage du réseau");
+		setTitle("Affichage du rï¿½seau");
 		setLocation((int)(0.45*tailleEcran.getWidth()),(int)(0.06*tailleEcran.getHeight()));
 		
 		setVisible(true); // on met la fenetre visible avant pour avoir les insets
@@ -88,7 +88,7 @@ public class Fenetre_Affichage extends JFrame implements ActionListener{
 					res.adapteSensVoiture(v);
 					v.setEnCirculation(true);
 					v.setSortCarrefour(true);
-					v.setTrajectoire(res.trajectoires.get(v.getStatDep()).get(v.getStatArr()));
+					v.setTrajectoire(res.getTrajectoires().get(v.getStatDep()).get(v.getStatArr()));
 				}
 				else {
 					res.sortieCarrefour(v);
@@ -108,9 +108,9 @@ public class Fenetre_Affichage extends JFrame implements ActionListener{
 			for(Voiture voit1 : res.getVoitures()) {
 				for(Voiture voit2 : res.getVoitures()) {
 					if(voit1!=voit2) {
-						if(this.res.map[voit1.getY()][voit1.getX()]!=2) {
+						if(this.res.getMap()[voit1.getY()][voit1.getX()]!=2) {
 							if(voit1.getX()==voit2.getX() && voit1.getY()==voit2.getY()) {
-								System.out.println("collision réelle");
+								System.out.println("collision rï¿½elle");
 							}
 						}
 					}

@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.swing.JFileChooser;
 
 public class Lecteur_Fichier {
-	File file;
+	private File file;
 	
 	public Lecteur_Fichier() {
 		
@@ -30,13 +30,15 @@ public class Lecteur_Fichier {
 			String line;
 			int k=0;
 			while ((line = br.readLine()) != null) {
+				System.out.println(" k = "+k);
 				//System.out.println(line);
 				
-				// On considère taille carré
+				// On considï¿½re taille carrï¿½
 				if(k==0) {
 					m = new int[line.length()][line.length()];
 				}
 				for(int i=0;i<line.length();i++) {
+					System.out.println(" i = "+i);
 					m[k][i]=Character.getNumericValue(line.charAt(i));
 				}
 				k++;
@@ -52,10 +54,17 @@ public class Lecteur_Fichier {
 		JFileChooser choix = new JFileChooser();
 		int retour=choix.showOpenDialog(null);
 		if(retour==JFileChooser.APPROVE_OPTION){
-		   // un fichier a été choisi (sortie par OK)
+		   // un fichier a ete choisi (sortie par OK)
 			file=choix.getSelectedFile();
 		}else {
 			// pas de fichier choisi
 		}
+	}
+	
+	public void setFile (File f) {
+		this.file = f;
+	}
+	public File getFile() {
+		return this.file;
 	}
 }

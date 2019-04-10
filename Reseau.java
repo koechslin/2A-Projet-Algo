@@ -5,13 +5,13 @@ import java.util.TreeSet;
 import org.omg.CORBA.SystemException;
 
 public class Reseau {
-	public ArrayList<NoeudGraphe> noeuds;
-	public ArrayList<NoeudGraphe> noeudsStation;
+	private ArrayList<NoeudGraphe> noeuds;
+	private ArrayList<NoeudGraphe> noeudsStation;
 	private ArrayList<Voiture> listeVoiture;
 	// 0 : vide  /  1 : route  /  2 : station
 	
 	
-	public int[][] map= 	{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+	private int[][] map= 	{{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 							{0,0,0,2,2,2,2,0,0,0,0,0,0,2,2,2,2,0,0,0,0},
 							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0},
 							{0,0,0,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0},
@@ -69,18 +69,18 @@ public class Reseau {
 							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 							{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};*/
 
-	public boolean[][] mapVoiture = new boolean[15][15];
+	private boolean[][] mapVoiture = new boolean[15][15];
 
-	public boolean[][] mapCarrefour;
+	private boolean[][] mapCarrefour;
 	private ArrayList<Voiture> listeSauvegardeVoiture;
 	
 	
 	
 	private ArrayList<Station> listeStation;
-	public LinkedList<LinkedList<int[]>> trajectoireVoitures;
+	private LinkedList<LinkedList<int[]>> trajectoireVoitures;
 	private LinkedList<boolean[][]> listeMapCalculEnAvance;
-	public ArrayList<ArrayList<ArrayList<String>>> trajectoires;
-	public Lecteur_Fichier lecteur;
+	private ArrayList<ArrayList<ArrayList<String>>> trajectoires;
+	private Lecteur_Fichier lecteur;
 	
 	public Reseau() {
 		lecteur = new Lecteur_Fichier();
@@ -114,10 +114,48 @@ public class Reseau {
 		this.map=m;
 		this.mapCarrefour = new boolean[m.length][m[0].length];
 	}
+	public void InitMapCarrefour() {
+		this.mapCarrefour = new boolean[this.map.length][this.map[0].length];
+	}
 	public void setMapVoiture(boolean[][] m) {
 		this.mapVoiture=m;
 	}
-	
+	public void setMap(int [][] m) {
+		this.map = m;
+	}
+	public int [][] getMap(){
+		return this.map;
+	}
+	public void setLecteur(Lecteur_Fichier lf) {
+		this.lecteur = lf;
+	}
+	public Lecteur_Fichier getLecteur() {
+		return this.lecteur;
+	}
+	public void setTrajectoireVoitures(LinkedList<LinkedList<int[]>> tv) {
+		this.trajectoireVoitures =tv;
+	}
+	public LinkedList<LinkedList<int[]>> getTrajectoireVoitures(){
+		return this.trajectoireVoitures;
+	}
+	public void setTrajectoires(ArrayList<ArrayList<ArrayList<String>>> t) {
+		this.trajectoires = t;
+	}
+	public ArrayList<ArrayList<ArrayList<String>>> getTrajectoires(){
+		return this.trajectoires;
+	}
+	public void setNoeudsStation(ArrayList<NoeudGraphe> ns) {
+		this.noeudsStation = ns;
+	}
+	public ArrayList<NoeudGraphe> getNoeudStation(){
+		return this.noeudsStation;
+	}
+	public void setNoeuds(ArrayList<NoeudGraphe> n) {
+		this.noeuds = n;
+	}
+	public ArrayList<NoeudGraphe> getNoeuds(){
+		return this.noeuds;
+	}
 	public ArrayList<Voiture> getVoitures(){
 		return this.listeVoiture;
 	}
@@ -133,9 +171,6 @@ public class Reseau {
 	}
 	public boolean[][] getMapVoiture(){
 		return this.mapVoiture;
-	}
-	public int[][] getMap(){
-		return this.map;
 	}
 	
 	public int actualiseMapVoiture() { // renvoie -1 si il n'y a pas de collision(s) dans la prï¿½vision sinon renvoie l'indice de la voiture qui pose problï¿½me
@@ -507,7 +542,7 @@ public class Reseau {
 				}
 				
 				compteurDistance=1;
-				if(n.getX()-1>=0&&detectionRoute[n.getY()][n.getX()-1]=='h') { // à gauche
+				if(n.getX()-1>=0&&detectionRoute[n.getY()][n.getX()-1]=='h') { // ï¿½ gauche
 					while(detectionRoute[n.getY()][n.getX()-compteurDistance]=='h') {
 						compteurDistance++;
 					}
@@ -524,7 +559,7 @@ public class Reseau {
 				}
 				
 				compteurDistance=1;
-				if(n.getX()+4<detectionRoute[0].length&&detectionRoute[n.getY()][n.getX()+4]=='h') { // à droite
+				if(n.getX()+4<detectionRoute[0].length&&detectionRoute[n.getY()][n.getX()+4]=='h') { // ï¿½ droite
 					while(detectionRoute[n.getY()][n.getX()+3+compteurDistance]=='h') {
 						compteurDistance++;
 					}
@@ -542,7 +577,7 @@ public class Reseau {
 	public void calculCheminGraphe() {
 		//Algorithme de Dijkstra
 		for(NoeudGraphe n : noeuds) {
-			//réinitialisation des distances
+			//rï¿½initialisation des distances
 			for(NoeudGraphe temp : noeuds) {
 				temp.setDistanceActuelle(0);
 			}
@@ -580,7 +615,7 @@ public class Reseau {
 		for(int i=0;i<noeudsStation.size();i++) {
 			NoeudGraphe noeudAAtteindre = noeudsStation.get(i);
 			for(int j=0;j<noeudsStation.size();j++) {
-				boolean premiereLigneDroite = true; // on met en place le boolean car dans la premiere ligne droite on ajoute un nombre de "avant" correspondant à la distance alors qu'apres c'est distance-1
+				boolean premiereLigneDroite = true; // on met en place le boolean car dans la premiere ligne droite on ajoute un nombre de "avant" correspondant ï¿½ la distance alors qu'apres c'est distance-1
 				if(noeudAAtteindre!=noeudsStation.get(j)) {
 					NoeudGraphe noeudActuel = noeudsStation.get(j);
 					NoeudGraphe noeudDepart = noeudsStation.get(j);
@@ -616,7 +651,7 @@ public class Reseau {
 							int x2=noeuds.get(noeudProchaineEtape.getNumeroPourRejoindre()[noeudAAtteindre.getNumeroNoeud()]).getX()-noeudProchaineEtape.getX();
 							int y2=noeuds.get(noeudProchaineEtape.getNumeroPourRejoindre()[noeudAAtteindre.getNumeroNoeud()]).getY()-noeudProchaineEtape.getY();
 							
-							if(x1>0) { // 1 : avant -> pendant       2 : pendant -> après
+							if(x1>0) { // 1 : avant -> pendant       2 : pendant -> aprï¿½s
 								if(x2>0) {
 									temp.virage("avant");
 								}
@@ -720,7 +755,7 @@ public class Reseau {
 				
 		}
 	}
-	public int predictionCollision(ArrayList<Voiture> v,int coup) { // entier renvoye : numéro de la 1ere voiture qui entre en collision (si -1 : c'est bon)
+	public int predictionCollision(ArrayList<Voiture> v,int coup) { // entier renvoye : numï¿½ro de la 1ere voiture qui entre en collision (si -1 : c'est bon)
 		if(coup == 0) {
 			return -1;
 		}
@@ -915,16 +950,16 @@ public class Reseau {
 								}
 							}
 							if(peutChanger) {
-								voit.change_voie();
 								voit.avance();
+								voit.change_voie();
 							}
 							else {
 								return voit.getNumero();
 							}
 						}
 						else {
+							voit.avance();
 							voit.change_voie();
-							voit.avance();	
 						}
 					}
 					else {
@@ -950,7 +985,7 @@ public class Reseau {
 			
 		}
 		
-		// On vérifie les collisions
+		// On vï¿½rifie les collisions
 		for(Voiture v1 : copieVoit) {
 			//System.out.println("coord v1 : x = "+v1.getX()+"  y = "+v1.getY());
 			for(Voiture v2 : copieVoit) {

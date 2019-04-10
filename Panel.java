@@ -28,13 +28,14 @@ public class Panel extends JPanel{
 	public Panel(Reseau res,int width, int height){
 		
 		try {
-			herbe = ImageIO.read(new File("Herbe.PNG"));
+			herbe = ImageIO.read(new File("Herbe.PNG"));		//importation des images nécessaires
 			station = ImageIO.read(new File("station.png"));
 			vgauche = ImageIO.read(new File("vgauche.png"));
 			vdroite = ImageIO.read(new File("vdroite.png"));
 			vhaut = ImageIO.read(new File("vhaut.png"));
 			vbas = ImageIO.read(new File("vbas.png"));
-		} catch (IOException e) {
+		
+		} catch (IOException e) {								// affiche une erreur si le programme ne trouve pas une image
 			e.printStackTrace();
 		}
 		
@@ -42,77 +43,34 @@ public class Panel extends JPanel{
 		h = height;
 		l = width;
 
-		t = Math.min(h/(res.map.length),l/(res.map[0].length));
-		mapDessin = res.reconnaissanceRoute();
+		t = Math.min(h/(res.getMap().length),l/(res.getMap()[0].length)); // détermine la taille d'une case en fonction de la taille de l'écran
+		mapDessin = res.reconnaissanceRoute();					// copie le tableau des routes précisant si elles sont horizontales ou verticales
 		
 	}
-	public void paint(Graphics g){
+	public void paint(Graphics g){		//on dessine la map
 		boolean horizontal = false;
 		boolean vertical = false;
-		boolean carrefour = false;
 		int k = 0;
 		//			***HERBE***
-		for(int i=0;i<reseau.map.length;i++){
-			for (int j=0;j<reseau.map[0].length;j++){
+		for(int i=0;i<reseau.getMap().length;i++){
+			for (int j=0;j<reseau.getMap()[0].length;j++){
 					g.setColor(Color.green);
 					g.drawImage(herbe, j*t, i*t, t, t, null);
-					//g.fillRect(j*t,i*t,t,t);
 				}
 		}
 				
-		for(int i=1;i<reseau.map.length-1;i++){
-			for (int j=1;j<reseau.map[0].length-1;j++){
+		for(int i=1;i<reseau.getMap().length-1;i++){
+			for (int j=1;j<reseau.getMap()[0].length-1;j++){
 				horizontal = false;
 				vertical = false;
 				
-				//test vertical/ horizontal
-					
-					if(i-5>0){
-						if(reseau.map[i-4][j]==1 || reseau.map[i-4][j]==2){
-							vertical = true;
-						}
-					}else{
-						if(reseau.map[i+4][j]==1 || reseau.map[i+4][j]==2){
-							vertical = true;
-						}
-					}
-					
-					if(j-5>0){
-						if(reseau.map[i][j-4]==1 || reseau.map[i][j-4]==2 ){
-							horizontal=true;
-							}
-						}else{
-							if(reseau.map[i][j+4]==1 || reseau.map[i][j+4]==2 ){
-								horizontal=true;
-							}
-						}
-				
-				
-				/*if(reseau.map[i][j]==0){				
-					g.setColor(Color.green);
-					g.fillRect(j*t,i*t,t,t);
-				
-				//			
-					
-				}else*/
-					
 					//***ROUTE***
 					
-					if(reseau.map[i][j]==1){			
+					if(reseau.getMap()[i][j]==1){			
 					g.setColor(Color.gray);
 					g.fillRect(j*t,i*t,t,t);
 					
-					/*
-					//trace des lignes
-					g.setColor(Color.yellow);
-					if(vertical && !horizontal){
-						verticale(g,i,j,t);
-					}else if(horizontal && !vertical){
-						horizontale(g,i,j,t);
-					}
-					*/
-					
-					// Nouveau trace ligne (test)
+					// Tracé des lignes jaunes 
 					g.setColor(Color.yellow);
 					if(mapDessin[i][j]=='v'){
 						verticale(g,i,j,t);
@@ -122,42 +80,31 @@ public class Panel extends JPanel{
 					
 					//	***STATION***
 					
-				}else if(reseau.map[i][j]==2){		
+				}else if(reseau.getMap()[i][j]==2){		
 					g.setColor(Color.red);
 					g.drawImage(station, j*t, i*t, t, t, null);
-					//g.fillRect(j*t,i*t,t,t);
-				}
-					
-					//CARREFOUR :
-					/*
-					if(horizontal && vertical) {
-						reseau.mapCarrefour[i][j]=true;
-					}*/
-					
-					if(mapDessin[i][j]=='c') {
-						reseau.mapCarrefour[i][j]=true;
-					}
-					
+				}	
 				
 					// ***VOITURE***
 					for(Voiture v : this.reseau.getVoitures()) {
 						if(mapDessin[v.getY()][v.getX()]!='c' &&mapDessin[v.getY()][v.getX()]!='s' && mapDessin[v.getY()][v.getX()]!='h'&&mapDessin[v.getY()][v.getX()]!='v') {
-							System.out.println("bizarre");
-							System.out.println("de "+v.getStatDep()+" a "+v.getStatArr());
 							g.setColor(Color.RED);
 							g.drawRect(v.getX()*t,v.getY()*t,t,t);
 							g.drawRect(v.getX()*t-1,v.getY()*t-1,t+2,t+2);
 							g.drawRect(v.getX()*t-2,v.getY()*t-2,t+4,t+4);
 						}
-						//Surbrillance de la voiture selectionnee
+						
+						//Surbrillance de la voiture selectionnee dans le mode manuel
 						if(voitSurbrillance!=-1 && v.getNumero()==this.voitSurbrillance && mode=="Manuel") {
 							g.setColor(Color.BLUE);
 							g.drawRect(v.getX()*t,v.getY()*t,t,t);
 							g.drawRect(v.getX()*t-1,v.getY()*t-1,t+2,t+2);
 							g.drawRect(v.getX()*t-2,v.getY()*t-2,t+4,t+4);
 						}
+						
+						// Voiture encadrée en rouge s'il y a une collision
 						for(Voiture v2 : this.reseau.getVoitures()) {
-							if(this.reseau.map[v.getY()][v.getX()]!=2 && v!=v2) {
+							if(this.reseau.getMap()[v.getY()][v.getX()]!=2 && v!=v2) {
 								if(v.getX()==v2.getX()&&v.getY()==v2.getY()) {
 									g.setColor(Color.RED);
 									g.drawRect(v.getX()*t,v.getY()*t,t,t);
@@ -166,42 +113,27 @@ public class Panel extends JPanel{
 								}
 							}
 						}
-						if(!(mapDessin[v.getY()][v.getX()]=='s')) {
-							//g.setColor(Color.WHITE);
+						if(!(mapDessin[v.getY()][v.getX()]=='s')) { // gestion de l'orientation de l'image de la voiture
 							Graphics2D g2d = (Graphics2D) g;
 							double rotation=0;
 							switch(v.getSens()) {
 							case 0:
-								//rotation =Math.PI/2;
 								g2d.drawImage(vhaut, v.getX()*t, v.getY()*t, t, t, null);
-								
 								break;
 							case 1:
-								//rotation =0;
 								g2d.drawImage(vgauche, v.getX()*t, v.getY()*t, t, t, null);
 								break;
 							case 2:
-								//rotation=-Math.PI/2;
 								g2d.drawImage(vbas, v.getX()*t, v.getY()*t, t, t, null);
 								break;
 							case 3:
-								//rotation=Math.PI;
 								g2d.drawImage(vdroite, v.getX()*t, v.getY()*t, t, t, null);
 								break;
 							}
-							//AffineTransform tx = AffineTransform.getRotateInstance(rotation, voiture_1.getWidth()/2, voiture_1.getHeight()/2);
-							//AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
-
-							// Drawing the rotated image at the required drawing locations
-							//g2d.drawImage(op.filter(voiture_1, null), v.getX()*t, v.getY()*t,t,t, null); //rotation
-							
-							//g2d.rotate(90, mapDessin[0].length*t/2,mapDessin.length*t/2);
-							//g2d.drawImage(voiture_1, v.getX()*t, v.getY()*t, t, t, null);   // a utiliser
-							//g2d.rotate(-90,mapDessin[0].length*t/2,mapDessin[0].length*t/2);
-							//g.fillRect(v.getX()*t, v.getY()*t, t, t);
 						}
 					}
-					//Surbrillance Station
+					
+					//Surbrillance Station selectionnee dans le mode manuel et affichage du numero de la station
 
 					String numAffiche="";
 					int ii = 0;
@@ -212,15 +144,15 @@ public class Panel extends JPanel{
 						numAffiche = " "+Integer.toString(s.getNumStation());
 						ii=s.getXDepart();
 						jj=s.getYDepart();
-						//System.out.println("taille array: "+reseau.listeStation.size()+" k: "+k+ " numï¿½ro station affichï¿½ : "+reseau.listeStation.get(k).numStation);
-						if(ii+1<reseau.map[0].length && reseau.map[jj][ii+1]==1){	//si route ï¿½ droite
+					
+						if(ii+1<reseau.getMap()[0].length && reseau.getMap()[jj][ii+1]==1){	//si route a droite
 							ii-=1;
-						}else if(ii-1>0 && reseau.map[jj][ii-1]==1){	//si route ï¿½ gauche
+						}else if(ii-1>0 && reseau.getMap()[jj][ii-1]==1){	//si route a gauche
 							ii+=1;
 							jj+=2;
-						}else if(jj+1<reseau.map.length && reseau.map[jj+1][ii]==1){	//si route en bas
+						}else if(jj+1<reseau.getMap().length && reseau.getMap()[jj+1][ii]==1){	//si route en bas
 							ii+=2;
-						}else if(jj-1>0&& reseau.map[jj-1][ii]==1){	//si route en haut
+						}else if(jj-1>0&& reseau.getMap()[jj-1][ii]==1){	//si route en haut
 							ii-=2;
 							jj+=2;
 						}	
@@ -234,37 +166,12 @@ public class Panel extends JPanel{
 						}
 						
 					}
-					
-					
-				/*if(reseau.mapVoiture[i][j]){
-					
-					g.setColor(Color.white);
-					
-					if(horizontal && !vertical){		
-						g.fillRect(j*t,(int)((i+0.25)*t),t,(int) (0.5*t));
-					} else if(vertical && !horizontal){		
-						g.fillRect((int)((j+0.25)*t),i*t,(int)(0.5*t),t);
-					}else{
-						g.fillRect(j*t,i*t,(int)(0.5*t),t);		//si horizontal ET vertical (croisement) qu'est ce qu'on fait?
-						if(carrefour == false){
-							reseau.mapCarrefour[i][j]=true;
-							System.out.println("-------------------------------");
-						}
-					}
-				}*/
+	
 			}
 		}
-		/*for(int a=0;a<reseau.mapCarrefour.length;a++) {
-			for(int b=0;b<reseau.mapCarrefour[a].length;b++) {
-				System.out.print(reseau.mapCarrefour[a][b]+" ");
-			}
-			System.out.println();
-		}*/
-		
-		carrefour= true;
 			
 	}
-	public void horizontale(Graphics g,int i, int j,int t){
+	public void horizontale(Graphics g,int i, int j,int t){		//trace des lignes jaunes horizontales
 		g.setColor(Color.yellow);
 		g.fillRect(j*t,i*t+1,t,t/12);
 		
@@ -279,7 +186,7 @@ public class Panel extends JPanel{
 		}
 		
 	}
-	public void verticale(Graphics g,int i, int j, int t){
+	public void verticale(Graphics g,int i, int j, int t){	//trace des lignes jaunes verticales
 		g.setColor(Color.yellow);
 		g.fillRect(j*t+1,i*t,t/12,t);
 		if(j+3<mapDessin[0].length && mapDessin[i][j+3]=='v'  && mapDessin[i][j+1]=='h' && mapDessin[i][j+2]=='h'  ){
@@ -292,11 +199,11 @@ public class Panel extends JPanel{
 				
 		}
 	}
-	public void actualiseMapDessin() {
+	public void actualiseMapDessin() {						// changer la mapDessin en cas de changement de map
 		this.mapDessin = this.reseau.reconnaissanceRoute();
 	}
-	public void recalculT() {
-		t = Math.min(h/(reseau.map.length),l/(reseau.map[0].length));
+	public void recalculT() {								// recalculer la taille d'une case (quand on change de map)
+		t = Math.min(h/(reseau.getMap().length),l/(reseau.getMap()[0].length));
 	}
 	public int getT() {
 		return t;
